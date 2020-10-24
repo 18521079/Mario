@@ -6,6 +6,10 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
+#include "QuestionBlock.h"
+#include "Goomba.h"
+#include"Brick_1.h"
+
 
 using namespace std;
 
@@ -28,9 +32,11 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_OBJECTS	6
 
 #define OBJECT_TYPE_MARIO	0
-#define OBJECT_TYPE_BRICK	1
+#define OBJECT_TYPE_BACKGROUNDCOLLISION	1
 #define OBJECT_TYPE_BACKGROUND	2
-#define OBJECT_TYPE_KOOPAS	3
+#define OBJECT_TYPE_QuestionBlock	3
+#define OBJECT_TYPE_Goomba	4
+#define OBJECT_TYPE_BRICK_1	5
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -143,6 +149,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_BACKGROUND: obj = new CBackground(); break;
+	case OBJECT_TYPE_Goomba: obj = new CGoomba(); break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
 		{
@@ -155,8 +162,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	//case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBrick(); break;
+	case OBJECT_TYPE_QuestionBlock: obj = new CQuestionBlock(); break;
+	case OBJECT_TYPE_BRICK_1: obj = new CBrick_1(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -291,8 +299,20 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_SPACE:
 		mario->SetState(MARIO_STATE_JUMP);
 		break;
+	case DIK_Q:
+		mario->SetLevel(MARIO_LEVEL_BIG);
+		break;
+	case DIK_W:
+		mario->SetState(MARIO_STATE_KICK);
+		break;
 	case DIK_A:
 		mario->Reset();
+		break;
+	case DIK_E:
+		mario->SetLevel(MARIO_LEVEL_TAIL);
+		break;
+	case DIK_R:
+		mario->SetLevel(MARIO_LEVEL_FIRE);
 		break;
 	}
 }
@@ -308,6 +328,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		mario->SetState(MARIO_STATE_WALKING_RIGHT);
 	else if (game->IsKeyDown(DIK_LEFT))
 		mario->SetState(MARIO_STATE_WALKING_LEFT);
+	else if (game->IsKeyDown(DIK_LSHIFT))
+		mario->SetState(MARIO_STATE_KICK);
 	else
 		mario->SetState(MARIO_STATE_IDLE);
 }

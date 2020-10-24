@@ -10,7 +10,7 @@
 
 CMario::CMario(float x, float y) : CGameObject()
 {
-	level = MARIO_LEVEL_BIG;
+	level = MARIO_LEVEL_SMALL;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
 
@@ -87,17 +87,33 @@ void CMario::Render()
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
 	else
+	{
 		if (level == MARIO_LEVEL_BIG)
 		{
-			if (vx == 0)
+			if (state == MARIO_STATE_IDLE)
 			{
-				if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
-				else ani = MARIO_ANI_BIG_IDLE_LEFT;
+				if (vx == 0)
+				{
+					if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
+					else ani = MARIO_ANI_BIG_IDLE_LEFT;
+				}
+			}
+			else if (state == MARIO_STATE_JUMP)
+			{
+				if (nx > 0) ani = MARIO_ANI_BIG_JUMP_RIGHT;
+				else ani = MARIO_ANI_BIG_JUMP_LEFT;
+
+			}
+			else if (state == MARIO_STATE_KICK)
+			{
+				if (nx > 0) ani = MARIO_ANI_BIG_KICK_RIGHT;
+				else ani = MARIO_ANI_BIG_KICK_LEFT;
 			}
 			else if (vx > 0)
 				ani = MARIO_ANI_BIG_WALKING_RIGHT;
 			else ani = MARIO_ANI_BIG_WALKING_LEFT;
 		}
+
 		else if (level == MARIO_LEVEL_SMALL)
 		{
 			if (vx == 0)
@@ -109,6 +125,60 @@ void CMario::Render()
 				ani = MARIO_ANI_SMALL_WALKING_RIGHT;
 			else ani = MARIO_ANI_SMALL_WALKING_LEFT;
 		}
+		else if (level == MARIO_LEVEL_TAIL)
+		{
+			if (state == MARIO_STATE_IDLE)
+			{
+				if (vx == 0)
+				{
+					if (nx > 0) ani = MARIO_ANI_TAIL_IDLE_RIGHT;
+					else ani = MARIO_ANI_TAIL_IDLE_LEFT;
+				}
+			}
+			else if (state == MARIO_STATE_JUMP)
+			{
+				if (nx > 0) ani = MARIO_ANI_TAIL_JUMP_RIGHT;
+				else ani = MARIO_ANI_TAIL_JUMP_LEFT;
+
+			}
+			else if (state == MARIO_STATE_KICK)
+			{
+				//if (nx > 0) ani = MARIO_TAIL_KICK_RIGHT;
+				//else ani = MARIO_ANI_BIG_KICK_LEFT;
+			}
+			else if (vx > 0)
+				ani = MARIO_ANI_TAIL_WALKING_RIGHT;
+			else ani = MARIO_ANI_TAIL_WALKING_LEFT;
+		}
+		else if (level == MARIO_LEVEL_FIRE)
+		{
+			if (state == MARIO_STATE_IDLE)
+			{
+				if (vx == 0)
+				{
+					if (nx > 0) ani = MARIO_ANI_FIRE_IDLE_RIGHT;
+					else ani = MARIO_ANI_FIRE_IDLE_LEFT;
+				}
+			}
+			else if (state == MARIO_STATE_JUMP)
+			{
+				if (nx > 0) ani = MARIO_ANI_FIRE_JUMP_RIGHT;
+				else ani = MARIO_ANI_FIRE_JUMP_LEFT;
+
+			}
+			else if (state == MARIO_STATE_KICK)
+			{
+				//if (nx > 0) ani = MARIO_TAIL_KICK_RIGHT;
+				//else ani = MARIO_ANI_BIG_KICK_LEFT;
+			}
+			else if (vx > 0)
+				ani = MARIO_ANI_FIRE_WALKING_RIGHT;
+			else ani = MARIO_ANI_FIRE_WALKING_LEFT;
+		}
+
+
+
+	}
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
@@ -118,48 +188,51 @@ void CMario::Render()
 	RenderBoundingBox();
 }
 
-void CMario::SetState(int state)
-{
-	CGameObject::SetState(state);
-
-	switch (state)
+	void CMario::SetState(int state)
 	{
-	case MARIO_STATE_WALKING_RIGHT:
-		vx = MARIO_WALKING_SPEED;
-		nx = 1;
-		break;
-	case MARIO_STATE_WALKING_LEFT:
-		vx = -MARIO_WALKING_SPEED;
-		nx = -1;
-		break;
-	case MARIO_STATE_JUMP:
-		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
-		vy = -MARIO_JUMP_SPEED_Y;
-		break;
-	case MARIO_STATE_IDLE:
-		vx = 0;
-		break;
-	case MARIO_STATE_DIE:
-		vy = -MARIO_DIE_DEFLECT_SPEED;
-		break;
+		CGameObject::SetState(state);
+
+		switch (state)
+		{
+		case MARIO_STATE_WALKING_RIGHT:
+			vx = MARIO_WALKING_SPEED;
+			nx = 1;
+			break;
+		case MARIO_STATE_WALKING_LEFT:
+			vx = -MARIO_WALKING_SPEED;
+			nx = -1;
+			break;
+		case MARIO_STATE_JUMP:
+			// TODO: need to check if Mario is *current* on a platform before allowing to jump again
+			vy = -MARIO_JUMP_SPEED_Y;
+			break;
+		case MARIO_STATE_IDLE:
+			vx = 0;
+			break;
+		case MARIO_STATE_DIE:
+			vy = -MARIO_DIE_DEFLECT_SPEED;
+			break;
+		}
 	}
-}
 
 void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
 
-	if (level == MARIO_LEVEL_BIG)
+	if (level != MARIO_LEVEL_SMALL)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
 	else
 	{
-		right = x + MARIO_SMALL_BBOX_WIDTH;
-		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
+		//right = x + MARIO_SMALL_BBOX_WIDTH;
+		//bottom = y + MARIO_SMALL_BBOX_HEIGHT;
+		right = x + MARIO_BIG_BBOX_WIDTH;
+		bottom = y + MARIO_BIG_BBOX_HEIGHT;
 	}
+
 }
 
 /*
