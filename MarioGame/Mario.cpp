@@ -7,17 +7,21 @@
 #include "Animations.h"
 #include "Goomba.h"
 #include "Portal.h"
+#include "Box.h"
+#include "KooPas.h"
+#include "Brick.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
 	level = MARIO_LEVEL_SMALL;
-	untouchable = 0;
+	
 	SetState(MARIO_STATE_IDLE);
 
 	start_x = x;
 	start_y = y;
 	this->x = x;
 	this->y = y;
+
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -38,12 +42,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
+	if (GetTickCount() - untouchable_start > 3000)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
@@ -70,11 +73,92 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
-
 		//
 		// Collision logic with other objects
 		//
 		
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+
+			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
+			{
+				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+				// jump on top >> kill Goomba and deflect a bit 
+				if (e->ny < 0)
+				{
+					if (goomba->GetState() != GOOMBA_STATE_DIE)
+					{
+						goomba->SetState(GOOMBA_STATE_DIE);
+						goomba->GoombaDie();
+						goomba->SetTickCount();
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+				}
+				else if (e->nx != 0)
+				{
+					if (level == MARIO_LEVEL_BIG &&  (untouchable == 0))
+					{
+						
+						SetLevel(MARIO_LEVEL_SMALL);
+						x +=10+dx;
+						
+					}
+					else if (level == MARIO_LEVEL_SMALL)
+					{
+						//StartUntouchable();
+						SetState(MARIO_STATE_DIE);
+					}
+					else
+					{
+						SetLevel(MARIO_LEVEL_BIG);
+					}
+				}
+			}
+			else if (dynamic_cast<CKoopas*>(e->obj)) // if e->obj is Goomba 
+			{
+				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+
+				// jump on top >> kill Goomba and deflect a bit 
+				if (e->ny < 0)
+				{
+					if (koopas->GetState() != KOOPAS_STATE_DIE)
+					{
+						koopas->SetState(KOOPAS_STATE_DIE);
+						
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+						koopas->BDHoiSinh();
+						koopas->SetTickCount();
+						
+						
+					}
+					
+				}
+				else if(ny!=0)
+				{ 
+					if (level == MARIO_LEVEL_BIG && (untouchable == 0))
+					{
+
+						SetLevel(MARIO_LEVEL_SMALL);
+						x += 10 + dx;
+
+					}
+					else if (level == MARIO_LEVEL_SMALL)
+					{
+						//StartUntouchable();
+						SetState(MARIO_STATE_DIE);
+					}
+					else
+					{
+						SetLevel(MARIO_LEVEL_BIG);
+					}
+				}
+				
+
+			}
+			
+		}
 	}
 
 	// clean up collision events
@@ -86,6 +170,7 @@ void CMario::Render()
 	int ani = -1;
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
+	
 	else
 	{
 		if (level == MARIO_LEVEL_BIG)
@@ -98,7 +183,7 @@ void CMario::Render()
 					else ani = MARIO_ANI_BIG_IDLE_LEFT;
 				}
 			}
-			else if (state == MARIO_STATE_JUMP)
+			else if ( state == MARIO_STATE_JUMP)
 			{
 				if (nx > 0) ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				else ani = MARIO_ANI_BIG_JUMP_LEFT;
@@ -111,7 +196,8 @@ void CMario::Render()
 			}
 			else if (vx > 0)
 				ani = MARIO_ANI_BIG_WALKING_RIGHT;
-			else ani = MARIO_ANI_BIG_WALKING_LEFT;
+
+			else  ani = MARIO_ANI_BIG_WALKING_LEFT;
 		}
 
 		else if (level == MARIO_LEVEL_SMALL)
@@ -121,9 +207,33 @@ void CMario::Render()
 				if (nx > 0) ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 				else ani = MARIO_ANI_SMALL_IDLE_LEFT;
 			}
-			else if (vx > 0)
-				ani = MARIO_ANI_SMALL_WALKING_RIGHT;
-			else ani = MARIO_ANI_SMALL_WALKING_LEFT;
+			else if(vx>0)
+			{
+				if(nx>0) 
+					ani = MARIO_ANI_SMALL_WALKING_RIGHT;
+				else
+					ani = MARIO_ANI_SMALL_STOP_RIGHT;
+			}
+			else
+			{
+				if(nx<0)
+					ani = MARIO_ANI_SMALL_WALKING_LEFT;
+				else 
+					ani = MARIO_ANI_SMALL_STOP_LEFT;
+
+			}
+			if (state==MARIO_STATE_JUMP)
+			{
+				if (nx > 0)
+				{
+					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
+				}
+				else
+				{
+					ani = MARIO_ANI_SMALL_JUMP_LEFT;
+				}
+			}
+
 		}
 		else if (level == MARIO_LEVEL_TAIL)
 		{
@@ -175,7 +285,7 @@ void CMario::Render()
 				ani = MARIO_ANI_FIRE_WALKING_RIGHT;
 			else ani = MARIO_ANI_FIRE_WALKING_LEFT;
 		}
-
+		
 
 
 	}
@@ -205,6 +315,7 @@ void CMario::Render()
 		case MARIO_STATE_JUMP:
 			// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 			vy = -MARIO_JUMP_SPEED_Y;
+			
 			break;
 		case MARIO_STATE_IDLE:
 			vx = 0;

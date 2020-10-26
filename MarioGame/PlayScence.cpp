@@ -9,6 +9,9 @@
 #include "QuestionBlock.h"
 #include "Goomba.h"
 #include"Brick_1.h"
+#include"Box.h"
+#include "Flower.h"
+#include "Koopas.h"
 
 
 using namespace std;
@@ -31,12 +34,16 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_ANIMATION_SETS	5
 #define SCENE_SECTION_OBJECTS	6
 
+
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BACKGROUNDCOLLISION	1
 #define OBJECT_TYPE_BACKGROUND	2
 #define OBJECT_TYPE_QuestionBlock	3
 #define OBJECT_TYPE_Goomba	4
 #define OBJECT_TYPE_BRICK_1	5
+#define OBJECT_TYPE_BOX	6
+#define OBJECT_TYPE_KOOPAS	7
+#define OBJECT_TYPE_FLOWER	8
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -149,6 +156,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_BACKGROUND: obj = new CBackground(); break;
+	case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
+	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_Goomba: obj = new CGoomba(); break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
@@ -161,9 +170,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	
-	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBrick(); break;
 	case OBJECT_TYPE_QuestionBlock: obj = new CQuestionBlock(); break;
+	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBrick(); break;
+	case OBJECT_TYPE_BOX: obj = new CBox(); break;
 	case OBJECT_TYPE_BRICK_1: obj = new CBrick_1(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -296,9 +305,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
+	/*case DIK_SPACE:
+		
 		mario->SetState(MARIO_STATE_JUMP);
-		break;
+		mario->SetJumping(1);
+		break;*/
 	case DIK_Q:
 		mario->SetLevel(MARIO_LEVEL_BIG);
 		break;
@@ -330,6 +341,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		mario->SetState(MARIO_STATE_WALKING_LEFT);
 	else if (game->IsKeyDown(DIK_LSHIFT))
 		mario->SetState(MARIO_STATE_KICK);
+	
+	else if (game->IsKeyDown(DIK_SPACE))
+	{
+		mario->SetState(MARIO_STATE_JUMP);
+	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);
 }

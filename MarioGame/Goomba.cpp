@@ -34,6 +34,11 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (vx > 0 && x > 290) {
 		x = 290; vx = -vx;
 	}
+	if (GetTickCount() - Die_start > 600 && Die == true)
+	{
+		SetState(GOOMBA_STATE_DISAPPEAR);
+	}
+
 }
 
 void CGoomba::Render()
@@ -42,7 +47,7 @@ void CGoomba::Render()
 	if (state == GOOMBA_STATE_DIE) {
 		ani = GOOMBA_ANI_DIE;
 	}
-
+	
 	animation_set->at(ani)->Render(x, y);
 
 	//RenderBoundingBox();
@@ -60,5 +65,13 @@ void CGoomba::SetState(int state)
 		break;
 	case GOOMBA_STATE_WALKING:
 		vx = -GOOMBA_WALKING_SPEED;
+		break;
+	
+	case GOOMBA_STATE_DISAPPEAR:
+		y = -100;
+		x = -100;
+		vx = 0;
+		vy = 0;
+		break;
 	}
 }

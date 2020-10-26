@@ -1,7 +1,7 @@
 #include <d3dx9.h>
 #include <algorithm>
 
-
+#include"Box.h"
 #include "Utils.h"
 #include "Textures.h"
 #include "Game.h"
@@ -13,6 +13,7 @@ CGameObject::CGameObject()
 	x = y = 0;
 	vx = vy = 0;
 	nx = 1;
+	
 }
 
 void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -70,9 +71,10 @@ void CGameObject::CalcPotentialCollisions(
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i));
-
+		
 		if (e->t > 0 && e->t <= 1.0f)
 			coEvents.push_back(e);
+
 		else
 			delete e;
 	}
@@ -107,7 +109,16 @@ void CGameObject::FilterCollision(
 		if (c->t < min_ty && c->ny != 0) {
 			min_ty = c->t; ny = c->ny; min_iy = i; rdy = c->dy;
 		}
+		if (dynamic_cast<CBox*>(coEvents[i]->obj))
+		{
+			nx = 0;
+			if (ny == 1)
+			{
+				ny = 0;
+			}
+		}
 	}
+	
 
 	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
