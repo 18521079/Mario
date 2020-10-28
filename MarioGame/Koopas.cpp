@@ -38,7 +38,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (GetTickCount() - HoiSinh_start > 2000 && HoiSinh == true)
 	{
-		SetState(KOOPAS_STATE_HoiSinh);
+		SetState(KOOPAS_STATE_WALKING);
 	}
 	
 }

@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#define FLOWER_WALKING_SPEED 0.03f;
+#define FLOWER_WALKING_SPEED 0.05f;
 
 #define FLOWER_BBOX_WIDTH 16
 #define FLOWER_BBOX_HEIGHT 26

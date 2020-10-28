@@ -25,6 +25,7 @@ class CKoopas : public CGameObject
 	int HoiSinh =0;
 	DWORD HoiSinh_start;
 
+
 public:
 	CKoopas();
 	void SetTickCount() { HoiSinh_start = GetTickCount(); };

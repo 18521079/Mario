@@ -15,21 +15,20 @@ void CFlower::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	vy = 0.01;
 	CGameObject::Update(dt, coObjects);
 
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
-	if (y>70)
+	y -= dy;
+	if (y<72)
 	{
-		y -= 0.09;
+		y =116; vy = -vy;
 	}
 	
 
-	if (y < 70.05)
-	{
-		y +=0.05;
-	}
+	
 	
 }
 
@@ -50,7 +49,7 @@ void CFlower::SetState(int state)
 	{
 	
 	case FLOWER_STATE_WALKING:
-		vx = -FLOWER_WALKING_SPEED;
+		vy = -FLOWER_WALKING_SPEED;
 	}
 }
 
