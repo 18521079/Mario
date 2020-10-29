@@ -310,7 +310,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_SPACE:
 		
 		mario->SetState(MARIO_STATE_JUMP);
-		mario->SetJumping(1);
+		
 		break;
 	case DIK_Q:
 		mario->SetPosition(x, y - 16.0f);
@@ -352,6 +352,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	else if (game->IsKeyDown(DIK_LSHIFT))
 		mario->SetState(MARIO_STATE_KICK);
 
+	else if (game->IsKeyDown(DIK_Y))
+	{
+		mario->SetState(MARIO_STATE_JUMP_HIGHT);
+		mario->ny = 1;
+	}
+
 	else if (game->IsKeyDown(DIK_SPACE))
 	{
 		mario->ny = 1;
@@ -361,6 +367,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		mario->SetState(MARIO_STATE_SIT);
 		//mario->SetPosition(x, y - 1.0f);
 	}
+	else if (game->IsKeyDown(DIK_T))
+		mario->SetState(MARIO_STATE_FAST_WALKING);
 	else
 		mario->SetState(MARIO_STATE_IDLE);
 }

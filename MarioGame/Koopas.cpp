@@ -4,6 +4,7 @@ CKoopas::CKoopas()
 {
 	SetState(KOOPAS_STATE_WALKING);
 	SetLevel(KOOPAS_LEVEL_NORMAL);
+	//SetMarioKick(0);
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -26,18 +27,32 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
 
+	
 	x += dx;
 	y += dy;
 
-	if (vx < 0 && x < 593) {
-		x = 593; vx = -vx; y = 94;
-	}
+	if (GetState() == KOOPAS_STATE_WALKING)
+	{
 
-	if (vx > 0 && x > 705) {
-		x = 705; vx = -vx; y = 94;
-	}
+		if (vx < 0 && x < 593) {
+			x = 593; vx = -vx; /*y = 94*/;
+		}
 
-	if (GetTickCount() - Prerevive_start > 4000 &&  PREREVIVE == true)
+		if (vx > 0 && x > 705) {
+			x = 705; vx = -vx; /*y = 94*/;
+		}
+	}
+	else if (GetState() == KOOPAS_STATE_SHELL)
+	{
+		if (vx < 0 && x < 580) {
+			x = 580; vx = -vx; /*y = 94*/;
+		}
+
+		if (vx > 0 && x > 702) {
+			x = 702; vx = -vx; /*y = 94*/;
+		}
+	}
+	if (GetTickCount() - Prerevive_start > 5000 &&  PREREVIVE == true)
 	{
 		Prerevive_start = 0;
 		SetState(KOOPAS_STATE_PREREVIVE);
@@ -49,7 +64,13 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		SetState(KOOPAS_STATE_WALKING);
 		SetLevel(KOOPAS_LEVEL_NORMAL);
-
+		if (GetState()!= KOOPAS_STATE_DIE )
+		{
+			float x1, y2;
+			GetPosition(x1, y2);
+			SetPosition(x1, 94);
+		}
+		
 	}
 
 	
@@ -75,6 +96,7 @@ void CKoopas::Render()
 
 void CKoopas::SetState(int state)
 {
+
 	CGameObject::SetState(state);
 	switch (state)
 	{
@@ -92,7 +114,6 @@ void CKoopas::SetState(int state)
 		break;
 	case KOOPAS_STATE_SHELL:
 		vx = KOOPAS_WALKING_SPEED;
-		SetMarioKick(1);
 		break;
 		
 	}

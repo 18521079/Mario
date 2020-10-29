@@ -80,6 +80,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
+			float x, y;
+			GetPosition(x, y);
 
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
 			{
@@ -98,11 +100,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->nx != 0)
 				{
-					if (level == MARIO_LEVEL_BIG &&  (untouchable == 0))
+					if (level == MARIO_LEVEL_BIG)
 					{
 						
 						SetLevel(MARIO_LEVEL_SMALL);
-						x +=10+dx;
+						SetPosition(x, y + 10);
 						
 					}
 					else if (level == MARIO_LEVEL_SMALL)
@@ -113,6 +115,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else
 					{
 						SetLevel(MARIO_LEVEL_BIG);
+						SetPosition(x, y + 10);
 					}
 				}
 			}
@@ -127,9 +130,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						koopas->SetState(KOOPAS_STATE_DIE);
 						koopas->SetLevel(KOOPAS_LEVEL_SHELL);
-						if(koopas->GetMarioKick()==0)
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+						if(koopas->GetMarioKick()==0 && koopas->GetState()!=KOOPAS_STATE_SHELL)
 						{
-								vy = -MARIO_JUMP_DEFLECT_SPEED;
 								koopas->StartPRE_REVIVE();
 								koopas->StartRevive();
 								koopas->SetLevel(KOOPAS_LEVEL_NORMAL);
@@ -140,16 +143,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if(ny!=0)
 				{ 
-					if (koopas->GetLevel() == KOOPAS_LEVEL_SHELL)
+					
+					if (koopas->GetState() == KOOPAS_STATE_DIE)
 					{
 						SetState(MARIO_STATE_KICK);
 						koopas->SetState(KOOPAS_STATE_SHELL);
+						koopas->SetMarioKick(1);
 					}
-					if (level == MARIO_LEVEL_BIG && koopas->GetLevel() != KOOPAS_LEVEL_SHELL)
+					else if (level == MARIO_LEVEL_BIG )
 					{
 
 						SetLevel(MARIO_LEVEL_SMALL);
-						x += 10 + dx;
+						SetPosition(x, y + 10);
 
 					}
 					else if (level == MARIO_LEVEL_SMALL)
@@ -160,6 +165,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else
 					{
 						SetLevel(MARIO_LEVEL_BIG);
+						SetPosition(x, y + 10);
 					}
 				}
 				
@@ -323,7 +329,7 @@ void CMario::Render()
 		case MARIO_STATE_JUMP:
 			// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 			vy = -MARIO_JUMP_SPEED_Y;
-			
+			ny = 1;
 			break;
 			
 		case MARIO_STATE_IDLE:
@@ -337,6 +343,15 @@ void CMario::Render()
 				vx = 0;
 				ny = 0;
 				break;
+		case MARIO_STATE_JUMP_HIGHT:
+			vy = -MARIO_JUMP_HIGHT_SPEED_Y;
+			ny = 1;
+		case MARIO_STATE_FAST_WALKING:
+			if(nx>0)
+			vx = MARIO_WALKING_FAST_SPEED;
+			else
+			vx = -MARIO_WALKING_FAST_SPEED;
+
 		}
 	}
 
