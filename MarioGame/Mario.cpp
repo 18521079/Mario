@@ -126,15 +126,26 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (koopas->GetState() != KOOPAS_STATE_DIE)
 					{
 						koopas->SetState(KOOPAS_STATE_DIE);
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
-						koopas->BDHoiSinh();
-						koopas->SetTickCount();
+						koopas->SetLevel(KOOPAS_LEVEL_SHELL);
+						if(koopas->GetMarioKick()==0)
+						{
+								vy = -MARIO_JUMP_DEFLECT_SPEED;
+								koopas->StartPRE_REVIVE();
+								koopas->StartRevive();
+								koopas->SetLevel(KOOPAS_LEVEL_NORMAL);
+						}
+						
 					}
 					
 				}
 				else if(ny!=0)
 				{ 
-					if (level == MARIO_LEVEL_BIG && (untouchable == 0))
+					if (koopas->GetLevel() == KOOPAS_LEVEL_SHELL)
+					{
+						SetState(MARIO_STATE_KICK);
+						koopas->SetState(KOOPAS_STATE_SHELL);
+					}
+					if (level == MARIO_LEVEL_BIG && koopas->GetLevel() != KOOPAS_LEVEL_SHELL)
 					{
 
 						SetLevel(MARIO_LEVEL_SMALL);
@@ -185,7 +196,7 @@ void CMario::Render()
 			{
 				if (nx > 0)
 					ani = MARIO_ANI_BIG_SIT_RIGHT;
-				else if(nx<0)
+				else /*if(nx<0)*/
 					ani = MARIO_ANI_BIG_SIT_LEFT;
 			}
 			else
@@ -238,6 +249,13 @@ void CMario::Render()
 					if (nx > 0) ani = MARIO_ANI_TAIL_IDLE_RIGHT;
 					else ani = MARIO_ANI_TAIL_IDLE_LEFT;
 				}
+			}
+			else if (state == MARIO_STATE_SIT)
+			{
+				if (nx > 0)
+					ani = MARIO_ANI_TAIL_SIT_RIGHT;
+				else /*if(nx<0)*/
+					ani = MARIO_ANI_TAIL_SIT_LEFT;
 			}
 			else
 			{
@@ -327,12 +345,14 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	
 	left = x;
 	top = y;
-	if (level != MARIO_LEVEL_SMALL && state != MARIO_STATE_SIT)
+	
+	 if (level != MARIO_LEVEL_SMALL /*&& state != MARIO_STATE_SIT*/)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
 		
 	}
+	
 	else
 	{
 		right = x + MARIO_SMALL_BBOX_WIDTH;

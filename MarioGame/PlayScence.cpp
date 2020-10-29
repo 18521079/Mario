@@ -359,7 +359,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		mario->SetState(MARIO_STATE_SIT);
-		mario->SetPosition(x, y - 0.5f);
+		//mario->SetPosition(x, y - 1.0f);
 	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);
