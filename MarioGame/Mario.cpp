@@ -9,7 +9,7 @@
 #include "Portal.h"
 #include "Box.h"
 #include "KooPas.h"
-#include "Brick.h"
+#include "BackGroundCollision.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -266,9 +266,20 @@ void CMario::Render()
 			else
 			{
 				if (ny > 0 && nx > 0)
+				{
+					if (GetState() == MARIO_STATE_JUMP_HIGHT)
+						ani = MARIO_ANI_TAIL_FLY_RIGHT;
+					else
 					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
+					
+				}
 				else if (ny > 0 && nx < 0)
+				{
+					if (GetState() == MARIO_STATE_JUMP_HIGHT)
+						ani = MARIO_ANI_TAIL_FLY_LEFT;
+					else
 					ani = MARIO_ANI_TAIL_JUMP_LEFT;
+				}
 				else if (nx > 0)
 					ani = MARIO_ANI_TAIL_WALKING_RIGHT;
 				else
@@ -346,6 +357,7 @@ void CMario::Render()
 		case MARIO_STATE_JUMP_HIGHT:
 			vy = -MARIO_JUMP_HIGHT_SPEED_Y;
 			ny = 1;
+			vx = 0;
 		case MARIO_STATE_FAST_WALKING:
 			if(nx>0)
 			vx = MARIO_WALKING_FAST_SPEED;

@@ -4,7 +4,7 @@
 #define BRICK_BBOX_WIDTH  16
 #define BRICK_BBOX_HEIGHT 16
 
-class CBrick_1 : public CGameObject
+class CBreakableBrick : public CGameObject
 {
 public:
 	virtual void Render();

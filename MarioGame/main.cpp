@@ -21,7 +21,7 @@
 #include "Textures.h"
 
 #include "Mario.h"
-#include "Brick.h"
+#include "BackGroundCollision.h"
 #include "Goomba.h"
 #include "Background.h"
 #include "PlayScence.h"

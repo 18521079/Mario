@@ -8,10 +8,11 @@
 #include "Portal.h"
 #include "QuestionBlock.h"
 #include "Goomba.h"
-#include"Brick_1.h"
+#include"Breakable_Brick.h"
 #include"Box.h"
 #include "Flower.h"
 #include "Koopas.h"
+#include "BackGroundCollision.h"
 
 
 using namespace std;
@@ -40,7 +41,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_BACKGROUND	2
 #define OBJECT_TYPE_QuestionBlock	3
 #define OBJECT_TYPE_Goomba	4
-#define OBJECT_TYPE_BRICK_1	5
+#define OBJECT_TYPE_BREAKABLE_BRICK	5
 #define OBJECT_TYPE_BOX	6
 #define OBJECT_TYPE_KOOPAS	7
 #define OBJECT_TYPE_FLOWER	8
@@ -171,9 +172,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	case OBJECT_TYPE_QuestionBlock: obj = new CQuestionBlock(); break;
-	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBrick(); break;
+	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBackGroundCollision(); break;
 	case OBJECT_TYPE_BOX: obj = new CBox(); break;
-	case OBJECT_TYPE_BRICK_1: obj = new CBrick_1(); break;
+	case OBJECT_TYPE_BREAKABLE_BRICK: obj = new CBreakableBrick(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -368,7 +369,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		//mario->SetPosition(x, y - 1.0f);
 	}
 	else if (game->IsKeyDown(DIK_T))
+	{
 		mario->SetState(MARIO_STATE_FAST_WALKING);
+	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);
 }
