@@ -14,6 +14,7 @@
 #include "Koopas.h"
 #include "BackGroundCollision.h"
 #include "Ball.h"
+#include"Coin.h"
 
 
 using namespace std;
@@ -49,6 +50,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_KOOPAS	7
 #define OBJECT_TYPE_FLOWER	8
 #define OBJECT_TYPE_BALL	9
+#define OBJECT_TYPE_COIN	10
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -165,6 +167,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_Goomba: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BALL: obj = new CBall(); break;
+	case OBJECT_TYPE_COIN: obj = new CCoin(); break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
 		{
@@ -314,9 +317,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-		
+
 		mario->SetState(MARIO_STATE_JUMP);
-		
+
 		break;
 	case DIK_Q:
 		mario->SetPosition(x, y - 16.0f);
@@ -334,8 +337,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_R:
 		mario->SetLevel(MARIO_LEVEL_FIRE);
 		break;
-	/*case DIK_DOWN:
-		mario->SetState(MARIO_STATE_SIT);*/
+		/*case DIK_DOWN:
+			mario->SetState(MARIO_STATE_SIT);*/
 
 	}
 }

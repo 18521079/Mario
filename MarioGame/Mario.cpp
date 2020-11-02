@@ -12,6 +12,7 @@
 #include "BackGroundCollision.h"
 #include"QuestionBlock.h"
 #include"Ball.h"
+#include"Coin.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -197,6 +198,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						block->SetState(BLOCK_STATE_INACTIVITY);
 					}
 
+				}
+			}
+			else if (dynamic_cast<CCoin*>(e->obj)) // if e->obj is Goomba 
+			{
+				CCoin* coin = dynamic_cast<CCoin*>(e->obj);
+
+			// jump on top >> kill Goomba and deflect a bit 
+				if (e->ny > 0 || e->nx !=0)
+				{
+					coin->SetState(COIN_STATE_DISAPPEAR);
 				}
 			}
 			if (dynamic_cast<CBall*>(e->obj)) // if e->obj is Goomba 

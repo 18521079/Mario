@@ -149,6 +149,7 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="BackGroundCollision.cpp" />
     <ClCompile Include="Breakable_Brick.cpp" />
+    <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Flower.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Box.h" />
     <ClInclude Include="BackGroundCollision.h" />
     <ClInclude Include="Breakable_Brick.h" />
+    <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Flower.h" />
