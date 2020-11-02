@@ -13,6 +13,7 @@
 #include "Flower.h"
 #include "Koopas.h"
 #include "BackGroundCollision.h"
+#include "Ball.h"
 
 
 using namespace std;
@@ -36,6 +37,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define SCENE_SECTION_OBJECTS	6
 
 
+
+
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BACKGROUNDCOLLISION	1
 #define OBJECT_TYPE_BACKGROUND	2
@@ -45,6 +48,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_BOX	6
 #define OBJECT_TYPE_KOOPAS	7
 #define OBJECT_TYPE_FLOWER	8
+#define OBJECT_TYPE_BALL	9
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -160,6 +164,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_Goomba: obj = new CGoomba(); break;
+	case OBJECT_TYPE_BALL: obj = new CBall(); break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
 		{

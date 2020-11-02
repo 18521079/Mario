@@ -1,8 +1,16 @@
 #include"QuestionBlock.h"
 
+CQuestionBlock::CQuestionBlock()
+{
+	SetState(BLOCK_STATE_ACTIVITY);
+}
 void CQuestionBlock::Render()
 {
-	animation_set->at(0)->Render(x, y);
+	int ani = BLOCK_ANI_QUESTIONMARK;
+	if (state == BLOCK_STATE_INACTIVITY) {
+		ani = BLOCK_ANI_NORMAL;
+	}
+	animation_set->at(ani)->Render(x, y);
 	//RenderBoundingBox();
 }
 

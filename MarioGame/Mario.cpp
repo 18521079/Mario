@@ -10,6 +10,8 @@
 #include "Box.h"
 #include "KooPas.h"
 #include "BackGroundCollision.h"
+#include"QuestionBlock.h"
+#include"Ball.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -96,6 +98,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						goomba->GoombaDie();
 						goomba->SetTickCount();
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
+
 					}
 				}
 				else if (e->nx != 0)
@@ -104,8 +107,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						
 						SetLevel(MARIO_LEVEL_SMALL);
-						SetPosition(x, y + 10);
-						
+						if(nx>0)
+						SetPosition(x-20, y);
+						else if(nx<0)
+						SetPosition(x+20, y);
 					}
 					else if (level == MARIO_LEVEL_SMALL)
 					{
@@ -115,7 +120,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else
 					{
 						SetLevel(MARIO_LEVEL_BIG);
-						SetPosition(x, y + 10);
+						if (nx > 0)
+							SetPosition(x - 20, y);
+						else if (nx < 0)
+							SetPosition(x + 20, y);
 					}
 				}
 			}
@@ -154,7 +162,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 
 						SetLevel(MARIO_LEVEL_SMALL);
-						SetPosition(x, y + 10);
+						if (nx > 0)
+							SetPosition(x - 30, y);
+						else if (nx < 0)
+							SetPosition(x + 30, y);
 
 					}
 					else if (level == MARIO_LEVEL_SMALL)
@@ -165,13 +176,39 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else
 					{
 						SetLevel(MARIO_LEVEL_BIG);
-						SetPosition(x, y + 10);
+						if (nx > 0)
+							SetPosition(x - 20, y);
+						else if (nx < 0)
+							SetPosition(x + 20, y);
 					}
 				}
 				
-
+				
 			}
-			
+			else if (dynamic_cast<CQuestionBlock*>(e->obj)) // if e->obj is Goomba 
+			{
+				CQuestionBlock* block = dynamic_cast<CQuestionBlock*>(e->obj);
+
+				// jump on top >> kill Goomba and deflect a bit 
+				if (e->ny > 0)
+				{
+					if (block->GetState() == BLOCK_STATE_ACTIVITY)
+					{
+						block->SetState(BLOCK_STATE_INACTIVITY);
+					}
+
+				}
+			}
+			if (dynamic_cast<CBall*>(e->obj)) // if e->obj is Goomba 
+			{
+				if (e->ny > 0)
+				{
+					CBall* ball = dynamic_cast<CBall*>(e->obj);
+					ball->ActivityStart();
+				}
+
+				
+			}
 		}
 	}
 

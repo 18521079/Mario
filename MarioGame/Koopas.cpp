@@ -26,14 +26,11 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
-
-	
 	x += dx;
 	y += dy;
 
 	if (GetState() == KOOPAS_STATE_WALKING)
 	{
-
 		if (vx < 0 && x < 593) {
 			x = 593; vx = -vx; /*y = 94*/;
 		}
@@ -57,7 +54,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		Prerevive_start = 0;
 		SetState(KOOPAS_STATE_PREREVIVE);
 		SetLevel(KOOPAS_LEVEL_SHELL);
-		
 	}
 
 	if (GetTickCount() - Revive_start > 8000 && REVIVE == true)
@@ -72,8 +68,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		
 	}
-
-	
 }
 
 void CKoopas::Render()
@@ -96,7 +90,6 @@ void CKoopas::Render()
 
 void CKoopas::SetState(int state)
 {
-
 	CGameObject::SetState(state);
 	switch (state)
 	{

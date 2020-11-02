@@ -12,7 +12,7 @@
 
 #define FLOWER_ANI_WALKING_LEFT 0
 #define FLOWER_ANI_WALKING_RIGHT 1
-#define KOOPAS_ANI_BALL 2
+#define FLOWER_ANI_BALL 2
 
 class CFlower : public CGameObject
 {

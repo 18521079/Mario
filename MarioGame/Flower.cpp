@@ -1,8 +1,13 @@
 #include "Flower.h"
+#include "Ball.h"
+
+CBall* ball;
+
 
 CFlower::CFlower()
 {
 	SetState(FLOWER_STATE_WALKING);
+	vy = 0.01f;
 }
 
 void CFlower::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -15,18 +20,23 @@ void CFlower::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy = 0.01;
+	
 	CGameObject::Update(dt, coObjects);
 
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
 	y -= dy;
-	if (y<72)
+
+	if (y<72 && vy>0)
 	{
-		y =116; vy = -vy;
+		vy = -vy;
 	}
-	
+	else if (y > 120)
+	{
+		vy = -vy;
+	}
+
 
 	
 	
