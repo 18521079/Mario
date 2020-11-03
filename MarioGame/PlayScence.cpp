@@ -284,6 +284,7 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 
+	if (cx < 0) cx = 0;
 	CGame::GetInstance()->SetCamPos(round(cx), 0.0f /*cy*/);
 }
 

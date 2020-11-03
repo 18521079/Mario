@@ -131,7 +131,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CKoopas*>(e->obj)) // if e->obj is Goomba 
 			{
 				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
-
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
@@ -140,26 +139,26 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						koopas->SetState(KOOPAS_STATE_DIE);
 						koopas->SetLevel(KOOPAS_LEVEL_SHELL);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
-						if(koopas->GetMarioKick()==0 && koopas->GetState()!=KOOPAS_STATE_SHELL)
+						if (koopas->GetMarioKick() == 0 && koopas->GetState() != SHELL_STATE_WALKING)
 						{
-								koopas->StartPRE_REVIVE();
-								koopas->StartRevive();
-								koopas->SetLevel(KOOPAS_LEVEL_NORMAL);
+							koopas->StartPRE_REVIVE();
+							koopas->StartRevive();
+							koopas->SetLevel(KOOPAS_LEVEL_NORMAL);
 						}
-						
+
 					}
-					
+
 				}
-				else if(ny!=0)
-				{ 
-					
+				else if (nx != 0)
+				{
+
 					if (koopas->GetState() == KOOPAS_STATE_DIE)
 					{
-						SetState(MARIO_STATE_KICK);
-						koopas->SetState(KOOPAS_STATE_SHELL);
+						this->SetState(MARIO_STATE_KICK);
+						koopas->SetState(SHELL_STATE_WALKING);
 						koopas->SetMarioKick(1);
 					}
-					else if (level == MARIO_LEVEL_BIG )
+					else if (level == MARIO_LEVEL_BIG)
 					{
 
 						SetLevel(MARIO_LEVEL_SMALL);
@@ -183,7 +182,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							SetPosition(x + 20, y);
 					}
 				}
-				
 				
 			}
 			else if (dynamic_cast<CQuestionBlock*>(e->obj)) // if e->obj is Goomba 
@@ -217,8 +215,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					CBall* ball = dynamic_cast<CBall*>(e->obj);
 					ball->ActivityStart();
 				}
-
-				
 			}
 		}
 	}
@@ -292,7 +288,6 @@ void CMario::Render()
 
 			}
 		}
-
 		
 		if (level == MARIO_LEVEL_TAIL)
 		{
@@ -357,8 +352,6 @@ void CMario::Render()
 					ani = MARIO_ANI_FIRE_WALKING_LEFT;
 			}
 		}
-
-
 	}
 
 	int alpha = 255;
@@ -432,9 +425,6 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	{
 		right = x + MARIO_SMALL_BBOX_WIDTH;
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
-		/*right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = y + MARIO_BIG_BBOX_HEIGHT;*/
-		
 	}
 
 }

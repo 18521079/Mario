@@ -3,7 +3,6 @@
 #include "GameObject.h"
 
 #define KOOPAS_WALKING_SPEED 0.03f;
-
 #define KOOPAS_BBOX_WIDTH 16
 #define KOOPAS_BBOX_HEIGHT 26
 #define KOOPAS_BBOX_HEIGHT_DIE 16
@@ -11,7 +10,7 @@
 #define KOOPAS_STATE_WALKING 100
 #define KOOPAS_STATE_DIE 200
 #define KOOPAS_STATE_PREREVIVE 300
-#define KOOPAS_STATE_SHELL 400
+#define SHELL_STATE_WALKING 400
 
 
 #define KOOPAS_ANI_WALKING_LEFT 0
@@ -34,7 +33,7 @@ class CKoopas : public CGameObject
 	int PREREVIVE =0;
 	int REVIVE = 0;
 	int level;
-	int MarioKick;
+	int MarioKick=0;
 	DWORD Prerevive_start;
 	DWORD Revive_start;
 
@@ -47,6 +46,6 @@ public:
 	void SetMarioKick(int kick) { MarioKick = kick; };
 	int GetMarioKick() { return MarioKick; };
 	void StartPRE_REVIVE() { PREREVIVE = 1; SetLevel(KOOPAS_LEVEL_SHELL); Prerevive_start = GetTickCount(); }
-	void StartRevive() { REVIVE = 1;  SetLevel(KOOPAS_LEVEL_NORMAL); Revive_start = GetTickCount(); }
+	void StartRevive() { REVIVE = 1;  SetLevel(KOOPAS_LEVEL_NORMAL); Revive_start = GetTickCount(); SetLevel(KOOPAS_LEVEL_NORMAL); }
 	int GetRevive() { return REVIVE; };
 };

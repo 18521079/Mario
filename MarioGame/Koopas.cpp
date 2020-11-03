@@ -39,14 +39,14 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = 705; vx = -vx; /*y = 94*/;
 		}
 	}
-	else if (GetState() == KOOPAS_STATE_SHELL)
+	else if (GetState() == SHELL_STATE_WALKING)
 	{
-		if (vx < 0 && x < 580) {
-			x = 580; vx = -vx; /*y = 94*/;
+		if (vx < 0 && x < 575) {
+			x = 560; vx = -vx; y = 135;
 		}
 
-		if (vx > 0 && x > 702) {
-			x = 702; vx = -vx; /*y = 94*/;
+		if (vx > 0 && x > 720) {
+			x = 740; vx = -vx; y = 135;
 		}
 	}
 	if (GetTickCount() - Prerevive_start > 5000 &&  PREREVIVE == true)
@@ -65,6 +65,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			float x1, y2;
 			GetPosition(x1, y2);
 			SetPosition(x1, 94);
+			//SetMarioKick(1);
 		}
 		
 	}
@@ -78,7 +79,7 @@ void CKoopas::Render()
 	}
 	else if (state == KOOPAS_STATE_PREREVIVE)
 		ani = KOOPAS_ANI_PREREVIVE;
-	else if (state == KOOPAS_STATE_SHELL)
+	else if (state == SHELL_STATE_WALKING)
 		ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
 	else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
 	else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
@@ -105,7 +106,7 @@ void CKoopas::SetState(int state)
 		vx = 0;
 		vy = 0;
 		break;
-	case KOOPAS_STATE_SHELL:
+	case SHELL_STATE_WALKING:
 		vx = KOOPAS_WALKING_SPEED;
 		break;
 		
