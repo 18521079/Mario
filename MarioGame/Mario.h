@@ -2,10 +2,13 @@
 #include "GameObject.h"
 
 #define MARIO_WALKING_SPEED		0.15f 
-#define MARIO_WALKING_FAST_SPEED		0.5f 
+#define MARIO_WALKING_FAST_SPEED		0.3f 
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.5f
-#define MARIO_JUMP_HIGHT_SPEED_Y		0.05f
+#define MARIO_FLY_SPEED_Y		0.2f
+
+#define MARIO_JUMP_HIGHT_SPEED_Y		0.6f
+
 
 #define MARIO_JUMP_DEFLECT_SPEED 0.5f
 #define MARIO_GRAVITY			0.002f
@@ -19,9 +22,9 @@
 #define MARIO_STATE_KICK			500
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_HOLDKOOPAS				900
-
-#define MARIO_STATE_JUMP_HIGHT			700
+#define MARIO_STATE_FLY			700
 #define MARIO_STATE_FAST_WALKING			800
+#define MARIO_STATE_HIGHT_JUMP			1000
 
 
 
@@ -94,11 +97,12 @@ class CMario : public CGameObject
 	int Hold=0;
 	int ShootFire=0;
 	int untouchable;
+	int preidle=0;
 	DWORD untouchable_start;
 
 	float start_x;			// initial position of Mario at scene
 	float start_y;
-	
+	DWORD preIDLE_start;
 
 public:
 
@@ -106,6 +110,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	/*void StartPreIdle() { preidle = 1; preIDLE_start = GetTickCount(); }*/
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return level; };

@@ -48,6 +48,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+	/*if (GetTickCount() - preIDLE_start > 400)
+	{
+		preIDLE_start = 0;
+		preidle = 0;
+		if(nx>0)
+		SetState(MARIO_STATE_WALKING_RIGHT);
+		else if(nx < 0)
+		SetState(MARIO_STATE_WALKING_LEFT);
+
+	}*/
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
@@ -270,9 +280,13 @@ void CMario::Render()
 		{
 			if (state == MARIO_STATE_IDLE)
 			{
+			
 				if (vx == 0)
 				{
-					if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_IDLE_RIGHT;
+					}
 					else ani = MARIO_ANI_BIG_IDLE_LEFT;
 				}
 			}
@@ -362,7 +376,7 @@ void CMario::Render()
 			{
 				if (ny > 0 && nx > 0)
 				{
-					if (GetState() == MARIO_STATE_JUMP_HIGHT)
+					if (GetState() == MARIO_STATE_FLY)
 						ani = MARIO_ANI_TAIL_FLY_RIGHT;
 					else
 					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
@@ -378,7 +392,7 @@ void CMario::Render()
 				}
 				else if (ny > 0 && nx < 0)
 				{
-					if (GetState() == MARIO_STATE_JUMP_HIGHT)
+					if (GetState() == MARIO_STATE_FLY)
 						ani = MARIO_ANI_TAIL_FLY_LEFT;
 					else
 					ani = MARIO_ANI_TAIL_JUMP_LEFT;
@@ -471,8 +485,8 @@ void CMario::Render()
 				vx = 0;
 				ny = 0;
 			break;
-		case MARIO_STATE_JUMP_HIGHT:
-			vy = -MARIO_JUMP_HIGHT_SPEED_Y;
+		case MARIO_STATE_FLY:
+			vy = -MARIO_FLY_SPEED_Y;
 			ny = 1;
 			vx = 0;
 		case MARIO_STATE_FAST_WALKING:
@@ -483,6 +497,10 @@ void CMario::Render()
 			break;
 		case MARIO_STATE_HOLDKOOPAS:
 			SetHolding(1);
+			break;
+		 case MARIO_STATE_HIGHT_JUMP:
+			vy = -MARIO_JUMP_HIGHT_SPEED_Y;
+			ny = 1;
 
 		}
 	}
