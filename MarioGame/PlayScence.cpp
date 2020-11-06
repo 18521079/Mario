@@ -289,6 +289,17 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 	CGame::GetInstance()->SetCamPos(round(cx), 0.0f /*cy*/);
+	if(player->GetLevel() == MARIO_LEVEL_TAIL)
+	{
+		if (cy > -40)
+		{
+			CGame::GetInstance()->SetCamPos(round(cx), -35.0f);
+		}
+		
+		
+			CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+		
+	}
 }
 
 void CPlayScene::Render()
@@ -321,9 +332,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_SPACE:
-
-		mario->SetState(MARIO_STATE_JUMP);
-		mario->ny = 1;
+		if (mario->GetJumping()==0)
+		{
+			mario->SetState(MARIO_STATE_JUMP);
+			mario->ny = 1;
+			mario->SetJumping(1);
+		}
 
 		break;
 	case DIK_Q:
@@ -348,7 +362,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		//mario->SetState(MARIO_STATE_HOLDKOOPAS);
 		if(mario->GetLevel()==MARIO_LEVEL_FIRE)
 		mario->SetShoot(1);
-	
+	case DIK_I:
+		mario->SetHolding(1);
 	}
 }
 

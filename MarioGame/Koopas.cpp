@@ -51,18 +51,31 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = 740; vx = -vx; y = 135;
 		}
 	}
-	/*vy = 0.05f;
-	vx = 0.05f;
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-	CalcPotentialCollisions(coObjects, coEvents);
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}*/
-	
+	//vector<LPCOLLISIONEVENT> coEvents;
+	//vector<LPCOLLISIONEVENT> coEventsResult;
+	//coEvents.clear();
+	//CalcPotentialCollisions(coObjects, coEvents);
+	//if (coEvents.size() == 0)
+	//{
+	//	
+	//	x += dx;
+	//	y += dy;
+
+	//}
+	//else
+	//{
+	//	float min_tx, min_ty, nx = 0, ny;
+	//	float rdx = 0;
+	//	float rdy = 0;
+
+	//	// TODO: This is a very ugly designed function!!!!
+	//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+	//	
+	//	y += min_ty * dy + ny * 0.4f;
+	//	x += min_tx * dx + nx * 0.4f;
+	//}
+	//
 	
 	//
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
@@ -89,26 +102,25 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}	
 
 	}
-	if (state == KOOPAS_ANI_DIE)
+	if (state == KOOPAS_STATE_DIE)
 	{
-		//if (Hold == 1)
-		//{
-		//	if (mario->GetHolding() == 0)
-		//	{
-		//		
-		//	}
-		//}
-		//else if(Hold==0)
-		//{
-		//	/*StartPRE_REVIVE();
-		//	StartRevive();
-		//	SetLevel(KOOPAS_LEVEL_NORMAL);*/
-		//	
-		//}
-		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-		x = mario->x + 10;
-		y = mario->y + 5;
-	
+		if (Hold == 1)
+		{
+			CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+			if (mario->GetHolding() == 0)
+			{
+				Hold = 0;
+				StartPRE_REVIVE();
+				StartRevive();
+				SetLevel(KOOPAS_LEVEL_NORMAL);
+			}
+			else
+			{
+				x = mario->vx;
+				y = mario->vy;
+			}
+			vx = 0;
+		}
 
 
 	}

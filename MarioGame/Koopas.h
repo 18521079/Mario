@@ -39,6 +39,7 @@ class CKoopas : public CGameObject
 	DWORD Revive_start;
 
 
+
 public:
 	CKoopas();
 	virtual void SetState(int state);
@@ -51,5 +52,6 @@ public:
 	int GetRevive() { return REVIVE; };
 	void SetHolding(int h) { Hold = h; };
 	int GetHolding() { return Hold; };
+
 
 };

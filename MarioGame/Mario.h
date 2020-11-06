@@ -111,6 +111,7 @@ public:
 	int GetLevel() { return level; };
 	int Jumping() { return Jump; };
 	void SetJumping(int jump) { Jump = jump; };
+	int GetJumping() { return Jump; };
 	void Reset();
 
 	int GetHolding() { return this->Hold; };

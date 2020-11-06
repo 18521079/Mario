@@ -26,7 +26,7 @@
 CFireBall::CFireBall()
 {
 	vy = 0.05f;
-	vx = 0.05f;
+	vx = 0.08f;
 }
 
 void CFireBall::Render()
@@ -63,7 +63,7 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		 FiringStart();
 		 mario->SetShoot(0);
 		 vy = 0.05f;
-		 vx = 0.05f;
+		 vx = 0.08f;
 
 	}
 	

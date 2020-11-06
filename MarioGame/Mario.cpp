@@ -30,7 +30,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
-
 	// Simple fall down
 	vy += MARIO_GRAVITY * dt;
 
@@ -44,7 +43,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > 3000)
+	if (GetTickCount() - untouchable_start > 500)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -74,6 +73,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
+
+		if (ny != 0)
+		{
+			vy = 0;
+			if (GetJumping() == 1)
+			{
+				Jump = 0;
+			}
+		}
 
 		//
 		// Collision logic with other objects
@@ -118,6 +126,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else
 					{
+						StartUntouchable();
 						SetLevel(MARIO_LEVEL_BIG);
 						if (nx > 0)
 							SetPosition(x - 20, y);
@@ -134,10 +143,28 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (koopas->GetState() != KOOPAS_STATE_DIE)
 					{
-						koopas->SetState(KOOPAS_STATE_DIE);
+						if (koopas->GetState() == KOOPAS_STATE_WALKING)
+						{
+							koopas->SetState(KOOPAS_STATE_DIE);
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+							if (GetHolding() == 0 && koopas->GetMarioKick()==0)
+							{
+								koopas->SetHolding(0);
+								koopas->StartPRE_REVIVE();
+								koopas->StartRevive();
+								SetLevel(KOOPAS_LEVEL_NORMAL);
+							}
+							else
+							{
+								koopas->x =vx;
+								koopas->y =vy;
+							}
+							vx = 0;
+						}
+						/*koopas->SetState(KOOPAS_STATE_DIE);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 						
-						if (koopas->GetMarioKick() == 0 && koopas->GetState() != SHELL_STATE_WALKING && GetState() != MARIO_STATE_HOLDKOOPAS)
+						if ( GetHolding()==0 && koopas->GetMarioKick() == 0 && koopas->GetState() != SHELL_STATE_WALKING )
 						{
 							koopas->StartPRE_REVIVE();
 							koopas->StartRevive();
@@ -145,12 +172,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						else 
 						{
-
+							koopas->SetHolding(1);
 							
-						}
+						}*/
+
+
 					}
 
 				}
+				
 				else if (nx != 0)
 				{
 
@@ -256,13 +286,22 @@ void CMario::Render()
 			}
 			else
 			{
-				if (ny > 0 && nx > 0)
+				if (ny > 0 && nx > 0 )
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				else if (ny > 0 && nx < 0)
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
-				else if (nx > 0 && ny!=1)
+				else if (Jump == 1 && nx>0)
+				{
+					ani = MARIO_ANI_BIG_JUMP_RIGHT;
+				}
+				else if (Jump == 1 && nx < 0)
+				{
+					ani = MARIO_ANI_BIG_JUMP_LEFT;
+				}
+				
+				else if (nx > 0 )
 					ani = MARIO_ANI_BIG_WALKING_RIGHT;
-				else if(ny !=1)
+				else if(ny !=1 )
 					ani = MARIO_ANI_BIG_WALKING_LEFT;
 			}
 		}
@@ -285,6 +324,14 @@ void CMario::Render()
 
 				  else if (ny > 0 && nx < 0)
 					ani = MARIO_ANI_SMALL_JUMP_LEFT;
+				  else if (Jump == 1 && nx > 0)
+				 {
+					 ani = MARIO_ANI_SMALL_JUMP_RIGHT;
+				 }
+				  else if (Jump == 1 && nx < 0)
+				 {
+					 ani = MARIO_ANI_SMALL_JUMP_LEFT;
+				 }
 				else if (nx > 0 )
 					ani = MARIO_ANI_SMALL_WALKING_RIGHT;
 				else if (nx < 0)
@@ -320,6 +367,14 @@ void CMario::Render()
 					else
 					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
 					
+				}
+				else if (Jump == 1 && nx > 0)
+				{
+					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
+				}
+				else if (Jump == 1 && nx < 0)
+				{
+					ani = MARIO_ANI_TAIL_JUMP_LEFT;
 				}
 				else if (ny > 0 && nx < 0)
 				{
@@ -359,6 +414,14 @@ void CMario::Render()
 					ani = MARIO_ANI_FIRE_JUMP_RIGHT;
 				else if (ny > 0 && nx < 0)
 					ani = MARIO_ANI_FIRE_JUMP_LEFT;
+				else if (Jump == 1 && nx > 0)
+				{
+					ani = MARIO_ANI_FIRE_JUMP_RIGHT;
+				}
+				else if (Jump == 1 && nx < 0)
+				{
+					ani = MARIO_ANI_FIRE_JUMP_LEFT;
+				}
 				else if (nx > 0)
 					ani = MARIO_ANI_FIRE_WALKING_RIGHT;
 				else
