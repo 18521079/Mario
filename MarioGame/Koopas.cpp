@@ -1,9 +1,16 @@
 #include "Koopas.h"
+#include "GameObject.h"
+#include"Mario.h"
+#include"GameObject.h"
+#include"Scence.h"
+#include"PlayScence.h"
 
 CKoopas::CKoopas()
 {
 	SetState(KOOPAS_STATE_WALKING);
 	SetLevel(KOOPAS_LEVEL_NORMAL);
+	vx = KOOPAS_WALKING_SPEED;
+	nx = 1;
 	//SetMarioKick(0);
 }
 
@@ -22,13 +29,8 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	
-	//
-	// TO-DO: make sure Koopas can interact with the world and to each of them too!
-	// 
 	x += dx;
 	y += dy;
-
 	if (GetState() == KOOPAS_STATE_WALKING)
 	{
 		if (vx < 0 && x < 593) {
@@ -49,6 +51,24 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = 740; vx = -vx; y = 135;
 		}
 	}
+	/*vy = 0.05f;
+	vx = 0.05f;
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	coEvents.clear();
+	CalcPotentialCollisions(coObjects, coEvents);
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}*/
+	
+	
+	//
+	// TO-DO: make sure Koopas can interact with the world and to each of them too!
+	// 
+	
+
 	if (GetTickCount() - Prerevive_start > 5000 &&  PREREVIVE == true)
 	{
 		Prerevive_start = 0;
@@ -60,15 +80,39 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		SetState(KOOPAS_STATE_WALKING);
 		SetLevel(KOOPAS_LEVEL_NORMAL);
+		
 		if (GetState()!= KOOPAS_STATE_DIE )
 		{
 			float x1, y2;
 			GetPosition(x1, y2);
 			SetPosition(x1, 94);
-			//SetMarioKick(1);
-		}
-		
+		}	
+
 	}
+	if (state == KOOPAS_ANI_DIE)
+	{
+		//if (Hold == 1)
+		//{
+		//	if (mario->GetHolding() == 0)
+		//	{
+		//		
+		//	}
+		//}
+		//else if(Hold==0)
+		//{
+		//	/*StartPRE_REVIVE();
+		//	StartRevive();
+		//	SetLevel(KOOPAS_LEVEL_NORMAL);*/
+		//	
+		//}
+		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+		x = mario->x + 10;
+		y = mario->y + 5;
+	
+
+
+	}
+
 }
 
 void CKoopas::Render()
@@ -76,6 +120,7 @@ void CKoopas::Render()
 	int ani = KOOPAS_ANI_WALKING_LEFT;
 	if (state == KOOPAS_STATE_DIE) {
 		ani = KOOPAS_ANI_DIE;
+
 	}
 	else if (state == KOOPAS_STATE_PREREVIVE)
 		ani = KOOPAS_ANI_PREREVIVE;
@@ -91,6 +136,7 @@ void CKoopas::Render()
 
 void CKoopas::SetState(int state)
 {
+	
 	CGameObject::SetState(state);
 	switch (state)
 	{
@@ -101,13 +147,14 @@ void CKoopas::SetState(int state)
 		break;
 	case KOOPAS_STATE_WALKING:
 		vx = KOOPAS_WALKING_SPEED;
+		vy = 0;
 		break;
 	case KOOPAS_STATE_PREREVIVE:
 		vx = 0;
-		vy = 0;
 		break;
 	case SHELL_STATE_WALKING:
 		vx = KOOPAS_WALKING_SPEED;
+		SetLevel(KOOPAS_LEVEL_SHELL);
 		break;
 		
 	}

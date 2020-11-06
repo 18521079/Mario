@@ -15,6 +15,7 @@
 #include "BackGroundCollision.h"
 #include "Ball.h"
 #include"Coin.h"
+#include"Fire_Ball.h"
 
 
 using namespace std;
@@ -51,6 +52,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_FLOWER	8
 #define OBJECT_TYPE_BALL	9
 #define OBJECT_TYPE_COIN	10
+#define OBJECT_TYPE_FIREBALL	11
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -168,6 +170,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_Goomba: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BALL: obj = new CBall(); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(); break;
+	case OBJECT_TYPE_FIREBALL: obj = new CFireBall(); break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
 		{
@@ -320,6 +323,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_SPACE:
 
 		mario->SetState(MARIO_STATE_JUMP);
+		mario->ny = 1;
 
 		break;
 	case DIK_Q:
@@ -340,7 +344,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		break;
 		/*case DIK_DOWN:
 			mario->SetState(MARIO_STATE_SIT);*/
-
+	case DIK_U:
+		//mario->SetState(MARIO_STATE_HOLDKOOPAS);
+		mario->SetShoot(1);
+	
 	}
 }
 
@@ -380,6 +387,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	else if (game->IsKeyDown(DIK_T))
 	{
 		mario->SetState(MARIO_STATE_FAST_WALKING);
+	}
+	else if (game->IsKeyDown(DIK_U))
+	{
+		mario->SetState(MARIO_STATE_HOLDKOOPAS);
 	}
 	else
 		mario->SetState(MARIO_STATE_IDLE);

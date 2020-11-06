@@ -2,10 +2,10 @@
 #include "GameObject.h"
 
 #define MARIO_WALKING_SPEED		0.15f 
-#define MARIO_WALKING_FAST_SPEED		0.9f 
+#define MARIO_WALKING_FAST_SPEED		0.5f 
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.5f
-#define MARIO_JUMP_HIGHT_SPEED_Y		0.15f
+#define MARIO_JUMP_HIGHT_SPEED_Y		0.05f
 
 #define MARIO_JUMP_DEFLECT_SPEED 0.5f
 #define MARIO_GRAVITY			0.002f
@@ -18,6 +18,7 @@
 #define MARIO_STATE_DIE				400
 #define MARIO_STATE_KICK			500
 #define MARIO_STATE_SIT				600
+#define MARIO_STATE_HOLDKOOPAS				900
 
 #define MARIO_STATE_JUMP_HIGHT			700
 #define MARIO_STATE_FAST_WALKING			800
@@ -90,6 +91,8 @@ class CMario : public CGameObject
 {
 	int level;
 	int Jump = 0;
+	int Hold=0;
+	int ShootFire=0;
 	int untouchable;
 	DWORD untouchable_start;
 
@@ -105,9 +108,16 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
+	int GetLevel() { return level; };
 	int Jumping() { return Jump; };
 	void SetJumping(int jump) { Jump = jump; };
 	void Reset();
 
+	int GetHolding() { return this->Hold; };
+	void SetHolding(int hold) { this->Hold = hold; };
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void SetShoot(int s) { ShootFire = s; };
+	int GetShoot() { return ShootFire; };
+
 };

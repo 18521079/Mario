@@ -22,8 +22,8 @@ void CBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (GetTickCount()- activity_start>1000 && activity==1)
 	{
 		activity_start = 0;
-		SetPosition(16,119);
 		SetState(BALL_STATE_ACTIVITY);
+		SetPosition(16,119);
 	}
 	
 	

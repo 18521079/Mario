@@ -12,7 +12,7 @@
 
 
 #define BALL_ANI_FLY 0
-#define BALL_ANI_DISAPPEAR 1
+#define BALL_ANI_DISAPPEAR 0
 
 
 class CBall : public CGameObject
