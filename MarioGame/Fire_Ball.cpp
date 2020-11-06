@@ -23,7 +23,11 @@
 #include "Ball.h"
 #include"Coin.h"
 
-
+CFireBall::CFireBall()
+{
+	vy = 0.05f;
+	vx = 0.05f;
+}
 
 void CFireBall::Render()
 {
@@ -54,10 +58,12 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (mario->GetShoot() == 1 && GetFly() == 0)
 	{
 		 SetPosition(mario->x, mario->y);
-		 SetY(mario->y);
 		 SetFly(1);
+		 SetY(mario->y);
 		 FiringStart();
 		 mario->SetShoot(0);
+		 vy = 0.05f;
+		 vx = 0.05f;
 
 	}
 	
@@ -67,15 +73,25 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vector<LPCOLLISIONEVENT> coEventsResult;
 		coEvents.clear();
 		CalcPotentialCollisions(coObjects, coEvents);
-		vy = 0.05f;
-		vx = 0.05f;
 		if (coEvents.size() == 0)
 		{
-			x += dx;
-			y += dy;
-			if (y < Y && vy < 0)
+			if (mario->nx > 0)
 			{
-				vy = -vy;
+				x += dx;
+				y += dy;
+				if (y < this->Y && vy < 0)
+				{
+					vy = -vy;
+				}
+			}
+			else
+			{
+				x -= dx;
+				y += dy;
+				if (y < this->Y && vy < 0)
+				{
+					vy = -vy;
+				}
 			}
 
 		}
@@ -101,6 +117,7 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				vx = 0;
 				Fly = 0;
 			}
+
 			y += min_ty * dy + ny * 0.4f;
 			x += min_tx * dx + nx * 0.4f;
 		}

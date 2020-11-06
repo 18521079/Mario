@@ -20,5 +20,6 @@ class CFireBall : public CGameObject
 	DWORD Firinng_start;
 	void FiringStart() { Fly = 1; Firinng_start = GetTickCount(); };
 	void SetY(float y) { Y = y; };
+	CFireBall();
 };
 

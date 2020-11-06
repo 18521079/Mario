@@ -346,6 +346,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetState(MARIO_STATE_SIT);*/
 	case DIK_U:
 		//mario->SetState(MARIO_STATE_HOLDKOOPAS);
+		if(mario->GetLevel()==MARIO_LEVEL_FIRE)
 		mario->SetShoot(1);
 	
 	}
