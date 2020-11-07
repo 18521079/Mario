@@ -148,89 +148,69 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CKoopas*>(e->obj)) // if e->obj is Goomba 
 			{
 				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
-				// jump on top >> kill Goomba and deflect a bit 
+				/*if (Hold == 1)
+				{
+					koopas->SetHolding(1);
+				}*/
+				//// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
-					if (koopas->GetState() != KOOPAS_STATE_DIE)
+					if (koopas->GetState() != KOOPAS_STATE_SHELL)
 					{
-						if (koopas->GetState() == KOOPAS_STATE_WALKING)
-						{
-							koopas->SetState(KOOPAS_STATE_DIE);
-							vy = -MARIO_JUMP_DEFLECT_SPEED;
-							if (GetHolding() == 0 && koopas->GetMarioKick()==0)
-							{
-								koopas->SetHolding(0);
-								koopas->StartPRE_REVIVE();
-								koopas->StartRevive();
-								SetLevel(KOOPAS_LEVEL_NORMAL);
-							}
-							else
-							{
-								koopas->x =vx;
-								koopas->y =vy;
-							}
-							vx = 0;
-						}
-						/*koopas->SetState(KOOPAS_STATE_DIE);
+						koopas->SetState(KOOPAS_STATE_SHELL);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
-						
-						if ( GetHolding()==0 && koopas->GetMarioKick() == 0 && koopas->GetState() != SHELL_STATE_WALKING )
-						{
-							koopas->StartPRE_REVIVE();
-							koopas->StartRevive();
-							koopas->SetLevel(KOOPAS_LEVEL_NORMAL);
-						}
-						else 
-						{
-							koopas->SetHolding(1);
-							
-						}*/
-
-
 					}
-
+	
 				}
-				
+				//
 				else if (nx != 0)
 				{
-
-					if (koopas->GetState() == KOOPAS_STATE_DIE)
+					if (koopas->GetState() != KOOPAS_STATE_SHELL)
 					{
-						koopas->SetMarioKick(1);
-						this->SetState(MARIO_STATE_KICK);
-						koopas->SetState(SHELL_STATE_WALKING);
-						koopas->SetLevel(KOOPAS_LEVEL_SHELL);
+
+						if (level == MARIO_LEVEL_BIG)
+						{
+
+							SetLevel(MARIO_LEVEL_SMALL);
+							if (nx > 0)
+								SetPosition(x - 30, y);
+							else if (nx < 0)
+								SetPosition(x + 30, y);
+
+						}
+						else if (level == MARIO_LEVEL_SMALL)
+						{
+							//StartUntouchable();
+							SetState(MARIO_STATE_DIE);
+						}
+						else
+						{
+							SetLevel(MARIO_LEVEL_BIG);
+							if (nx > 0)
+								SetPosition(x - 20, y);
+							else if (nx < 0)
+								SetPosition(x + 20, y);
+						}
+					}
+					else if(koopas->GetState() == KOOPAS_STATE_SHELL)
+					{
 						
-					}
-					else if (level == MARIO_LEVEL_BIG)
-					{
+						if(Hold == 1)
+						{
+							SetAniHolding(1);
+							koopas->SetHolding(1);
+						}
+						else
+						{
 
-						SetLevel(MARIO_LEVEL_SMALL);
-						if (nx > 0)
-							SetPosition(x - 30, y);
-						else if (nx < 0)
-							SetPosition(x + 30, y);
-
-					}
-					else if (level == MARIO_LEVEL_SMALL)
-					{
-						//StartUntouchable();
-						SetState(MARIO_STATE_DIE);
-					}
-					else
-					{
-						SetLevel(MARIO_LEVEL_BIG);
-						if (nx > 0)
-							SetPosition(x - 20, y);
-						else if (nx < 0)
-							SetPosition(x + 20, y);
+						}
 					}
 				}
-				
 			}
 			else if (dynamic_cast<CQuestionBlock*>(e->obj)) // if e->obj is Goomba 
 			{
 				CQuestionBlock* block = dynamic_cast<CQuestionBlock*>(e->obj);
+
 
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny > 0)
@@ -304,6 +284,14 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				else if (ny > 0 && nx < 0)
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
+				else if (AniHold == 1 && nx > 0)
+				{
+					ani = MARIO_ANI_BIG_HOLD_RIGHT;
+				}
+				else if (AniHold == 1 && nx < 0)
+				{
+					ani = MARIO_ANI_BIG_HOLD_LEFT;
+				}
 				else if (Jump == 1 && nx>0)
 				{
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
@@ -335,7 +323,14 @@ void CMario::Render()
 			{
 				 if (ny > 0 && nx > 0)
 					ani = MARIO_ANI_SMALL_JUMP_RIGHT;
-
+				 else if (AniHold ==1 && nx > 0)
+				 {
+					 ani = MARIO_ANI_SMALL_HOLD_RIGHT;
+				 }
+				 else if (AniHold == 1 && nx < 0)
+				 {
+					 ani = MARIO_ANI_SMALL_HOLD_LEFT;
+				 }
 				  else if (ny > 0 && nx < 0)
 					ani = MARIO_ANI_SMALL_JUMP_LEFT;
 				  else if (Jump == 1 && nx > 0)
@@ -382,6 +377,15 @@ void CMario::Render()
 					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
 					
 				}
+				else if (AniHold == 1 && nx > 0)
+				{
+					ani = MARIO_ANI_TAIL_HOLD_RIGHT;
+				}
+				else if (AniHold == 1 && nx < 0)
+				{
+					ani = MARIO_ANI_TAIL_HOLD_LEFT;
+				}
+
 				else if (Jump == 1 && nx > 0)
 				{
 					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
@@ -428,6 +432,14 @@ void CMario::Render()
 					ani = MARIO_ANI_FIRE_JUMP_RIGHT;
 				else if (ny > 0 && nx < 0)
 					ani = MARIO_ANI_FIRE_JUMP_LEFT;
+				else if (AniHold == 1 && nx > 0)
+				{
+					ani = MARIO_ANI_FIRE_HOLD_RIGHT;
+				}
+				else if (AniHold == 1 && nx < 0)
+				{
+					ani = MARIO_ANI_FIRE_HOLD_LEFT;
+				}
 				else if (Jump == 1 && nx > 0)
 				{
 					ani = MARIO_ANI_FIRE_JUMP_RIGHT;

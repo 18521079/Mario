@@ -36,7 +36,10 @@
 #define MARIO_ANI_TAIL_IDLE_RIGHT		19
 #define MARIO_ANI_TAIL_IDLE_LEFT		20
 #define MARIO_ANI_TAIL_WALKING_RIGHT			21
-#define MARIO_ANI_TAIL_WALKING_LEFT			22
+#define MARIO_ANI_TAIL_HOLD_LEFT			22
+
+#define MARIO_ANI_TAIL_WALKING_LEFT			45
+
 
 #define MARIO_ANI_BIG_WALKING_RIGHT			4
 #define MARIO_ANI_BIG_WALKING_LEFT			5
@@ -71,7 +74,13 @@
 #define MARIO_ANI_TAIL_FLY_RIGHT		39
 #define MARIO_ANI_TAIL_FLY_LEFT		40
 
-
+#define MARIO_ANI_SMALL_HOLD_RIGHT		41
+#define MARIO_ANI_SMALL_HOLD_LEFT		42
+#define MARIO_ANI_BIG_HOLD_RIGHT		43
+#define MARIO_ANI_BIG_HOLD_LEFT		44
+#define MARIO_ANI_TAIL_HOLD_RIGHT		46
+#define MARIO_ANI_FIRE_HOLD_RIGHT		47
+#define MARIO_ANI_FIRE_HOLD_LEFT		48
 
 #define MARIO_ANI_DIE				8
 
@@ -95,6 +104,7 @@ class CMario : public CGameObject
 	int level;
 	int Jump = 0;
 	int Hold=0;
+	int AniHold = 0;
 	int ShootFire=0;
 	int untouchable;
 	int preidle=0;
@@ -121,6 +131,9 @@ public:
 
 	int GetHolding() { return this->Hold; };
 	void SetHolding(int hold) { this->Hold = hold; };
+
+	int GetAniHolding() { return this->AniHold; };
+	void SetAniHolding(int anihold) { this->AniHold = anihold; };
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetShoot(int s) { ShootFire = s; };

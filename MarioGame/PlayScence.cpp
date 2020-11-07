@@ -289,7 +289,7 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 	CGame::GetInstance()->SetCamPos(round(cx), 0.0f /*cy*/);
-	if(player->GetLevel() == MARIO_LEVEL_TAIL)
+	if(player->GetLevel() == MARIO_LEVEL_TAIL /*&& player->GetState()==MARIO_STATE_FLY*/)
 	{
 		if (cy > -40)
 		{
@@ -369,8 +369,23 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		//mario->SetState(MARIO_STATE_HOLDKOOPAS);
 		if(mario->GetLevel()==MARIO_LEVEL_FIRE)
 		mario->SetShoot(1);
-	case DIK_I:
+	case DIK_P:
 		mario->SetHolding(1);
+	}
+}
+
+void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
+{
+	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+
+	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
+	float x, y;
+	mario->GetPosition(x, y);
+	switch (KeyCode)
+	{
+	case DIK_P:
+		mario->SetHolding(0);
+
 	}
 }
 
