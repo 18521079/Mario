@@ -113,6 +113,9 @@ class CMario : public CGameObject
 	int KickKoopas=0;
 	int AniKick = 0;
 	int Spin = 0;
+	/*int Fly=0;
+	int CanFly=0;
+	DWORD fly_start = 0;*/
 	DWORD untouchable_start;
 	DWORD kick_start;
 	DWORD spin_start;
@@ -156,5 +159,13 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetShoot(int s) { ShootFire = s; };
 	int GetShoot() { return ShootFire; };
+	/*int GetFly() { return Fly; };
+	void SetFly(int fly) { Fly = fly; };
+	int GetCanFly() { return CanFly; };
+	void SetCanFly(int fly) { CanFly = fly; };
+
+	DWORD GetFlyingStart() { return fly_start; };
+	void StartFlying() { fly_start = GetTickCount(); }*/
+	
 
 };

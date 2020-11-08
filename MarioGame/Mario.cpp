@@ -13,6 +13,7 @@
 #include"QuestionBlock.h"
 #include"Ball.h"
 #include"Coin.h"
+#include"Breakable_Brick.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -69,6 +70,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		AniKick = 0;
 	}
+	/*if (GetTickCount() - fly_start >= 5000)
+	{
+		CanFly = 0;
+		Fly = 0;
+		fly_start = 0;
+	}*/
+	
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -120,8 +128,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
-					float xg, yg;
-					goomba->GetPosition(xg, yg);
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
@@ -158,9 +164,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (GetSpin() == 1)
 				{
-					goomba->SetState(GOOMBA_STATE_DIE);
-					goomba->GoombaDie();
-					goomba->SetTickCount();
+					float xg, yg;
+					goomba->GetPosition(xg, yg);
+					goomba->SetPosition(xg, yg - 30);
+					SetPosition(x, y - 5);
+					goomba->SetState(GOOMBA_STATE_DIE_FALL);
+				/*	goomba->GoombaDie();
+					goomba->SetTickCount();*/
 				}
 			}
 			else if (dynamic_cast<CKoopas*>(e->obj)) // if e->obj is Goomba 
@@ -216,7 +226,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							}
 						}
 					}
-					else if (GetSpin() == 1)
+					else if (GetSpin() == 1 && level==MARIO_LEVEL_TAIL)
 					{
 						koopas->SetState(KOOPAS_STATE_SHELL_MARIOSPIN);
 					}
@@ -268,13 +278,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					coin->SetState(COIN_STATE_DISAPPEAR);
 				}
 			}
-			if (dynamic_cast<CBall*>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<CBreakableBrick*>(e->obj)) // if e->obj is Goomba 
 			{
-				if (e->ny > 0)
+				if (e->nx != 0 &&  level==MARIO_LEVEL_TAIL && Spin==1)
 				{
-					CBall* ball = dynamic_cast<CBall*>(e->obj);
-					ball->ActivityStart();
-					ball->SetPosition(409, 70);
+					CBreakableBrick* brick = dynamic_cast<CBreakableBrick*>(e->obj);
+					brick->SetState(BRICK_STATE_DISAPPEAR);
+					
 				}
 			}
 		}
@@ -418,8 +428,8 @@ void CMario::Render()
 					if (GetState() == MARIO_STATE_FLY)
 						ani = MARIO_ANI_TAIL_FLY_RIGHT;
 					else
-					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
-					
+						ani = MARIO_ANI_TAIL_JUMP_RIGHT;
+
 				}
 
 				else if (AniHold == 1 && nx > 0)
@@ -447,7 +457,7 @@ void CMario::Render()
 					if (GetState() == MARIO_STATE_FLY)
 						ani = MARIO_ANI_TAIL_FLY_LEFT;
 					else
-					ani = MARIO_ANI_TAIL_JUMP_LEFT;
+						ani = MARIO_ANI_TAIL_JUMP_LEFT;
 				}
 				else if (nx > 0)
 					ani = MARIO_ANI_TAIL_WALKING_RIGHT;
@@ -455,6 +465,7 @@ void CMario::Render()
 					ani = MARIO_ANI_TAIL_WALKING_LEFT;
 			}
 		}
+
 
 		if (level == MARIO_LEVEL_FIRE)
 		{
@@ -583,7 +594,7 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
 		
 	}
-	
+	 
 	else
 	{
 		right = x + MARIO_SMALL_BBOX_WIDTH;

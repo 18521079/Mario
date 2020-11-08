@@ -2,7 +2,7 @@
 
 CBall::CBall()
 {
-	SetState(BALL_STATE_INACTIVITY);
+	SetState(BALL_STATE_ACTIVITY);
 }
 
 void CBall::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -19,12 +19,20 @@ void CBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x -= dx;
 	y += dy;
 
-	if (GetTickCount()- activity_start>1000 && activity==1)
+	if (y > 199)
+	{
+		x = 409;
+		y = 72;
+	}
+
+	if (GetTickCount()- activity_start>6000 && activity==1)
 	{
 		activity_start = 0;
 		SetState(BALL_STATE_ACTIVITY);
 		SetPosition(16,119);
+		activity = 0;
 	}
+	//ActivityStart();
 	
 	
 }
@@ -47,7 +55,7 @@ void CBall::SetState(int state)
 	switch (state)
 	{
 	case BALL_STATE_ACTIVITY:
-		vx = 0.01;
+		vx = 0.015;
 		vy = 0.009;
 	}
 }
