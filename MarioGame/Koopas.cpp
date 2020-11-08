@@ -23,7 +23,7 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 	top = y;
 	right = x + KOOPAS_BBOX_WIDTH;
 
-	if (state == KOOPAS_STATE_SHELL)
+	if (state == KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN)
 		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
 	else if (state == SHELL_STATE_WALKING_RIGHT || state == SHELL_STATE_WALKING_LEFT)
 	{
@@ -100,8 +100,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 	
 					SetState(SHELL_STATE_WALKING_RIGHT);
-					mario->SetAniKick(1);
-					mario->StartKick();
 				}
 				else
 					SetState(SHELL_STATE_WALKING_LEFT);
@@ -201,7 +199,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CKoopas::Render()
 {
 	int ani = KOOPAS_ANI_WALKING_LEFT;
-	if (state == KOOPAS_STATE_SHELL) {
+	if (state == KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN) {
 		ani = KOOPAS_ANI_SHELL;
 
 	}
@@ -252,7 +250,11 @@ void CKoopas::SetState(int state)
 	case KOOPAS_STATE_DIE:
 		vx = 0;
 		vy = 0;
-		
+		break;
+	case KOOPAS_STATE_SHELL_MARIOSPIN:
+		y = 100;
+		vy = 2*KOOPAS_WALKING_SPEED;
+		vx = 0;
 	}
 
 }

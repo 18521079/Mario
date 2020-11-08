@@ -25,6 +25,7 @@
 #define MARIO_STATE_FLY			700
 #define MARIO_STATE_FAST_WALKING			800
 #define MARIO_STATE_HIGHT_JUMP			1000
+#define MARIO_STATE_SPIN			1010
 
 
 
@@ -70,6 +71,7 @@
 #define MARIO_ANI_BIG_SIT_LEFT		36
 #define MARIO_ANI_TAIL_SIT_RIGHT	37
 #define MARIO_ANI_TAIL_SIT_LEFT		38
+#define MARIO_ANI_TAIL_SPIN		49
 
 #define MARIO_ANI_TAIL_FLY_RIGHT		39
 #define MARIO_ANI_TAIL_FLY_LEFT		40
@@ -110,8 +112,10 @@ class CMario : public CGameObject
 	int preidle=0;
 	int KickKoopas=0;
 	int AniKick = 0;
+	int Spin = 0;
 	DWORD untouchable_start;
 	DWORD kick_start;
+	DWORD spin_start;
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 	DWORD preIDLE_start;
@@ -138,10 +142,16 @@ public:
 	void SetAniKick(int kick) { AniKick = kick; };
 	int GetAniKick() { return AniKick; };
 	int GetHolding() { return this->Hold; };
-	void SetHolding(int hold) { this->Hold = hold; };
+	void SetHolding(int hold) {
+		this->Hold = hold;
+	};
 
 	int GetAniHolding() { return this->AniHold; };
 	void SetAniHolding(int anihold) { this->AniHold = anihold; };
+
+	void SetSpin(int s) { Spin = s; }
+	int GetSpin() { return Spin; };
+	void StartSpin() { spin_start = GetTickCount(); };
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetShoot(int s) { ShootFire = s; };

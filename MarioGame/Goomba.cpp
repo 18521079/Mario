@@ -1,4 +1,6 @@
 #include "Goomba.h"
+#include "Mario.h"
+
 CGoomba::CGoomba()
 {
 	SetState(GOOMBA_STATE_WALKING);
@@ -18,27 +20,60 @@ void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-
-	//
-	// TO-DO: make sure Goomba can interact with the world and to each of them too!
-	// 
-
-	x += dx;
-	y += dy;
-
-	if (vx < 0 && x < 0) {
-		x = 0; vx = -vx;
-	}
-
-	if (vx > 0 && x > 290) {
-		x = 290; vx = -vx;
-	}
+	
 	if (GetTickCount() - Die_start > 600 && Die == true)
 	{
 		SetState(GOOMBA_STATE_DISAPPEAR);
 	}
 
+	CGameObject::Update(dt, coObjects);
+	vy += MARIO_GRAVITY * dt;
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+
+	coEvents.clear();
+
+	if (state != GOOMBA_STATE_DIE_FALL)
+		CalcPotentialCollisions(coObjects, coEvents);
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+
+		// TODO: This is a very ugly designed function!!!!
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
+		if (ny != 0) vy = 0;
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			if (nx != 0 && ny == 0)
+			{
+				nx = -nx;
+				vx = -vx;
+			}
+			if (x < 0)
+			{
+				x = 1;
+				nx = -nx;
+				vx = -vx;
+			}
+		}
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+		if (x <= 0)
+			if (vx < 0)
+				vx = -vx;
+	}
 }
 
 void CGoomba::Render()
@@ -59,7 +94,7 @@ void CGoomba::SetState(int state)
 	switch (state)
 	{
 	case GOOMBA_STATE_DIE:
-		y += GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE + 1;
+		//y += GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
 		vy = 0;
 		break;

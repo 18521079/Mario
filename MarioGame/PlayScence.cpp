@@ -371,6 +371,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetShoot(1);
 	case DIK_P:
 		mario->SetHolding(1);
+	case DIK_S:
+		mario->SetSpin(1);
+		mario->StartSpin();
 	}
 }
 
@@ -387,7 +390,6 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetHolding(0);
 		mario->SetKickKoopas(1);
 		
-
 	}
 }
 

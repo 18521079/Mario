@@ -48,6 +48,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+
+	if (GetTickCount() - spin_start > 800)
+	{
+		spin_start = 0;
+		SetSpin(0);
+	}
 	/*if (GetTickCount() - preIDLE_start > 400)
 	{
 		preIDLE_start = 0;
@@ -114,6 +120,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
+					float xg, yg;
+					goomba->GetPosition(xg, yg);
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
@@ -122,7 +130,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
-				else if (e->nx != 0)
+				else if (e->nx != 0 && GetSpin()==0)
 				{
 					if (level == MARIO_LEVEL_BIG)
 					{
@@ -148,6 +156,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							SetPosition(x + 20, y);
 					}
 				}
+				else if (GetSpin() == 1)
+				{
+					goomba->SetState(GOOMBA_STATE_DIE);
+					goomba->GoombaDie();
+					goomba->SetTickCount();
+				}
 			}
 			else if (dynamic_cast<CKoopas*>(e->obj)) // if e->obj is Goomba 
 			{
@@ -172,34 +186,41 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				//
 				else if (nx != 0)
 				{
-					if (koopas->GetState() != KOOPAS_STATE_SHELL)
+					if (GetSpin() != 1)
 					{
-
-						if (level == MARIO_LEVEL_BIG)
+						if (koopas->GetState() != KOOPAS_STATE_SHELL)
 						{
 
-							SetLevel(MARIO_LEVEL_SMALL);
-							if (nx > 0)
-								SetPosition(x - 30, y);
-							else if (nx < 0)
-								SetPosition(x + 30, y);
+							if (level == MARIO_LEVEL_BIG)
+							{
 
-						}
-						else if (level == MARIO_LEVEL_SMALL)
-						{
-							//StartUntouchable();
-							SetState(MARIO_STATE_DIE);
-						}
-						else
-						{
-							SetLevel(MARIO_LEVEL_BIG);
-							if (nx > 0)
-								SetPosition(x - 20, y);
-							else if (nx < 0)
-								SetPosition(x + 20, y);
+								SetLevel(MARIO_LEVEL_SMALL);
+								if (nx > 0)
+									SetPosition(x - 30, y);
+								else if (nx < 0)
+									SetPosition(x + 30, y);
+
+							}
+							else if (level == MARIO_LEVEL_SMALL)
+							{
+								//StartUntouchable();
+								SetState(MARIO_STATE_DIE);
+							}
+							else
+							{
+								SetLevel(MARIO_LEVEL_BIG);
+								if (nx > 0)
+									SetPosition(x - 20, y);
+								else if (nx < 0)
+									SetPosition(x + 20, y);
+							}
 						}
 					}
-					else if(koopas->GetState() == KOOPAS_STATE_SHELL)
+					else if (GetSpin() == 1)
+					{
+						koopas->SetState(KOOPAS_STATE_SHELL_MARIOSPIN);
+					}
+					  if(koopas->GetState() == KOOPAS_STATE_SHELL && GetSpin()!=1)
 					{
 						
 						if(Hold == 1)
@@ -218,6 +239,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								koopas->SetState(SHELL_STATE_WALKING_LEFT);
 						}
 					}
+					
 				}
 				
 			}
@@ -308,7 +330,7 @@ void CMario::Render()
 				}
 				else if (AniKick == 1 && nx > 0)
 				{
-					ani = MARIO_ANI_FIRE_IDLE_RIGHT;
+					ani = MARIO_ANI_BIG_KICK_RIGHT;
 				}
 				else if (AniKick == 1 && nx < 0)
 				{
@@ -399,6 +421,7 @@ void CMario::Render()
 					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
 					
 				}
+
 				else if (AniHold == 1 && nx > 0)
 				{
 					ani = MARIO_ANI_TAIL_HOLD_RIGHT;
@@ -407,7 +430,10 @@ void CMario::Render()
 				{
 					ani = MARIO_ANI_TAIL_HOLD_LEFT;
 				}
-
+				if (Spin == 1)
+				{
+					ani = MARIO_ANI_TAIL_SPIN;
+				}
 				else if (Jump == 1 && nx > 0)
 				{
 					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
@@ -507,7 +533,7 @@ void CMario::Render()
 			vy = -MARIO_JUMP_SPEED_Y;
 			ny = 1;
 			break;
-			
+
 		case MARIO_STATE_IDLE:
 			vx = 0;
 			ny = 0;
@@ -516,27 +542,33 @@ void CMario::Render()
 			vy = -MARIO_DIE_DEFLECT_SPEED;
 			break;
 		case MARIO_STATE_SIT:
-				vx = 0;
-				ny = 0;
+			vx = 0;
+			ny = 0;
 			break;
 		case MARIO_STATE_FLY:
 			vy = -MARIO_FLY_SPEED_Y;
 			ny = 1;
 			vx = 0;
 		case MARIO_STATE_FAST_WALKING:
-				if(nx>0)
+			if (nx > 0)
 				vx = MARIO_WALKING_FAST_SPEED;
-				else
+			else
 				vx = -MARIO_WALKING_FAST_SPEED;
 			break;
 		case MARIO_STATE_HOLDKOOPAS:
 			SetHolding(1);
 			break;
-		 case MARIO_STATE_HIGHT_JUMP:
+		case MARIO_STATE_HIGHT_JUMP:
 			vy = -MARIO_JUMP_HIGHT_SPEED_Y;
 			ny = 1;
+			break;
 
+		case MARIO_STATE_SPIN:
+			vx = 0;
+			vy = 0;
+			break;
 		}
+
 	}
 
 void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
