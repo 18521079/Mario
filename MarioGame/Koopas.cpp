@@ -7,8 +7,7 @@
 
 CKoopas::CKoopas()
 {
-	SetState(KOOPAS_STATE_WALKING);
-	SetLevel(KOOPAS_LEVEL_NORMAL);
+	SetState(KOOPAS_STATE_WALKING_RIGHT);
 	vx = KOOPAS_WALKING_SPEED;
 	nx = 1;
 	vx = 0.02;
@@ -80,15 +79,33 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (vx < 0)
 				vx = -vx;
 	}
-
-	if (state == KOOPAS_STATE_SHELL)
+	/*if (state == SHELL_STATE_WALKING_RIGHT || state == SHELL_STATE_WALKING_LEFT)
 	{
+		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+		mario->SetAniKick(1);
+		mario->StartKick();
+	}*/
+	//if (state == KOOPAS_STATE_SHELL)
+	//{
+		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 		if (Hold == true) {
-			CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+			
 			if (mario->GetHolding() == false)
 			{
 				Hold = false;
 				mario->SetAniHolding(0);
+				mario->SetAniKick(1);
+				mario->StartKick();
+				if (mario->nx > 0)
+				{
+	
+					SetState(SHELL_STATE_WALKING_RIGHT);
+					mario->SetAniKick(1);
+					mario->StartKick();
+				}
+				else
+					SetState(SHELL_STATE_WALKING_LEFT);
+
 
 			}
 
@@ -104,7 +121,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			vy = 0;
 		}
-	}
+		/*else if(mario->GetKickKoopas()==1)
+		{
+			mario->SetAniKick(1);
+			mario->StartKick();
+			if (nx > 0)
+				SetState(SHELL_STATE_WALKING_RIGHT);
+			else
+				SetState(SHELL_STATE_WALKING_LEFT);
+		}*/
+
+	//}
 	//x += dx;
 	//y += dy;
 
@@ -138,11 +165,12 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(KOOPAS_STATE_PREREVIVE);
 		}
 
-		if (GetTickCount() - Revive_start > 8000 && REVIVE == true)
+		/*if (GetTickCount() - Revive_start > 8000 && REVIVE == true)
 		{
+
 			SetState(KOOPAS_STATE_WALKING);
 
-		}
+		}*/
 	//	if (state == KOOPAS_STATE_DIE)
 	//	{
 	//		if (Hold == 1)
@@ -202,17 +230,23 @@ void CKoopas::SetState(int state)
 		vx = 0;
 		vy = 0;
 		break;
-	case KOOPAS_STATE_WALKING:
+	case KOOPAS_STATE_WALKING_RIGHT:
 			vx = KOOPAS_WALKING_SPEED;
+			nx = 1;
+		break;
+	case KOOPAS_STATE_WALKING_LEFT:
+		vx = -KOOPAS_WALKING_SPEED;
+		nx = -1;
 		break;
 	case KOOPAS_STATE_PREREVIVE:
-		vx = 0;
+		vx = KOOPAS_WALKING_SPEED;
+		vy = KOOPAS_WALKING_SPEED;
 		break;
 	case SHELL_STATE_WALKING_LEFT:
-			vx = KOOPAS_WALKING_SPEED;
+			vx = 3.0f* KOOPAS_WALKING_SPEED ;
 		break;
 	case SHELL_STATE_WALKING_RIGHT:
-		vx = -KOOPAS_WALKING_SPEED;
+		vx = -3.0* KOOPAS_WALKING_SPEED;
 		break;
 	
 	case KOOPAS_STATE_DIE:

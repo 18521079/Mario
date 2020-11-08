@@ -108,8 +108,10 @@ class CMario : public CGameObject
 	int ShootFire=0;
 	int untouchable;
 	int preidle=0;
+	int KickKoopas=0;
+	int AniKick = 0;
 	DWORD untouchable_start;
-
+	DWORD kick_start;
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 	DWORD preIDLE_start;
@@ -120,6 +122,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	void StartKick() { kick_start = GetTickCount(); }
 	/*void StartPreIdle() { preidle = 1; preIDLE_start = GetTickCount(); }*/
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
@@ -129,6 +132,11 @@ public:
 	int GetJumping() { return Jump; };
 	void Reset();
 
+	void SetKickKoopas(int kickkoopas) { KickKoopas = kickkoopas; };
+	int GetKickKoopas() { return KickKoopas; };
+
+	void SetAniKick(int kick) { AniKick = kick; };
+	int GetAniKick() { return AniKick; };
 	int GetHolding() { return this->Hold; };
 	void SetHolding(int hold) { this->Hold = hold; };
 

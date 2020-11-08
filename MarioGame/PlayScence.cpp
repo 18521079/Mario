@@ -385,6 +385,8 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	{
 	case DIK_P:
 		mario->SetHolding(0);
+		mario->SetKickKoopas(1);
+		
 
 	}
 }

@@ -59,6 +59,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	}*/
 	// No collision occured, proceed normally
+	if (GetTickCount() - kick_start > 200 )
+	{
+		AniKick = 0;
+	}
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -153,15 +157,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					koopas->SetHolding(1);
 				}*/
 				//// jump on top >> kill Goomba and deflect a bit 
+		
 				if (e->ny < 0)
 				{
 					if (koopas->GetState() != KOOPAS_STATE_SHELL)
 					{
 						koopas->SetState(KOOPAS_STATE_SHELL);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
+						
 					}
 	
 				}
+				
 				//
 				else if (nx != 0)
 				{
@@ -202,10 +209,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						else
 						{
-
+							//koopas->SetMarioKick(1);
+							SetAniKick(1);
+							StartKick();
+							if (nx > 0)
+								koopas->SetState(SHELL_STATE_WALKING_RIGHT);
+							else
+								koopas->SetState(SHELL_STATE_WALKING_LEFT);
 						}
 					}
 				}
+				
 			}
 			else if (dynamic_cast<CQuestionBlock*>(e->obj)) // if e->obj is Goomba 
 			{
@@ -291,6 +305,14 @@ void CMario::Render()
 				else if (AniHold == 1 && nx < 0)
 				{
 					ani = MARIO_ANI_BIG_HOLD_LEFT;
+				}
+				else if (AniKick == 1 && nx > 0)
+				{
+					ani = MARIO_ANI_FIRE_IDLE_RIGHT;
+				}
+				else if (AniKick == 1 && nx < 0)
+				{
+					ani = MARIO_ANI_BIG_KICK_LEFT;
 				}
 				else if (Jump == 1 && nx>0)
 				{
