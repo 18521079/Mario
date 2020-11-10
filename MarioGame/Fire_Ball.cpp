@@ -94,6 +94,7 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
+
 		}
 		else
 		{
@@ -121,6 +122,22 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			y += min_ty * dy + ny * 0.4f;
 			x += min_tx * dx + nx * 0.4f;
 		}
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba
+			{
+				CGoomba* Goomba = dynamic_cast<CGoomba*>(e->obj);
+				Goomba->SetState(GOOMBA_STATE_DIE_FALL);
+				Goomba->SetSpeed(vx, -0.4);
+			}
+			else if (dynamic_cast<CKoopas*>(e->obj)) // if e->obj is Koopas
+			{
+				CKoopas* Koopas = dynamic_cast<CKoopas*>(e->obj);
+				Koopas->SetState(KOOPAS_STATE_SHELL);
+				Koopas->y = y + 3;
 
+			}
+		}
 	}
 }

@@ -2,7 +2,7 @@
 #include "GameObject.h"
 
 #define MARIO_WALKING_SPEED		0.15f 
-#define MARIO_WALKING_FAST_SPEED		0.3f 
+#define MARIO_WALKING_FAST_SPEED		0.2f 
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.5f
 #define MARIO_FLY_SPEED_Y		0.2f
@@ -12,6 +12,7 @@
 
 #define MARIO_JUMP_DEFLECT_SPEED 0.5f
 #define MARIO_GRAVITY			0.002f
+#define MARIO_GRAVITY_FALL		0.00000005f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
 
 #define MARIO_STATE_IDLE			0
@@ -26,6 +27,10 @@
 #define MARIO_STATE_FAST_WALKING			800
 #define MARIO_STATE_HIGHT_JUMP			1000
 #define MARIO_STATE_SPIN			1010
+#define MARIO_STATE_FALL			1020
+
+#define MARIO_STATE_FLY_RIGHT			1030
+#define MARIO_STATE_FLY_LEFT			1040
 
 
 
@@ -40,6 +45,9 @@
 #define MARIO_ANI_TAIL_HOLD_LEFT			22
 
 #define MARIO_ANI_TAIL_WALKING_LEFT			45
+
+#define MARIO_ANI_TAIL_WALKING_FAST_RIGHT			52
+#define MARIO_ANI_TAIL_WALKING_FAST_LEFT			53
 
 
 #define MARIO_ANI_BIG_WALKING_RIGHT			4
@@ -76,6 +84,9 @@
 #define MARIO_ANI_TAIL_FLY_RIGHT		39
 #define MARIO_ANI_TAIL_FLY_LEFT		40
 
+#define MARIO_ANI_TAIL_FALL_RIGHT		50
+#define MARIO_ANI_TAIL_FALL_LEFT		51
+
 #define MARIO_ANI_SMALL_HOLD_RIGHT		41
 #define MARIO_ANI_SMALL_HOLD_LEFT		42
 #define MARIO_ANI_BIG_HOLD_RIGHT		43
@@ -109,19 +120,27 @@ class CMario : public CGameObject
 	int AniHold = 0;
 	int ShootFire=0;
 	int untouchable;
-	int preidle=0;
+	//int preidle=0;
 	int KickKoopas=0;
 	int AniKick = 0;
 	int Spin = 0;
-	/*int Fly=0;
+
+	int FirstTimeFly=0;
 	int CanFly=0;
-	DWORD fly_start = 0;*/
+	DWORD fly_start = 0;
+
+	//DWORD flying_start = 0;
 	DWORD untouchable_start;
 	DWORD kick_start;
 	DWORD spin_start;
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 	DWORD preIDLE_start;
+
+	/*int Flying = 0;
+	int Falling = 0;
+	int CanFall = 0;
+	int CanFly = 0;*/
 
 public:
 
@@ -159,13 +178,32 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void SetShoot(int s) { ShootFire = s; };
 	int GetShoot() { return ShootFire; };
-	/*int GetFly() { return Fly; };
-	void SetFly(int fly) { Fly = fly; };
+	int GetFirstTimeFly() { return FirstTimeFly; };
+	void SetFirstTimeFly(int fly) { FirstTimeFly = fly; };
 	int GetCanFly() { return CanFly; };
 	void SetCanFly(int fly) { CanFly = fly; };
 
+	void SetFlyingStart() { fly_start = GetTickCount(); }
 	DWORD GetFlyingStart() { return fly_start; };
-	void StartFlying() { fly_start = GetTickCount(); }*/
-	
+	void StartFlying() { fly_start = GetTickCount(); }
+
+	/*int GetFlying() { return Flying; };
+	void SetFlying(int flying) { Flying = flying; };
+
+	int GetFalling() { return Falling; };
+	void SetFalling(int falling) { Falling = falling; };
+
+	int GetCanFly() { return CanFly; };
+	void SetCanFly(int canfly) { CanFly = canfly; };
+
+	int GetCanFall() { return CanFall; };
+	void SetCanFall(int canfall) { CanFall = canfall; };*/
+
+	/*void StartFlying() { flying_start = GetTickCount(); }
+	DWORD GetFlyingStart()
+	{
+		return flying_start;
+	}*/
+
 
 };

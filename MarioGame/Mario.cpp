@@ -14,6 +14,7 @@
 #include"Ball.h"
 #include"Coin.h"
 #include"Breakable_Brick.h"
+#include"Flower.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -32,7 +33,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 	// Simple fall down
-	vy += MARIO_GRAVITY * dt;
+	if (state != MARIO_STATE_FALL)
+	{
+		vy += MARIO_GRAVITY * dt;
+	}
+	else
+	{
+		vy += MARIO_GRAVITY_FALL * dt;
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -66,17 +74,29 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	}*/
 	// No collision occured, proceed normally
-	if (GetTickCount() - kick_start > 200 )
+	if (GetTickCount() - kick_start > 500 )
 	{
 		AniKick = 0;
 	}
-	/*if (GetTickCount() - fly_start >= 5000)
+
+	/*if (GetTickCount() - flying_start >= 7000)
 	{
 		CanFly = 0;
-		Fly = 0;
-		fly_start = 0;
-	}*/
+		Flying = 0;
+		flying_start = 0;
+	}
+	if (!CanFly)
+		CanFall = true;*/
 	
+	DebugOut(L"state \n", state);
+	//ebugOut(L"thoi gian la %d \n", GetTickCount() - fly_start);
+
+	if (FirstTimeFly == 1 && GetTickCount() - fly_start >= 5000)
+	{
+		CanFly = 0;
+		SetState(MARIO_STATE_FALL);
+	}
+
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -104,11 +124,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		if (ny != 0)
 		{
+			FirstTimeFly = 0;
 			vy = 0;
 			if (GetJumping() == 1)
 			{
 				Jump = 0;
 			}
+			//CanFall = 0;
 		}
 
 		//
@@ -229,6 +251,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else if (GetSpin() == 1 && level==MARIO_LEVEL_TAIL)
 					{
 						koopas->SetState(KOOPAS_STATE_SHELL_MARIOSPIN);
+						SetPosition(x, y - 5);
 					}
 					  if(koopas->GetState() == KOOPAS_STATE_SHELL && GetSpin()!=1)
 					{
@@ -287,6 +310,36 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					
 				}
 			}
+			if (dynamic_cast<CBall*>(e->obj)) // if e->obj is Goomba 
+			{
+
+				CBall* ball = dynamic_cast<CBall*>(e->obj);
+				if (level == MARIO_LEVEL_SMALL)
+					state = MARIO_STATE_DIE;
+				else if (level == MARIO_LEVEL_BIG)
+					level = MARIO_LEVEL_SMALL;
+				else
+					level = MARIO_LEVEL_BIG;
+
+			}
+			if (dynamic_cast<CFlower*>(e->obj)) // if e->obj is Goomba 
+			{
+
+				CFlower* flower = dynamic_cast<CFlower*>(e->obj);
+				if (nx > 0)
+					SetPosition(x - 20, y);
+				else if (nx < 0)
+					SetPosition(x + 20, y);
+
+				if (level == MARIO_LEVEL_SMALL)
+					state = MARIO_STATE_DIE;
+				else if (level == MARIO_LEVEL_BIG)
+					level = MARIO_LEVEL_SMALL;
+				else
+					level = MARIO_LEVEL_BIG;
+
+			}
+
 		}
 	}
 
@@ -304,6 +357,10 @@ void CMario::Render()
 	{
 		if (level == MARIO_LEVEL_BIG)
 		{
+			/*if (nx > 0 && vx < 0)
+			{
+				ani = MARIO_ANI_TAIL_WALKING_FAST_RIGHT;
+			}*/
 			if (state == MARIO_STATE_IDLE)
 			{
 			
@@ -324,6 +381,7 @@ void CMario::Render()
 				else /*if(nx<0)*/
 					ani = MARIO_ANI_BIG_SIT_LEFT;
 			}
+
 			else
 			{
 				if (ny > 0 && nx > 0 )
@@ -406,6 +464,18 @@ void CMario::Render()
 		
 		if (level == MARIO_LEVEL_TAIL)
 		{
+			if (CanFly == 1)
+			{
+				if (nx > 0) ani = MARIO_ANI_TAIL_FLY_RIGHT;
+				else ani = MARIO_ANI_TAIL_FLY_LEFT;
+
+			}
+			if (state == MARIO_STATE_FLY)
+			{
+				if (nx > 0) ani = MARIO_ANI_TAIL_FLY_RIGHT;
+				else ani = MARIO_ANI_TAIL_FLY_LEFT;
+			}
+		
 			if (state == MARIO_STATE_IDLE)
 			{
 				if (vx == 0)
@@ -419,20 +489,25 @@ void CMario::Render()
 				if (nx > 0)
 					ani = MARIO_ANI_TAIL_SIT_RIGHT;
 				else /*if(nx<0)*/
-					ani = MARIO_ANI_TAIL_SIT_LEFT;
+					ani = MARIO_ANI_TAIL_FLY_LEFT;
+			}
+			else if (state == MARIO_STATE_FAST_WALKING)
+			{
+				if (nx > 0) ani = MARIO_ANI_TAIL_WALKING_FAST_RIGHT;
+				else ani = MARIO_ANI_TAIL_WALKING_FAST_LEFT;
+			}
+			
+			else if (state == MARIO_STATE_FALL)
+			{
+				if (nx > 0)
+					ani = MARIO_ANI_TAIL_FALL_RIGHT;
+				else /*if(nx<0)*/
+					ani = MARIO_ANI_TAIL_FALL_LEFT;
 			}
 			else
 			{
-				if (ny > 0 && nx > 0)
-				{
-					if (GetState() == MARIO_STATE_FLY)
-						ani = MARIO_ANI_TAIL_FLY_RIGHT;
-					else
-						ani = MARIO_ANI_TAIL_JUMP_RIGHT;
-
-				}
-
-				else if (AniHold == 1 && nx > 0)
+				
+				 if (AniHold == 1 && nx > 0)
 				{
 					ani = MARIO_ANI_TAIL_HOLD_RIGHT;
 				}
@@ -452,13 +527,7 @@ void CMario::Render()
 				{
 					ani = MARIO_ANI_TAIL_JUMP_LEFT;
 				}
-				else if (ny > 0 && nx < 0)
-				{
-					if (GetState() == MARIO_STATE_FLY)
-						ani = MARIO_ANI_TAIL_FLY_LEFT;
-					else
-						ani = MARIO_ANI_TAIL_JUMP_LEFT;
-				}
+				
 				else if (nx > 0)
 					ani = MARIO_ANI_TAIL_WALKING_RIGHT;
 				else
@@ -542,7 +611,7 @@ void CMario::Render()
 		case MARIO_STATE_JUMP:
 			// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 			vy = -MARIO_JUMP_SPEED_Y;
-			ny = 1;
+			//ny = 1;
 			break;
 
 		case MARIO_STATE_IDLE:
@@ -557,9 +626,15 @@ void CMario::Render()
 			ny = 0;
 			break;
 		case MARIO_STATE_FLY:
-			vy = -MARIO_FLY_SPEED_Y;
-			ny = 1;
+			vy = -MARIO_FLY_SPEED_Y*1.35;
 			vx = 0;
+			ny = 1;
+			if (nx > 0)
+				vx = MARIO_WALKING_FAST_SPEED*1.35;
+			else
+				vx = -MARIO_WALKING_FAST_SPEED*1.35;
+			break;
+
 		case MARIO_STATE_FAST_WALKING:
 			if (nx > 0)
 				vx = MARIO_WALKING_FAST_SPEED;
@@ -571,13 +646,26 @@ void CMario::Render()
 			break;
 		case MARIO_STATE_HIGHT_JUMP:
 			vy = -MARIO_JUMP_HIGHT_SPEED_Y;
-			ny = 1;
+			//ny = 1;
 			break;
 
 		case MARIO_STATE_SPIN:
 			vx = 0;
 			vy = 0;
 			break;
+		/*case MARIO_STATE_FLY_RIGHT:
+			vx = MARIO_WALKING_SPEED;
+			vy = MARIO_WALKING_SPEED;
+			nx = 1;
+			break;*/
+		/*case MARIO_STATE_FLY_LEFT:
+			vx = -MARIO_WALKING_SPEED;
+			vy = MARIO_WALKING_SPEED;
+			nx = -1;
+			break;*/
+		/*case MARIO_STATE_FALL:
+			vy = 0.08;
+			break;*/
 		}
 
 	}
@@ -594,7 +682,7 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		bottom = y + MARIO_BIG_BBOX_HEIGHT;
 		
 	}
-	 
+	
 	else
 	{
 		right = x + MARIO_SMALL_BBOX_WIDTH;
