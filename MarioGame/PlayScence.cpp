@@ -394,11 +394,12 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		break;
 	case DIK_F:
+		mario->SetCanFly(1);
+		mario->ny = 1;
 		if (mario->GetFirstTimeFly() == 0)
 		{
 			mario->SetFirstTimeFly(1);
 			mario->SetFlyingStart();
-			mario->SetCanFly(1);
 		}
 		if (mario->GetFirstTimeFly() == 1 && GetTickCount() - mario->GetFlyingStart() <= 5000)
 		{
@@ -407,6 +408,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		else
 		{
 			mario->SetState(MARIO_STATE_FALL);
+			mario->SetCanFly(0);
 		}
 		
 		break;

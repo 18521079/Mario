@@ -21,6 +21,7 @@ CMario::CMario(float x, float y) : CGameObject()
 	level = MARIO_LEVEL_SMALL;
 	SetState(MARIO_STATE_IDLE);
 	SetHolding(0);
+	CanFly = 0;
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -39,7 +40,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		vy += MARIO_GRAVITY_FALL * dt;
+		vy += MARIO_GRAVITY_FALL/9000 * dt;
 	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -88,8 +89,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!CanFly)
 		CanFall = true;*/
 	
-	DebugOut(L"state \n", state);
-	//ebugOut(L"thoi gian la %d \n", GetTickCount() - fly_start);
+	DebugOut(L"state %d \n",  state);
+	//DebugOut(L"thoi gian la %d \n", GetTickCount() - fly_start);
+
+	//DebugOut(L"canfly la %d \n", CanFly);
 
 	if (FirstTimeFly == 1 && GetTickCount() - fly_start >= 5000)
 	{
@@ -125,6 +128,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0)
 		{
 			FirstTimeFly = 0;
+			CanFly = 0;
 			vy = 0;
 			if (GetJumping() == 1)
 			{
@@ -464,6 +468,8 @@ void CMario::Render()
 		
 		if (level == MARIO_LEVEL_TAIL)
 		{
+			
+
 			if (CanFly == 1)
 			{
 				if (nx > 0) ani = MARIO_ANI_TAIL_FLY_RIGHT;
@@ -476,7 +482,7 @@ void CMario::Render()
 				else ani = MARIO_ANI_TAIL_FLY_LEFT;
 			}
 		
-			if (state == MARIO_STATE_IDLE)
+			if (state == MARIO_STATE_IDLE && CanFly!=1)
 			{
 				if (vx == 0)
 				{
@@ -489,7 +495,7 @@ void CMario::Render()
 				if (nx > 0)
 					ani = MARIO_ANI_TAIL_SIT_RIGHT;
 				else /*if(nx<0)*/
-					ani = MARIO_ANI_TAIL_FLY_LEFT;
+					ani = MARIO_ANI_TAIL_SIT_LEFT;
 			}
 			else if (state == MARIO_STATE_FAST_WALKING)
 			{
@@ -528,9 +534,9 @@ void CMario::Render()
 					ani = MARIO_ANI_TAIL_JUMP_LEFT;
 				}
 				
-				else if (nx > 0)
+				else if (nx > 0 && CanFly != 1)
 					ani = MARIO_ANI_TAIL_WALKING_RIGHT;
-				else
+				else if(nx < 0 && CanFly != 1)
 					ani = MARIO_ANI_TAIL_WALKING_LEFT;
 			}
 		}
