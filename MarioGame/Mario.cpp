@@ -89,10 +89,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!CanFly)
 		CanFall = true;*/
 	
-	DebugOut(L"state %d \n",  state);
+	//DebugOut(L"state %d \n",  state);
 	//DebugOut(L"thoi gian la %d \n", GetTickCount() - fly_start);
 
 	//DebugOut(L"canfly la %d \n", CanFly);
+	DebugOut(L"speedlevel %d \n", GetspeedLevel());
 
 	if (FirstTimeFly == 1 && GetTickCount() - fly_start >= 5000)
 	{
@@ -497,10 +498,22 @@ void CMario::Render()
 				else /*if(nx<0)*/
 					ani = MARIO_ANI_TAIL_SIT_LEFT;
 			}
+			
+			// chua sua dc van de lai
 			else if (state == MARIO_STATE_FAST_WALKING)
 			{
 				if (nx > 0) ani = MARIO_ANI_TAIL_WALKING_FAST_RIGHT;
 				else ani = MARIO_ANI_TAIL_WALKING_FAST_LEFT;
+			}
+
+			// 
+			else if (state == MARIO_STATE_FAST_WALKING_LEFT)
+			{
+				 ani = MARIO_ANI_TAIL_WALKING_FAST_LEFT;
+			}
+			else if (state == MARIO_STATE_FAST_WALKING_RIGHT)
+			{
+				ani = MARIO_ANI_TAIL_WALKING_FAST_RIGHT;
 			}
 			
 			else if (state == MARIO_STATE_FALL)
@@ -640,12 +653,20 @@ void CMario::Render()
 			else
 				vx = -MARIO_WALKING_FAST_SPEED*1.35;
 			break;
-
 		case MARIO_STATE_FAST_WALKING:
 			if (nx > 0)
-				vx = MARIO_WALKING_FAST_SPEED;
+			{
+				if (vx < MARIO_WALKING_FAST_SPEED)
+					vx = 0.5f * MARIO_WALKING_SPEED;
+				else
+					vx = MARIO_WALKING_FAST_SPEED;
+			}
 			else
-				vx = -MARIO_WALKING_FAST_SPEED;
+			{
+				if (vx < -MARIO_WALKING_FAST_SPEED)
+					vx = -0.5f * MARIO_WALKING_SPEED;
+				else vx = -MARIO_WALKING_FAST_SPEED;
+			}
 			break;
 		case MARIO_STATE_HOLDKOOPAS:
 			SetHolding(1);
@@ -672,7 +693,23 @@ void CMario::Render()
 		/*case MARIO_STATE_FALL:
 			vy = 0.08;
 			break;*/
+		case MARIO_STATE_FAST_WALKING_LEFT:
+			nx = -1;
+			if (vx <= -0.4f)
+			{
+				vx = -0.4f;
+			}
+			else vx = -0.5f * MARIO_WALKING_SPEED + -0.015 * speedLevel;
+			break;
+		case MARIO_STATE_FAST_WALKING_RIGHT:
+			nx = 1;
+			if (vx >= 0.4f)
+			{
+				vx = 0.4f;
+			}
+			else vx = 0.5f * MARIO_WALKING_SPEED + 0.015 * speedLevel;
 		}
+		
 
 	}
 

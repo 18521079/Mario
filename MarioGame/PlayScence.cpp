@@ -289,7 +289,7 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 	CGame::GetInstance()->SetCamPos(round(cx), 0.0f /*cy*/);
-	if(player->GetLevel() == MARIO_LEVEL_TAIL /*&& player->GetState()==MARIO_STATE_FLY*/)
+	if(player->GetLevel() == MARIO_LEVEL_TAIL /*&& player->GetState()==MARIO_STATE_FLY*/ )
 	{
 		if (cy > -40)
 		{
@@ -380,10 +380,13 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_D:
 		if (mario->GetFirstTimeFly() == 0)
 		{
-			mario->SetFirstTimeFly(1);
-			mario->SetFlyingStart();
+			if (mario->vx > MARIO_WALKING_SPEED)
+			{
+				mario->SetFirstTimeFly(1);
+				mario->SetFlyingStart();
+			}
 		}
-		mario->SetCanFly(1);
+		
 		if (mario->GetFirstTimeFly() == 1 && GetTickCount() - mario->GetFlyingStart() <= 5000)
 		{
 			mario->SetState(MARIO_STATE_FLY);
@@ -394,25 +397,29 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		break;
 	case DIK_F:
-		mario->SetCanFly(1);
-		mario->ny = 1;
-		if (mario->GetFirstTimeFly() == 0)
-		{
-			mario->SetFirstTimeFly(1);
-			mario->SetFlyingStart();
-		}
-		if (mario->GetFirstTimeFly() == 1 && GetTickCount() - mario->GetFlyingStart() <= 5000)
-		{
-			mario->SetState(MARIO_STATE_FLY);
-		}
-		else
-		{
-			mario->SetState(MARIO_STATE_FALL);
-			mario->SetCanFly(0);
-		}
-		
-		break;
+		/*if (mario->vx > 0)
+		{*/
+			if (mario->vx > 0.2f)
+			{
+				mario->SetCanFly(1);
+			}
+			if (mario->GetFirstTimeFly() == 0 && mario->GetCanFly()==1)
+			{
+				mario->SetFirstTimeFly(1);
+				mario->SetFlyingStart();
+			}
+			if (mario->GetFirstTimeFly() == 1 && GetTickCount() - mario->GetFlyingStart() <= 5000)
+			{
+				mario->SetState(MARIO_STATE_FLY);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_FALL);
+				mario->SetCanFly(0);
+			}
 
+			break;
+		/*}*/
 
 	}
 }
@@ -452,9 +459,41 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	if (game->IsKeyDown(DIK_RIGHT))
-		mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		if (game->IsKeyDown(DIK_LSHIFT))
+		{
+			if (mario->Getspeedup_start() == 0)
+				mario->StartSpeedup();
+			mario->SetState(MARIO_STATE_FAST_WALKING_RIGHT);
+			if (GetTickCount() - mario->Getspeedup_start() > 30)
+			{
+				mario->SetspeedLevel(mario->GetspeedLevel() + 1);
+				mario->Setspeedup_start(0);
+			}
+		}
+		else
+		{
+
+			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		}
 	else if (game->IsKeyDown(DIK_LEFT))
-		mario->SetState(MARIO_STATE_WALKING_LEFT);
+	{
+		if (game->IsKeyDown(DIK_LSHIFT))
+		{
+			if (mario->Getspeedup_start() == 0)
+				mario->StartSpeedup();
+				mario->SetState(MARIO_STATE_FAST_WALKING_LEFT);
+				if (GetTickCount() - mario->Getspeedup_start() > 30 && mario->GetspeedLevel() <= 100)
+				{
+					mario->SetspeedLevel(mario->GetspeedLevel() + 1);
+					mario->Setspeedup_start(0);
+				}
+		}
+		else
+		{
+			mario->SetspeedLevel(0);
+			mario->SetState(MARIO_STATE_WALKING_LEFT);
+		}
+	}
 	else if (game->IsKeyDown(DIK_LSHIFT))
 		mario->SetState(MARIO_STATE_KICK);
 

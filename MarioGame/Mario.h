@@ -32,6 +32,8 @@
 #define MARIO_STATE_FLY_RIGHT			1030
 #define MARIO_STATE_FLY_LEFT			1040
 
+#define MARIO_STATE_FAST_WALKING_RIGHT			1050
+#define MARIO_STATE_FAST_WALKING_LEFT			1060
 
 
 #define MARIO_ANI_BIG_IDLE_RIGHT		0
@@ -136,7 +138,9 @@ class CMario : public CGameObject
 	float start_x;			// initial position of Mario at scene
 	float start_y;
 	DWORD preIDLE_start;
+	DWORD speedup_start;
 
+	int speedLevel = 1;
 	/*int Flying = 0;
 	int Falling = 0;
 	int CanFall = 0;
@@ -205,5 +209,10 @@ public:
 		return flying_start;
 	}*/
 
-
+	DWORD Getspeedup_start(){ return speedup_start; }
+	void Setspeedup_start(int value) { speedup_start = value; };
+	
+	void StartSpeedup() { speedup_start = GetTickCount(); }
+	int GetspeedLevel() { return speedLevel; }
+	void SetspeedLevel(int value) { speedLevel = value; }
 };
