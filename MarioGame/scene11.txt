@@ -113,6 +113,14 @@ F# id	file_path	transparent_color_r	g	b
 44008	1214	47	1229	74	0
 44009	1195	48	1211	74	0
 
+
+
+#quay đầu phải
+440054	155	140	171	170	0
+
+#quay đầu trái
+440055	1509	139	1525	169	0
+	
 #============== MARIO NHỎ ===============
 # Đứng yên phải
 10021	259	9	271	24	0
@@ -417,11 +425,6 @@ F# id	file_path	transparent_color_r	g	b
 40012	228	91	244	123	60
 40013	245	91	261	123	60
 
-#nấm
-4490	156	121	172	137	20
-
-#lá
-4491	180	123	196	137	20
 
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -524,6 +527,13 @@ F# id	file_path	transparent_color_r	g	b
 #lớn cầm rùa phải
 440003	44006	100	44007	100
 440004	44008	100	44009	100
+
+
+#lớn quay đầu phải
+4400052	440054	100
+
+#lớn quay đầu trái
+4400053	440055	100	
 
 
 
@@ -706,10 +716,6 @@ F# id	file_path	transparent_color_r	g	b
 #nhìn phải
 4011	40012	100	40013	100
 
-#nấm
-4490	4490	100
-#lá
-4491	4491	100
 
 # id	ani1	ani2	ani3
 #
@@ -724,8 +730,8 @@ F# id	file_path	transparent_color_r	g	b
 #đuôi bay phải 39, đuôi nay trái 40
 #nhỏ cầm rùa trái 41, nhỏ cầm rùa phải 42, đuôi đi trái 45, đuôi cầm phải 46
 #lớn cầm rùa phải 43, lớn cầm rùa trái 44
-#lửa cầm phải: 47, lửa cầm trái 48
-#đuôi xoay 49. vẫy đuôi phải 50, vẫy đuôi trái 51, chạy phải 52, chạy trái 53
+#lửa cầm phải: 47, lửa cầm trái 48,
+#đuôi xoay 49. vẫy đuôi phải 50, vẫy đuôi trái 51, chạy phải 52, chạy trái 53, lớn chạy phải 54, lớn chạy trái 55, lón quau đầu phải 56, trái 57
 
 1	400	401	402	403	500	501	502	503	599	504	505	506	507	508	509	510	511	512	513	550	551	560	561	562	563	564	565	530	531	5040	5041	5042	5043	5044	5045	4000	4001	17009	170010	170011	170012	440001	440002	440003	440004	440005	440006	44007	44008	440020	440030	440031	440032	440033
 601	601
@@ -864,11 +870,6 @@ F# id	file_path	transparent_color_r	g	b
 # gạch cứng
 5081	5081
 
-#nấm
-4490	4490
-#lá
-4491	4491
-
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
@@ -936,14 +937,9 @@ F# id	file_path	transparent_color_r	g	b
 1	768	150	604
 1	784	150	604
 
-# gạch hỏi chấm--(khúc đường lên)---
-#lá
-12	768	134	4491
+# gạch hỏi chấm--(khúc đường lên)
 3	768	134	395
-
-
 3	800	118	395
----
 
 1	800	150	604
 1	816	150	604
@@ -1083,16 +1079,11 @@ F# id	file_path	transparent_color_r	g	b
 2	200	135	1051
 2	216	135	1051
 
-#gạch hỏi chấm----
+#gạch hỏi chấm
 3	200	87	395
 3	216	87	395
 3	232	55	395
-#nấm
-12	248	55	4490
-
-3	248	55	395
-----------
-
+3	248	55	395	
 
 #gach xanh
 2	298	135	630
@@ -1350,6 +1341,7 @@ F# id	file_path	transparent_color_r	g	b
 6	673	119	657
 6	689	119	657
 6	705	119	658
+
 
 #bóng đen
 2	721	143	1071
@@ -1632,7 +1624,6 @@ F# id	file_path	transparent_color_r	g	b
 6	1530	119	657
 6	1546	119	657
 6	1562	119	658
-
 
 
 #bóng đen
@@ -2201,7 +2192,6 @@ F# id	file_path	transparent_color_r	g	b
 2	3182	-9	8802
 
 
-#nấm
 
 
 #bóng:

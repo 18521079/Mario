@@ -15,6 +15,7 @@
 #include"Coin.h"
 #include"Breakable_Brick.h"
 #include"Flower.h"
+#include "Item.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -93,7 +94,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//DebugOut(L"thoi gian la %d \n", GetTickCount() - fly_start);
 
 	//DebugOut(L"canfly la %d \n", CanFly);
-	DebugOut(L"speedlevel %d \n", GetspeedLevel());
+	
 
 	if (FirstTimeFly == 1 && GetTickCount() - fly_start >= 5000)
 	{
@@ -306,7 +307,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					coin->SetState(COIN_STATE_DISAPPEAR);
 				}
 			}
-			if (dynamic_cast<CBreakableBrick*>(e->obj)) // if e->obj is Goomba 
+			else if (dynamic_cast<CBreakableBrick*>(e->obj)) // if e->obj is Goomba 
 			{
 				if (e->nx != 0 &&  level==MARIO_LEVEL_TAIL && Spin==1)
 				{
@@ -315,7 +316,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					
 				}
 			}
-			if (dynamic_cast<CBall*>(e->obj)) // if e->obj is Goomba 
+			else if (dynamic_cast<CBall*>(e->obj)) // if e->obj is Goomba 
 			{
 
 				CBall* ball = dynamic_cast<CBall*>(e->obj);
@@ -327,7 +328,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					level = MARIO_LEVEL_BIG;
 
 			}
-			if (dynamic_cast<CFlower*>(e->obj)) // if e->obj is Goomba 
+			else if (dynamic_cast<CPortal*>(e->obj))
+			{
+			CPortal* p = dynamic_cast<CPortal*>(e->obj);
+			CGame::GetInstance()->SwitchScene(p->GetSceneId());
+			}
+
+			else if (dynamic_cast<CItem*>(e->obj))
+			{
+			CItem* item = dynamic_cast<CItem*>(e->obj);
+			//if (item->GetState() == ITEM_STATE_DISAPPEAR)
+			//{
+			//	if (level == MARIO_LEVEL_SMALL)
+			//	{
+			//		SetPosition(x, y - 20.0f);
+			//	}
+			//	level++;
+			//	//item->SetState(ITEM_STATE_DISAPPEAR);
+			//}
+			level++;
+			}
+			else if (dynamic_cast<CFlower*>(e->obj)) // if e->obj is Goomba 
 			{
 
 				CFlower* flower = dynamic_cast<CFlower*>(e->obj);
@@ -368,7 +389,7 @@ void CMario::Render()
 			}*/
 			if (state == MARIO_STATE_IDLE)
 			{
-			
+				
 				if (vx == 0)
 				{
 					if (nx > 0)
@@ -382,14 +403,33 @@ void CMario::Render()
 			else if (state == MARIO_STATE_SIT)
 			{
 				if (nx > 0)
-					ani = MARIO_ANI_BIG_SIT_RIGHT;
+					//ani = MARIO_ANI_BIG_SIT_RIGHT;
+					ani = MARIO_ANI_BIG_BRAKING_LEFT;
 				else /*if(nx<0)*/
 					ani = MARIO_ANI_BIG_SIT_LEFT;
 			}
 
+			/*else if (state == MARIO_STATE_FAST_WALKING_LEFT)
+			{
+				ani = MARIO_ANI_BIG_WALKING_FAST_LEFT;
+			}
+			else if (state == MARIO_STATE_FAST_WALKING_RIGHT)
+			{
+				ani = MARIO_ANI_BIG_WALKING_FAST_RIGHT;
+			}*/
+
 			else
 			{
-				if (ny > 0 && nx > 0 )
+				/* if (nx > 0 && vx < 0)
+				{
+					ani = MARIO_ANI_BIG_BRAKING_LEFT;
+				}
+				else if (nx < 0 && vx > 0)
+				{
+					ani = MARIO_ANI_BIG_BRAKING_RIGHT;
+				}*/
+
+				 if (ny > 0 && nx > 0 )
 					ani = MARIO_ANI_BIG_JUMP_RIGHT;
 				else if (ny > 0 && nx < 0)
 					ani = MARIO_ANI_BIG_JUMP_LEFT;
