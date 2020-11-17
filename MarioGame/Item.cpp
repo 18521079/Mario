@@ -8,7 +8,14 @@
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	
+	if (state == ITEM_STATE_LEAF)
+	{
+		y += 0.03 * dt;
+	}
+	else
+	{
+
+	}
 	
 	
 }
