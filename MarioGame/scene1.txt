@@ -1,7 +1,7 @@
 F# id	file_path	transparent_color_r	g	b
 [TEXTURES]
 0	textures\mario.png	0	255	255
-20	textures\misc.png	176	224	248
+20	textures\misc.png	166	185	255
 
 30	textures\tiles.png	255	128	192
 40	textures\enemies.png	163	73	164
@@ -938,10 +938,10 @@ F# id	file_path	transparent_color_r	g	b
 
 # gạch hỏi chấm--(khúc đường lên)---
 #lá
-12	768	134	4491
+
 3	768	134	395
 
-
+12	852	87	4491
 3	800	118	395
 ---
 
@@ -1084,7 +1084,10 @@ F# id	file_path	transparent_color_r	g	b
 2	216	135	1051
 
 #gạch hỏi chấm----
+12	200	90	1142
 3	200	87	395
+
+
 3	216	87	395
 3	232	55	395
 #nấm

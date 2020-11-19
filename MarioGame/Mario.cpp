@@ -336,18 +336,42 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			else if (dynamic_cast<CItem*>(e->obj))
 			{
-			CItem* item = dynamic_cast<CItem*>(e->obj);
-			//if (item->GetState() == ITEM_STATE_DISAPPEAR)
-			//{
-			//	if (level == MARIO_LEVEL_SMALL)
-			//	{
-			//		SetPosition(x, y - 20.0f);
-			//	}
-			//	level++;
-			//	//item->SetState(ITEM_STATE_DISAPPEAR);
-			//}
-			level++;
+				CItem* item = dynamic_cast<CItem*>(e->obj);
+				/*int dem = 0;
+				dem = item->GetActivate() + 1;*/
+
+				if (e->ny > 0)
+				{
+					/*if (dem % 2 != 0)*/
+					/*{*/
+
+						if (item->x == 248 && item->y == 55)
+						{
+							item->y = 40;
+							item->SetState(ITEM_STATE_MUSHROOM);
+						}
+						else if (item->x == 852 && item->y == 87)
+						{
+							item->y = 80;
+							item->SetState(ITEM_STATE_LEAF);
+						}
+						else
+						{
+							item->SetState(ITEM_STATE_COIN);
+						}
+
+					/*}*/
+
+				}
+				else if (nx != 0 && item->GetState() == ITEM_STATE_LEAF|| item->GetState() == ITEM_STATE_LEAF == item->GetState() == ITEM_STATE_MUSHROOM)
+			{
+				level++;
+				SetPosition(x, y - 16.0f);
+				item->SetState(ITEM_STATE_DISAPPEAR);
 			}
+			
+			}
+			
 			else if (dynamic_cast<CFlower*>(e->obj)) // if e->obj is Goomba 
 			{
 
