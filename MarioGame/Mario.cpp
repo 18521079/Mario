@@ -90,7 +90,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!CanFly)
 		CanFall = true;*/
 	
-	//DebugOut(L"state %d \n",  state);
+	//DebugOut(L"touch %d \n",  touch);
 	//DebugOut(L"thoi gian la %d \n", GetTickCount() - fly_start);
 
 	//DebugOut(L"canfly la %d \n", CanFly);
@@ -344,7 +344,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					/*if (dem % 2 != 0)*/
 					/*{*/
-
+					item->SetTouch(1);
+					//DebugOut(L"touch %d \n", item->GetTouch());
 						if (item->x == 248 && item->y == 55)
 						{
 							item->y = 40;

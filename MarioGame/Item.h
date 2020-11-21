@@ -12,14 +12,14 @@
 
 class CItem : public CGameObject
 {
-	int activate = 0;
+	int touch = 0;
 public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void SetState(int state);
-	int GetActivate() { return activate; };
-	void SetActivate(int act) { activate = act; };
+	int GetTouch() { return touch; };
+	void SetTouch(int act) { touch = act; };
 	
 	
 };

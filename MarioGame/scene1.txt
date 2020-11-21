@@ -1084,11 +1084,12 @@ F# id	file_path	transparent_color_r	g	b
 2	216	135	1051
 
 #gạch hỏi chấm----
-12	200	90	1142
+12	200	87	1142
 3	200	87	395
 
-
+12	216	87	1142
 3	216	87	395
+
 3	232	55	395
 #nấm
 12	248	55	4490
@@ -1333,7 +1334,9 @@ F# id	file_path	transparent_color_r	g	b
 2	561	111	1072
 
 #gạch chấm hỏi
+12	467	55	1142
 3	467	55	395
+
 	
 #xanh lá bự
 2	593	135	650
@@ -1568,6 +1571,7 @@ F# id	file_path	transparent_color_r	g	b
 
 #gạch hỏi chấm
 3	1690	134	395
+
 
 #gạch hồng
 2	1482	135	620

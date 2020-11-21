@@ -2,6 +2,7 @@
 #include "Item.h"
 #include "Utils.h"
 #include "Mario.h"
+#include"QuestionBlock.h"
 
 
 
@@ -13,7 +14,20 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 	
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CQuestionBlock*>(obj))
+		{
+			CQuestionBlock* question = dynamic_cast<CQuestionBlock*>(obj);
+			if (GetTouch() == 1)
+			{
+				if(x==question->x )
+				question->SetState(BLOCK_STATE_INACTIVITY);
+			}
 
+		}
+	}
 	
 	if (state == ITEM_STATE_MUSHROOM)
 	{
@@ -57,15 +71,17 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else if (state == ITEM_STATE_COIN)
 	{
-		y -= 0.09 * dt;
-		/*if (y < 80)
+		
+		y -= dy;
+
+		if (y < 20 && vy>0)
 		{
-			y += 0.02 * dt;
+			vy = -vy;
 		}
 		else if (y > 89)
 		{
 			SetState(ITEM_STATE_DISAPPEAR);
-		}*/
+		}
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -84,6 +100,9 @@ void CItem::SetState(int state)
 	case ITEM_STATE_DISAPPEAR:
 		x = -100;
 		y = -100;
+		break;
+	case ITEM_STATE_COIN:
+		vy = 0.09;
 	}
 
 }

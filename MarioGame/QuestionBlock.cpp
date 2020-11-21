@@ -1,4 +1,5 @@
 #include"QuestionBlock.h"
+#include "Item.h"
 
 CQuestionBlock::CQuestionBlock()
 {
