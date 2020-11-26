@@ -16,6 +16,8 @@
 #include"Breakable_Brick.h"
 #include"Flower.h"
 #include "Item.h"
+#include"KoopasBrick.h"
+#include"WingGoomba.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -164,6 +166,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						goomba->SetTickCount();
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
+					else {
+						goomba->SetState(GOOMBA_STATE_DIE);
+						goomba->GoombaDie();
+						goomba->SetTickCount();
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
 				}
 				else if (e->nx != 0 && GetSpin()==0)
 				{
@@ -202,6 +210,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					goomba->SetTickCount();*/
 				}
 			}
+			
 			else if (dynamic_cast<CKoopas*>(e->obj)) // if e->obj is Goomba 
 			{
 				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
@@ -373,6 +382,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			
 			}
+			
 			
 			else if (dynamic_cast<CFlower*>(e->obj)) // if e->obj is Goomba 
 			{

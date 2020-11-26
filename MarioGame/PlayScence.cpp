@@ -17,7 +17,8 @@
 #include"Coin.h"
 #include"Fire_Ball.h"
 #include"Item.h"
-
+#include"KoopasBrick.h"
+#include"WingGoomba.h"
 
 using namespace std;
 
@@ -55,6 +56,8 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_COIN	10
 #define OBJECT_TYPE_FIREBALL	11
 #define OBJECT_TYPE_ITEM	12
+#define OBJECT_TYPE_KOOPASBRICK	13
+#define OBJECT_TYPE_WINGGOOMBA	14
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -174,6 +177,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BALL: obj = new CBall(); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(); break;
 	case OBJECT_TYPE_FIREBALL: obj = new CFireBall(); break;
+	case OBJECT_TYPE_KOOPASBRICK: obj = new CKoopasBrick(); break;
+	case OBJECT_TYPE_WINGGOOMBA: obj = new CWingGoomba(); break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
 		{

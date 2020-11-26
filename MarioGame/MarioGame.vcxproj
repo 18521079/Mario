@@ -160,6 +160,7 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="KeyEventHandler.cpp" />
     <ClCompile Include="Koopas.cpp" />
+    <ClCompile Include="KoopasBrick.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="PlayScence.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Turtle.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="WingGoomba.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
@@ -189,6 +191,7 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopas.h" />
+    <ClInclude Include="KoopasBrick.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="Portal.h" />
@@ -198,6 +201,7 @@
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Turtle.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="WingGoomba.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

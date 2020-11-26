@@ -48,8 +48,12 @@ F# id	file_path	transparent_color_r	g	b
 40001	598	812	616	826	40
 40002	617	812	635	826	40
 40003	35	351	51	360	40
+
 # goomba có cánh
-40004	456	58	
+400014	12	368	32	387	40
+400015	34	363	54	387	40
+
+	
 
 
 #đồng xu+=========+++=++=
@@ -412,6 +416,9 @@ F# id	file_path	transparent_color_r	g	b
 60066	245	174	261	190	60
 60067	262	174	278	190	60	
 
+#=====Rùa xanh
+
+
 #----hoa-----
 #--hoa đỏ---
 #hoa nhìn trái
@@ -490,6 +497,7 @@ F# id	file_path	transparent_color_r	g	b
 #goomba
 40	40001	100	40002	100
 41	40003	100
+42	400014	200	400015	200
 
 #===== GẠCH VỠ ==== 
 670	50070	200	50071	200	50072	200	50073	200
@@ -800,7 +808,8 @@ F# id	file_path	transparent_color_r	g	b
 
 
 #goomba
-4	40	41	606
+4	40	41
+14	40	41	42
 
 #rùa đỏ : Koopas 7
 #đi phải, đi trái, chết, hồi sinh.
@@ -1393,6 +1402,10 @@ F# id	file_path	transparent_color_r	g	b
 6	673	119	657
 6	689	119	657
 6	705	119	658
+
+#gạch chặn rùa
+13	718	110	395
+13	587	103	395	
 
 #bóng đen
 2	721	143	1071
@@ -2259,8 +2272,9 @@ F# id	file_path	transparent_color_r	g	b
 #goomba
 4	250	100	4
 4	1000	100	4
-4	1095	100	4
-4	920	100	4   
+14	1095	100	14
+4	920	100	4 
+4	600	80	4  
 #mario
 0	50.0	0	1
 

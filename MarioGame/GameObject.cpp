@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
+#include"KoopasBrick.h"
 
 CGameObject::CGameObject()
 {
@@ -119,6 +120,11 @@ void CGameObject::FilterCollision(
 				ny = 0;
 			}
 		}
+		/*if (dynamic_cast<CKoopasBrick*>(coEvents[i]->obj))
+		{
+			nx = 0;
+			ny = 0;
+		}*/
 	}
 	
 
