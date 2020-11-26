@@ -127,6 +127,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
+		//mario touches ground
 		if (ny != 0)
 		{
 			FirstTimeFly = 0;
@@ -364,7 +365,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					/*}*/
 
 				}
-				else if (nx != 0 && item->GetState() == ITEM_STATE_LEAF|| item->GetState() == ITEM_STATE_LEAF == item->GetState() == ITEM_STATE_MUSHROOM)
+				else if (nx != 0 && item->GetState() == ITEM_STATE_LEAF|| item->GetState() == ITEM_STATE_MUSHROOM)
 			{
 				level++;
 				SetPosition(x, y - 16.0f);

@@ -40,6 +40,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		x += dx;
 		y += dy;
+		
 	}
 	else
 	{
@@ -56,23 +57,29 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0) vy = 0;
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			if (nx != 0 && ny == 0)
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba
+			{
+				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+				vx = -vx;
+				goomba->vx = -goomba->vx;
+			}
+
+			else if (nx != 0 && ny == 0) 
 			{
 				nx = -nx;
 				vx = -vx;
 			}
-			if (x < 0)
-			{
-				x = 1;
-				nx = -nx;
-				vx = -vx;
-			}
+
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
-		if (x <= 0)
-			if (vx < 0)
-				vx = -vx;
+		
+			if (y > 130)
+			{
+				x == 1168;
+				y == 100;
+			}
 	}
 }
 

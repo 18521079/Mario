@@ -22,11 +22,19 @@ class CBall : public CGameObject
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
+	bool isFiring = false;
+	DWORD timeFirinng_start;
+	bool flagTimeFiring = false;
 
 public:
 	CBall();
 	virtual void SetState(int state);
-	void ActivityStart() { activity_start = GetTickCount(); activity = 1; SetState(BALL_STATE_ACTIVITY); };
+	void ActivityStart() { activity_start = GetTickCount(); activity = 1;
+	SetState(BALL_STATE_ACTIVITY); };
+	void SetIsFiring(bool value) { isFiring = value; };
+
+	bool GetIsFiring() { return isFiring; }
+
 	
 };
 
