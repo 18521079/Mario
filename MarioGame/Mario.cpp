@@ -18,6 +18,7 @@
 #include "Item.h"
 #include"KoopasBrick.h"
 #include"WingGoomba.h"
+#include"Pbell.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -234,97 +235,121 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				//
 				else if (nx != 0)
 				{
-					if (GetSpin() != 1)
+				if (GetSpin() != 1)
+				{
+					if (koopas->GetState() != KOOPAS_STATE_SHELL)
 					{
-						if (koopas->GetState() != KOOPAS_STATE_SHELL)
+
+						if (level == MARIO_LEVEL_BIG)
 						{
 
-							if (level == MARIO_LEVEL_BIG)
-							{
+							SetLevel(MARIO_LEVEL_SMALL);
+							if (nx > 0)
+								SetPosition(x - 30, y);
+							else if (nx < 0)
+								SetPosition(x + 30, y);
 
-								SetLevel(MARIO_LEVEL_SMALL);
-								if (nx > 0)
-									SetPosition(x - 30, y);
-								else if (nx < 0)
-									SetPosition(x + 30, y);
-
-							}
-							else if (level == MARIO_LEVEL_SMALL)
-							{
-								//StartUntouchable();
-								SetState(MARIO_STATE_DIE);
-							}
-							else
-							{
-								SetLevel(MARIO_LEVEL_BIG);
-								if (nx > 0)
-									SetPosition(x - 20, y);
-								else if (nx < 0)
-									SetPosition(x + 20, y);
-							}
 						}
-					}
-					else if (GetSpin() == 1 && level==MARIO_LEVEL_TAIL)
-					{
-						koopas->SetState(KOOPAS_STATE_SHELL_MARIOSPIN);
-						SetPosition(x, y - 5);
-					}
-					  if(koopas->GetState() == KOOPAS_STATE_SHELL && GetSpin()!=1)
-					{
-						
-						if(Hold == 1)
+						else if (level == MARIO_LEVEL_SMALL)
 						{
-							SetAniHolding(1);
-							koopas->SetHolding(1);
+							//StartUntouchable();
+							SetState(MARIO_STATE_DIE);
 						}
 						else
 						{
-							//koopas->SetMarioKick(1);
-							SetAniKick(1);
-							StartKick();
+							SetLevel(MARIO_LEVEL_BIG);
 							if (nx > 0)
-								koopas->SetState(SHELL_STATE_WALKING_RIGHT);
-							else
-								koopas->SetState(SHELL_STATE_WALKING_LEFT);
+								SetPosition(x - 20, y);
+							else if (nx < 0)
+								SetPosition(x + 20, y);
 						}
 					}
-					
 				}
-				
+				else if (GetSpin() == 1 && level == MARIO_LEVEL_TAIL)
+				{
+					koopas->SetState(KOOPAS_STATE_SHELL_MARIOSPIN);
+					SetPosition(x, y - 5);
+				}
+				if (koopas->GetState() == KOOPAS_STATE_SHELL && GetSpin() != 1)
+				{
+
+					if (Hold == 1)
+					{
+						SetAniHolding(1);
+						koopas->SetHolding(1);
+					}
+					else
+					{
+						//koopas->SetMarioKick(1);
+						SetAniKick(1);
+						StartKick();
+						if (nx > 0)
+							koopas->SetState(SHELL_STATE_WALKING_RIGHT);
+						else
+							koopas->SetState(SHELL_STATE_WALKING_LEFT);
+					}
+				}
+
+				}
+
 			}
 			else if (dynamic_cast<CQuestionBlock*>(e->obj)) // if e->obj is Goomba 
 			{
-				CQuestionBlock* block = dynamic_cast<CQuestionBlock*>(e->obj);
+			CQuestionBlock* block = dynamic_cast<CQuestionBlock*>(e->obj);
 
 
-				// jump on top >> kill Goomba and deflect a bit 
-				if (e->ny > 0)
+			// jump on top >> kill Goomba and deflect a bit 
+			if (e->ny > 0)
+			{
+				if (block->GetState() == BLOCK_STATE_ACTIVITY)
 				{
-					if (block->GetState() == BLOCK_STATE_ACTIVITY)
+					block->SetState(BLOCK_STATE_INACTIVITY);
+				}
+
+			}
+			}
+			else if (dynamic_cast<CCoin*>(e->obj)) // if e->obj is Goomba 
+			{
+			CCoin* coin = dynamic_cast<CCoin*>(e->obj);
+
+			// jump on top >> kill Goomba and deflect a bit 
+			if (e->ny > 0 || e->nx != 0)
+			{
+				coin->SetState(COIN_STATE_DISAPPEAR);
+			}
+			}
+			else if (dynamic_cast<CBreakableBrick*>(e->obj)) // if e->obj is Goomba 
+			{
+				CBreakableBrick* brick = dynamic_cast<CBreakableBrick*>(e->obj);
+				if (e->nx != 0 && level == MARIO_LEVEL_TAIL && Spin == 1)
+				{
+					if (brick->x == 2366)
 					{
-						block->SetState(BLOCK_STATE_INACTIVITY);
+						brick->SetTouch(1);
+					}
+					brick->SetState(BRICK_STATE_DISAPPEAR);
+
+				}
+				else
+				{
+					if (brick->GetState() == BRICK_STATE_COIN)
+					{
+						brick->SetState(BRICK_STATE_DISAPPEAR);
 					}
 
 				}
 			}
-			else if (dynamic_cast<CCoin*>(e->obj)) // if e->obj is Goomba 
+			else if (dynamic_cast<CPbell*>(e->obj)) // if e->obj is Goomba 
 			{
-				CCoin* coin = dynamic_cast<CCoin*>(e->obj);
+			CPbell* bell = dynamic_cast<CPbell*>(e->obj);
 
 			// jump on top >> kill Goomba and deflect a bit 
-				if (e->ny > 0 || e->nx !=0)
-				{
-					coin->SetState(COIN_STATE_DISAPPEAR);
-				}
-			}
-			else if (dynamic_cast<CBreakableBrick*>(e->obj)) // if e->obj is Goomba 
+			if (e->ny < 0 )
 			{
-				if (e->nx != 0 &&  level==MARIO_LEVEL_TAIL && Spin==1)
-				{
-					CBreakableBrick* brick = dynamic_cast<CBreakableBrick*>(e->obj);
-					brick->SetState(BRICK_STATE_DISAPPEAR);
-					
-				}
+				bell->SetState(BELL_STATE_INACTIVITY);
+				bell->SetTouch(1);
+			}
+			
 			}
 			else if (dynamic_cast<CBall*>(e->obj)) // if e->obj is Goomba 
 			{
@@ -684,7 +709,7 @@ void CMario::Render()
 
 	animation_set->at(ani)->Render(x, y, alpha);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 	void CMario::SetState(int state)
