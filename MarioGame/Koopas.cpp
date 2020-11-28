@@ -5,12 +5,13 @@
 #include"Scence.h"
 #include"PlayScence.h"
 
-CKoopas::CKoopas()
+CKoopas::CKoopas(int t)
 {
-	SetState(KOOPAS_STATE_WALKING_RIGHT);
+	type = t;
+	SetState(KOOPAS_STATE_WALKING_LEFT);
 	vx = KOOPAS_WALKING_SPEED;
-	nx = 1;
-	vx = 0.02;
+	nx = -1;
+	vx = -0.02;
 	//SetMarioKick(0);
 }
 
@@ -119,6 +120,11 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			vy = 0;
 		}
+		
+		if (y > 140)
+		{
+			SetPosition(1600, 50);
+		}
 		/*else if(mario->GetKickKoopas()==1)
 		{
 			mario->SetAniKick(1);
@@ -198,19 +204,57 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopas::Render()
 {
-	int ani = KOOPAS_ANI_WALKING_LEFT;
-	if (state == KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN) {
-		ani = KOOPAS_ANI_SHELL;
+	int ani;
+	if (type == KOOPAS_TYPE_RED)
+	{
+		 ani = KOOPAS_ANI_WALKING_LEFT;
+		if (state == KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN) {
+			ani = KOOPAS_ANI_SHELL;
+
+		}
+		else if (state == KOOPAS_STATE_PREREVIVE)
+			ani = KOOPAS_ANI_PREREVIVE;
+		else if (state == SHELL_STATE_WALKING_RIGHT)
+			ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
+		else if (state == SHELL_STATE_WALKING_LEFT)
+			ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
+		else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
+		else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
+	}
+	else if (type == 2)
+	{
+		ani = GREENKOOPAS_ANI_WALKING_LEFT;
+		if (state ==KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN) {
+			ani = KOOPAS_ANI_SHELL;
+
+		}
+		else if (state == KOOPAS_STATE_PREREVIVE)
+			ani = KOOPAS_ANI_PREREVIVE;
+		else if (state == SHELL_STATE_WALKING_RIGHT)
+			ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
+		else if (state == SHELL_STATE_WALKING_LEFT)
+			ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
+		else if (vx > 0) ani = GREENKOOPAS_ANI_WALKING_RIGHT;
+		else if (vx <= 0) ani = GREENKOOPAS_ANI_WALKING_LEFT;
 
 	}
-	else if (state == KOOPAS_STATE_PREREVIVE)
-		ani = KOOPAS_ANI_PREREVIVE;
-	else if (state == SHELL_STATE_WALKING_RIGHT)
-		ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
-	else if (state == SHELL_STATE_WALKING_LEFT)
-		ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
-	else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
-	else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
+
+	else if (type == KOOPAS_TYPE_WING)
+	{
+		ani = GREENKOOPAS_ANI_FLYING_LEFT;
+		if (state == KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN) {
+			ani = KOOPAS_ANI_SHELL;
+
+		}
+		else if (state == KOOPAS_STATE_PREREVIVE)
+			ani = KOOPAS_ANI_PREREVIVE;
+		else if (state == SHELL_STATE_WALKING_RIGHT)
+			ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
+		else if (state == SHELL_STATE_WALKING_LEFT)
+			ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
+		else if (vx > 0) ani = GREENKOOPAS_ANI_FLYING_RIGHT;
+		else if (vx <= 0) ani = GREENKOOPAS_ANI_FLYING_LEFT;
+	}
 
 	animation_set->at(ani)->Render(x, y);
 

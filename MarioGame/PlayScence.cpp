@@ -52,7 +52,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_Goomba	4
 #define OBJECT_TYPE_BREAKABLE_BRICK	5
 #define OBJECT_TYPE_BOX	6
-#define OBJECT_TYPE_KOOPAS	7
+#define OBJECT_TYPE_KOOPAS_RED	7
 #define OBJECT_TYPE_FLOWER	8
 #define OBJECT_TYPE_BALL	9
 #define OBJECT_TYPE_COIN	10
@@ -61,6 +61,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_KOOPASBRICK	13
 #define OBJECT_TYPE_WINGGOOMBA	14
 #define OBJECT_TYPE_PBELL	15
+#define OBJECT_TYPE_KOOPAS_GREEN	16
+#define OBJECT_TYPE_KOOPAS_WING	17
+
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -175,7 +178,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BACKGROUND: obj = new CBackground(); break;
 	case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
 	case OBJECT_TYPE_ITEM: obj = new CItem(); break;
-	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_KOOPAS_RED: obj = new CKoopas(1); break;
+	case OBJECT_TYPE_KOOPAS_GREEN: obj = new CKoopas(2); break;
+	case OBJECT_TYPE_KOOPAS_WING: obj = new CKoopas(3); break;
 	case OBJECT_TYPE_Goomba: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BALL: obj = new CBall(); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(); break;

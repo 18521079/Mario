@@ -22,11 +22,24 @@
 #define KOOPAS_ANI_SHELL 2
 #define KOOPAS_ANI_PREREVIVE 3
 
+#define GREENKOOPAS_ANI_FLYING_LEFT 8
+#define GREENKOOPAS_ANI_FLYING_RIGHT 9
+
+#define GREENKOOPAS_ANI_WALKING_LEFT 6
+#define GREENKOOPAS_ANI_WALKING_RIGHT 7
+
+
+
 #define KOOPAS_ANI_SHELL_WALKING_RIGHT 4
 #define KOOPAS_ANI_SHELL_WALKING_LEFT 5
 
 #define	KOOPAS_LEVEL_NORMAL	1
 #define	KOOPAS_LEVEL_SHELL		2
+
+#define KOOPAS_TYPE_RED 1
+#define KOOPAS_TYPE_GREEN 2
+#define KOOPAS_TYPE_WING 3
+
 
 
 class CKoopas : public CGameObject
@@ -39,13 +52,14 @@ class CKoopas : public CGameObject
 	int level;
 	int MarioKick=0;
 	int Hold=0;
+	int type;
 	DWORD Prerevive_start;
 	DWORD Revive_start;
 
 
 
 public:
-	CKoopas();
+	CKoopas(int type);
 	virtual void SetState(int state);
 	void SetLevel(int l) { level = l; };
 	int GetLevel() { return level; };
@@ -56,6 +70,7 @@ public:
 	int GetRevive() { return REVIVE; };
 	void SetHolding(int h) { Hold = h; };
 	int GetHolding() { return Hold; };
-
+	void SetType(int t) { type = t; };
+	int GetType() { return type; };
 
 };
