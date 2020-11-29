@@ -64,9 +64,9 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = 624;
 		vx = -vx;
 	}
-	if (vx > 0 && x > 1088)
+	if (vx > 0 && x > 1200)
 	{
-		x = 1088;
+		x = 1200;
 		vx = -vx;
 	}
 	

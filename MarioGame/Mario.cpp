@@ -223,7 +223,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		
 				if (e->ny < 0)
 				{
-					if (koopas->GetState() != KOOPAS_STATE_SHELL)
+					if (koopas->GetType() == KOOPAS_TYPE_WING)
+					{
+						koopas->SetType(KOOPAS_TYPE_GREEN);
+					}
+
+					else if (koopas->GetState() != KOOPAS_STATE_SHELL)
 					{
 						koopas->SetState(KOOPAS_STATE_SHELL);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
@@ -386,7 +391,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							item->y = 40;
 							item->SetState(ITEM_STATE_MUSHROOM);
 						}
-						else if (item->x == 852 && item->y == 87)
+						else if (item->x == 1690 && item->y == 103)
 						{
 							item->y = 80;
 							item->SetState(ITEM_STATE_LEAF);
