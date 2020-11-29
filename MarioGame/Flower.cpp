@@ -13,6 +13,7 @@ CFlower::CFlower()
 	vy = 0.01f;
 }
 
+
 void CFlower::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -50,7 +51,6 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		nx = 1;
 	}
-
 	if (state != FLOWER_STATE_IDLE)
 	{
 		hasFired = false;
@@ -64,21 +64,44 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			if (y < 72)
+			if (x == 409 ||x== 2084)
 			{
-				if (FirstFiring == false)
+				if (y < 72)
 				{
-					FirstFiring = true;
-					timeFiring_start = GetTickCount();
+					if (FirstFiring == false)
+					{
+						FirstFiring = true;
+						timeFiring_start = GetTickCount();
+					}
+					if (FirstFiring && GetTickCount() - timeFiring_start > 3000)
+					{
+						SetState(FLOWER_STATE_WALKING_DOWN);
+						FirstFiring = false;
+					}
+					else
+					{
+						SetState(FLOWER_STATE_IDLE);
+					}
 				}
-				if (FirstFiring && GetTickCount() - timeFiring_start > 3000)
+			}
+			else if( x == 2190)
+			{
+				if (y < 57)
 				{
-					SetState(FLOWER_STATE_WALKING_DOWN);
-					FirstFiring = false;
-				}
-				else
-				{
-					SetState(FLOWER_STATE_IDLE);
+					if (FirstFiring == false)
+					{
+						FirstFiring = true;
+						timeFiring_start = GetTickCount();
+					}
+					if (FirstFiring && GetTickCount() - timeFiring_start > 3000)
+					{
+						SetState(FLOWER_STATE_WALKING_DOWN);
+						FirstFiring = false;
+					}
+					else
+					{
+						SetState(FLOWER_STATE_IDLE);
+					}
 				}
 			}
 		}
@@ -88,26 +111,35 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CFlower::Render()
 {
-	int ani = FLOWER_ANI_WALKING_LEFT;
-	if (vy==0)
+	int ani;
+	if (x == 2084)
 	{
-		if (nx ==- 1)
-			ani = FLOWER_ANI_SHOOT_RIGHT;
+		if (vy == 0)
+			ani = GREENFLOWER_ANI_WALKING_DOWN;
 		else
-			ani = FLOWER_ANI_SHOOT_LEFT;
+			ani = GREENFLOWER_ANI_WALKING_UP;
 	}
-	if (state != FLOWER_STATE_DIE && vy!=0)
-	{
-		if (nx == -1)
+	else {
+		ani = FLOWER_ANI_WALKING_LEFT;
+		if (vy == 0)
 		{
-			ani = FLOWER_ANI_WALKING_LEFT;
+			if (nx == -1)
+				ani = FLOWER_ANI_SHOOT_RIGHT;
+			else
+				ani = FLOWER_ANI_SHOOT_LEFT;
 		}
-		else
+		if (state != FLOWER_STATE_DIE && vy != 0)
 		{
-			ani = FLOWER_ANI_WALKING_RIGHT;
+			if (nx == -1)
+			{
+				ani = FLOWER_ANI_WALKING_LEFT;
+			}
+			else
+			{
+				ani = FLOWER_ANI_WALKING_RIGHT;
+			}
 		}
 	}
-
 
 	animation_set->at(ani)->Render(x, y);
 

@@ -1,5 +1,8 @@
 #include "Ball.h"
 #include"Flower.h"
+#include"Mario.h"
+#include"PlayScence.h"
+#include"Game.h"
 
 CBall::CBall()
 {
@@ -17,23 +20,8 @@ void CBall::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void CBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	/*x -= dx;
-	y += dy;
+	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	if (y > 199)
-	{
-		x = 409;
-		y = 72;
-	}
-
-	if (GetTickCount()- activity_start>6000 && activity==1)
-	{
-		activity_start = 0;
-		SetState(BALL_STATE_ACTIVITY);
-		SetPosition(16,119);
-		activity = 0;
-	}*/
-	//ActivityStart();
 	x += dx;
 	y += dy;
 	for (int i = 0; i < coObjects->size(); i++)
@@ -43,15 +31,27 @@ void CBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			CFlower* flower = dynamic_cast<CFlower*>(obj);
 
-			// Set isFiring before setting hasFired for flower
 			if (isFiring == false)
 			{
-				if (flower->GetState() == FLOWER_STATE_IDLE && !flower->GetHasFired())
+
+				if (flower->GetState() == FLOWER_STATE_IDLE && !flower->GetHasFired() && flower->x!=2084)
 				{
 					flower->SetHasFired(true);
 					isFiring = true;
-					SetPosition(flower->x, flower->y);
-					nx = flower->nx;
+					if (mario->x > 1828)
+					{
+						SetPosition(2190, 55);
+						if (mario->x < 2190) nx = -1;
+						else
+							nx = 1;
+					}
+					else
+					{
+						SetPosition(flower->x, flower->y);
+						nx = flower->nx;
+					}
+
+					
 				}
 			}
 		}

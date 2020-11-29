@@ -1,3 +1,4 @@
+
 F# id	file_path	transparent_color_r	g	b
 [TEXTURES]
 0	textures\mario.png	0	255	255
@@ -467,7 +468,9 @@ F# id	file_path	transparent_color_r	g	b
 
 #--hoa xanh
 #hoa nhìn trái
+#mặt bắn đạn
 40016	307	91	323	123	50
+
 40017	324	91	340	123	50
 # hoa bắn lửa trái
 40018 307	91	323	123	50
@@ -477,6 +480,14 @@ F# id	file_path	transparent_color_r	g	b
 40020	211	91	227	123	60
 #hoa bắn lửa phải
 40021	211	91	227	123	60
+
+#hoa k bắn lửa
+#hoa không bắn lửa
+#chụm
+40030	341	91	357	123	50
+#mở
+40031	358	92	374	123	50
+
 
 #nấm
 4490	156	121	172	137	20
@@ -793,10 +804,20 @@ F# id	file_path	transparent_color_r	g	b
 4013	40015	100
 
 #xanh:
+#nhìn trái
 4014	40016	100	40017	100
+#nhìn phải
 4015	40019	100	40020	100
-4016	40018	100
+#mặt bắn đạn trái
+4016	40016	100
+#mặt bắn đạn phải
 4017	40021	100
+
+#chụm
+4018	40030	100	40031	100
+#mở
+4019	40031	100	40030	100
+
 
 #nấm
 4490	4490	100
@@ -875,6 +896,10 @@ F# id	file_path	transparent_color_r	g	b
 8	4010	4011	4012	4013
 #==hoa xanh 88
 88	4014	4015	4016	4017
+
+#hoa xanh k bắn lửa 888
+888	4018	4019
+
 #gạch vỡ 
 5	670	1141
 
@@ -1237,7 +1262,7 @@ F# id	file_path	transparent_color_r	g	b
 2	345	95	1072
 2	345	87	1073
 
-#====hoa
+#====hoa đỏ
 8	409	118	8
 
 
@@ -1846,6 +1871,9 @@ gạch chặn rùa
 2	2036	135	1051
 
 #ống có cây
+#hoa k bắn
+8	2084	103	888
+
 1	2069	135	540
 1	2084	135	541
 1	2100	135	542
@@ -1854,13 +1882,14 @@ gạch chặn rùa
 1	2084	119	544
 1	2100	119	545
 
-2	2084	103	88
 
 1	2068	103	546
 1	2084	103	547
 1	2100	103	548
 
 #ống có cây to
+#hoa xanh bắn
+8	2190	135	88
 
 1	2175	135	540
 1	2190	135	541
@@ -1882,6 +1911,9 @@ gạch chặn rùa
 1	2190	87	547
 1	2206	87	548
 
+
+
+#9	2190	55	208
 #đám cây 
 2	2223	135	1001
 2	2238	135	1005
@@ -2355,4 +2387,3 @@ gạch chặn rùa
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
 50	300	98	0	316	150	3	
-

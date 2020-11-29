@@ -146,7 +146,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		//
 		// Collision logic with other objects
 		//
-		
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -247,7 +246,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 						if (level == MARIO_LEVEL_BIG)
 						{
-
+							StartUntouchable();
 							SetLevel(MARIO_LEVEL_SMALL);
 							if (nx > 0)
 								SetPosition(x - 30, y);
@@ -257,11 +256,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						else if (level == MARIO_LEVEL_SMALL)
 						{
-							//StartUntouchable();
+							StartUntouchable();
 							SetState(MARIO_STATE_DIE);
 						}
 						else
 						{
+							StartUntouchable();
 							SetLevel(MARIO_LEVEL_BIG);
 							if (nx > 0)
 								SetPosition(x - 20, y);
@@ -360,6 +360,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 
 				CBall* ball = dynamic_cast<CBall*>(e->obj);
+				StartUntouchable();
 				if (level == MARIO_LEVEL_SMALL)
 					state = MARIO_STATE_DIE;
 				else if (level == MARIO_LEVEL_BIG)
@@ -418,6 +419,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 
 				CFlower* flower = dynamic_cast<CFlower*>(e->obj);
+				StartUntouchable();
 				if (nx > 0)
 					SetPosition(x - 20, y);
 				else if (nx < 0)

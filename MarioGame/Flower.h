@@ -17,6 +17,10 @@
 #define FLOWER_ANI_SHOOT_RIGHT 2
 #define FLOWER_ANI_SHOOT_LEFT 3
 
+#define GREENFLOWER_ANI_WALKING_UP 0
+#define GREENFLOWER_ANI_WALKING_DOWN 1
+
+
 
 class CFlower : public CGameObject
 {
@@ -27,10 +31,16 @@ class CFlower : public CGameObject
 	DWORD timeFiring_start;
 	bool FirstFiring = false;
 	bool hasFired = false;
+	int ID;
+	
 
 public:
 	CFlower();
 	virtual void SetState(int state);
 	void SetHasFired(bool value) { hasFired = value; };
-	bool GetHasFired() { return hasFired; }
+	bool GetHasFired() { return hasFired; };
+
+
+
+	
 };
