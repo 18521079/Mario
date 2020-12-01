@@ -149,7 +149,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				vx = -vx;
 			}
-			if (x < 595)
+			if (x < 590)
 			{
 				vx = -vx;
 			}

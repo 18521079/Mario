@@ -14,7 +14,7 @@ void CWingGoomba::GetBoundingBox(float& left, float& top, float& right, float& b
 
 	if (state == GOOMBA_STATE_DIE)
 		bottom = y + 14;
-	else if(state == GOOMBAWING_STATE_WALKING)
+	else if (state == GOOMBAWING_STATE_WALKING)
 		bottom = y + 24;
 	else
 		bottom = y + GOOMBA_BBOX_HEIGHT;
@@ -36,6 +36,7 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
+	if (state != GOOMBA_STATE_DIE_FALL)
 	CalcPotentialCollisions(coObjects, coEvents);
 
 	if (coEvents.size() == 0)
@@ -69,9 +70,9 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x = 1200;
 		vx = -vx;
 	}
-	
 
-	
+
+
 }
 
 void CWingGoomba::Render()
@@ -80,7 +81,7 @@ void CWingGoomba::Render()
 	if (state == GOOMBA_STATE_DIE) {
 		ani = GOOMBA_ANI_WALKING;
 	}
-	 if (state == GOOMBA_STATE_WALKING) 
+	if (state == GOOMBA_STATE_WALKING || state==GOOMBA_STATE_DIE_FALL)
 	{
 		ani = GOOMBA_ANI_WALKING;
 	}
@@ -115,5 +116,3 @@ void CWingGoomba::SetState(int state)
 		break;
 	}
 }
-
-

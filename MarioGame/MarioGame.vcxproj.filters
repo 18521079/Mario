@@ -105,6 +105,9 @@
     <ClCompile Include="Pbell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HoldBrick.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -192,6 +195,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pbell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HoldBrick.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

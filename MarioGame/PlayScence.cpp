@@ -20,6 +20,7 @@
 #include"KoopasBrick.h"
 #include"WingGoomba.h"
 #include"Pbell.h"
+#include"HoldBrick.h"
 
 
 using namespace std;
@@ -63,7 +64,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_PBELL	15
 #define OBJECT_TYPE_KOOPAS_GREEN	16
 #define OBJECT_TYPE_KOOPAS_WING	17
-
+#define OBJECT_TYPE_HOLDBRICK	18
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -203,6 +204,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBackGroundCollision(); break;
 	case OBJECT_TYPE_BOX: obj = new CBox(); break;
 	case OBJECT_TYPE_BREAKABLE_BRICK: obj = new CBreakableBrick(); break;
+	case OBJECT_TYPE_HOLDBRICK: obj = new CHoldBrick(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());

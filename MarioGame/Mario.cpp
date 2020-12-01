@@ -17,8 +17,9 @@
 #include"Flower.h"
 #include "Item.h"
 #include"KoopasBrick.h"
-#include"WingGoomba.h"
+//#include"WingGoomba.h"
 #include"Pbell.h"
+#include"HoldBrick.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -413,7 +414,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			
 			}
-			
+			else if (dynamic_cast<CHoldBrick*>(e->obj)) // if e->obj is Goomba 
+			{
+			CHoldBrick* brick = dynamic_cast<CHoldBrick*>(e->obj);
+			SetPosition(brick->x , brick->y);
+
+
+			}
 			
 			else if (dynamic_cast<CFlower*>(e->obj)) // if e->obj is Goomba 
 			{
@@ -757,9 +764,9 @@ void CMario::Render()
 			vx = 0;
 			ny = 1;
 			if (nx > 0)
-				vx = MARIO_WALKING_FAST_SPEED*1.35;
+				vx = MARIO_WALKING_FAST_SPEED*2.35;
 			else
-				vx = -MARIO_WALKING_FAST_SPEED*1.35;
+				vx = -MARIO_WALKING_FAST_SPEED*2.35;
 			break;
 		case MARIO_STATE_FAST_WALKING:
 			if (nx > 0)
