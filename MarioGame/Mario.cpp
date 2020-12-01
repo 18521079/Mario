@@ -379,13 +379,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CItem*>(e->obj))
 			{
 				CItem* item = dynamic_cast<CItem*>(e->obj);
-				/*int dem = 0;
-				dem = item->GetActivate() + 1;*/
 
 				if (e->ny > 0)
 				{
-					/*if (dem % 2 != 0)*/
-					/*{*/
 					item->SetTouch(1);
 					//DebugOut(L"touch %d \n", item->GetTouch());
 						if (item->x == 248 && item->y == 55)
@@ -458,10 +454,7 @@ void CMario::Render()
 	{
 		if (level == MARIO_LEVEL_BIG)
 		{
-			/*if (nx > 0 && vx < 0)
-			{
-				ani = MARIO_ANI_TAIL_WALKING_FAST_RIGHT;
-			}*/
+			
 			if (state == MARIO_STATE_IDLE)
 			{
 				
