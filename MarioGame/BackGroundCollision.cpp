@@ -1,4 +1,6 @@
 #include "BackGroundCollision.h"
+#include"Game.h"
+#include"Scence.h"
 
 void CBackGroundCollision::Render()
 {
@@ -8,8 +10,16 @@ void CBackGroundCollision::Render()
 
 void CBackGroundCollision::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 	l = x;
 	t = y;
-	r = x + 16;
-	b = y + 16;
+	if (id == 1)
+	{
+		r = x + 256;
+		b = y + 37;
+	}
+	else {
+		r = x + 16;
+		b = y + 16;
+	}
 }

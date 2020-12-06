@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="BackgroundUp.cpp" />
     <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="BackGroundCollision.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="QuestionBlock.cpp" />
     <ClCompile Include="Scence.cpp" />
     <ClCompile Include="Sprites.cpp" />
+    <ClCompile Include="StartScence.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Turtle.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -178,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="Animations.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="BackgroundUp.h" />
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="BackGroundCollision.h" />
@@ -202,6 +205,7 @@
     <ClInclude Include="QuestionBlock.h" />
     <ClInclude Include="Scence.h" />
     <ClInclude Include="Sprites.h" />
+    <ClInclude Include="StartScence.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Turtle.h" />
     <ClInclude Include="Utils.h" />

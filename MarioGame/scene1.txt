@@ -369,4 +369,5 @@ F# id	file_path	transparent_color_r	g	b
 1	195	128	11
 1	195	144	11
 
+50	300	98	0	316	150	2
 	

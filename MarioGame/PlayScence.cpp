@@ -382,10 +382,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_R:
 		mario->SetLevel(MARIO_LEVEL_FIRE);
 		break;
-		/*case DIK_DOWN:
-			mario->SetState(MARIO_STATE_SIT);*/
 	case DIK_U:
-		//mario->SetState(MARIO_STATE_HOLDKOOPAS);
 		if (mario->GetLevel() == MARIO_LEVEL_FIRE)
 			mario->SetShoot(1);
 		break;
@@ -416,8 +413,6 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		break;
 	case DIK_F:
-		/*if (mario->vx > 0)
-		{*/
 			if (mario->vx > 0.2f)
 			{
 				mario->SetCanFly(1);
@@ -438,7 +433,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			}
 
 			break;
-		/*}*/
+		
 
 	}
 }
@@ -535,40 +530,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	{
 		mario->SetState(MARIO_STATE_FAST_WALKING);
 	}
-	/*else if (game->IsKeyDown(DIK_U))
-	{
-		mario->SetState(MARIO_STATE_HOLDKOOPAS);
-	}*/
-	/*else if (game->IsKeyDown(DIK_D))
-	{
-		mario->SetCanFly(1);
-		if (mario->GetLevel() == MARIO_LEVEL_TAIL && (mario->GetCanFly() == 1))
-		{
-			if (mario->nx > 0)
-			{
-				mario->SetState(MARIO_STATE_FLY_RIGHT);
-			}
-			else
-			{
-				mario->SetState(MARIO_STATE_FLY_LEFT);
-
-			}
-			if (mario->GetFlyingStart() == 0)
-			{
-				mario->StartFlying();
-			}
-			mario->SetFlying(true);
-		}
-		else
-		{
-			if (mario->GetCanFall() == true)
-			{
-				mario->SetState(MARIO_STATE_FALL);
-				mario->SetFalling(1);
-			}
-
-		}
-	}*/
+	
 	else
 	
 		mario->SetState(MARIO_STATE_IDLE);

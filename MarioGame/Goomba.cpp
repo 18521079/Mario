@@ -21,7 +21,7 @@ void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& botto
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	
-	if (GetTickCount() - Die_start > 600 && Die == true)
+	if (GetTickCount() - Die_start > 600 && Die == 1)
 	{
 		SetState(GOOMBA_STATE_DISAPPEAR);
 	}
@@ -77,8 +77,8 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		
 			if (y > 130)
 			{
-				x == 1168;
-				y == 100;
+				x = 1168;
+				y = 100;
 			}
 	}
 }

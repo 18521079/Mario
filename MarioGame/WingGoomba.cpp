@@ -24,7 +24,7 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 
-	if (GetTickCount() - Die_start > 600 && Die == true)
+	if (GetTickCount() - Die_start > 600 && Die == 1)
 	{
 		SetState(GOOMBA_STATE_DISAPPEAR);
 	}

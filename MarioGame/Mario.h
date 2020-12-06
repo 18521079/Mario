@@ -102,11 +102,16 @@
 
 #define MARIO_ANI_DIE				8
 
+#define GREEN_MARIO_ANI_BIG_WALKING_RIGHT			56
+#define GREEN_MARIO_ANI_BIG_WALKING_LEFT			57
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
 #define MARIO_LEVEL_TAIL	3
 #define MARIO_LEVEL_FIRE	4
+
+#define MARIO_TYPE_RED	0
+#define MARIO_TYPE_GREEN	1
 
 #define MARIO_BIG_BBOX_WIDTH  15
 #define MARIO_BIG_BBOX_HEIGHT 27
@@ -120,15 +125,20 @@
 class CMario : public CGameObject
 {
 	int level;
-	int Jump = 0;
-	int Hold=0;
-	int AniHold = 0;
-	int ShootFire=0;
+	int type;
+	int jump = 0;
+	int hold=0;
+	int aniHold = 0;
+	int shootFire=0;
 	int untouchable;
 	//int preidle=0;
 	int KickKoopas=0;
 	int AniKick = 0;
 	int Spin = 0;
+
+	bool isAppeared = true;
+	bool isGreenAbleWalk = true;
+	bool isRedAbleWalk = true;
 
 	int FirstTimeFly=0;
 	int CanFly=0;
@@ -144,14 +154,11 @@ class CMario : public CGameObject
 	DWORD speedup_start;
 
 	int speedLevel = 1;
-	/*int Flying = 0;
-	int Falling = 0;
-	int CanFall = 0;
-	int CanFly = 0;*/
 
 public:
 
 	CMario(float x = 0.0f, float y = 0.0f);
+	CMario(int type, float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
@@ -160,9 +167,9 @@ public:
 	void SetState(int state);
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return level; };
-	int Jumping() { return Jump; };
-	void SetJumping(int jump) { Jump = jump; };
-	int GetJumping() { return Jump; };
+	int Jumping() { return jump; };
+	void SetJumping(int jump) { jump = jump; };
+	int GetJumping() { return jump; };
 	void Reset();
 
 	void SetKickKoopas(int kickkoopas) { KickKoopas = kickkoopas; };
@@ -170,21 +177,21 @@ public:
 
 	void SetAniKick(int kick) { AniKick = kick; };
 	int GetAniKick() { return AniKick; };
-	int GetHolding() { return this->Hold; };
+	int GetHolding() { return this->hold; };
 	void SetHolding(int hold) {
-		this->Hold = hold;
+		this->hold = hold;
 	};
 
-	int GetAniHolding() { return this->AniHold; };
-	void SetAniHolding(int anihold) { this->AniHold = anihold; };
+	int GetAniHolding() { return this->aniHold; };
+	void SetAniHolding(int anihold) { this->aniHold = anihold; };
 
 	void SetSpin(int s) { Spin = s; }
 	int GetSpin() { return Spin; };
 	void StartSpin() { spin_start = GetTickCount(); };
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void SetShoot(int s) { ShootFire = s; };
-	int GetShoot() { return ShootFire; };
+	void SetShoot(int s) { shootFire = s; };
+	int GetShoot() { return shootFire; };
 	int GetFirstTimeFly() { return FirstTimeFly; };
 	void SetFirstTimeFly(int fly) { FirstTimeFly = fly; };
 	int GetCanFly() { return CanFly; };
@@ -194,28 +201,18 @@ public:
 	DWORD GetFlyingStart() { return fly_start; };
 	void StartFlying() { fly_start = GetTickCount(); }
 
-	/*int GetFlying() { return Flying; };
-	void SetFlying(int flying) { Flying = flying; };
-
-	int GetFalling() { return Falling; };
-	void SetFalling(int falling) { Falling = falling; };
-
-	int GetCanFly() { return CanFly; };
-	void SetCanFly(int canfly) { CanFly = canfly; };
-
-	int GetCanFall() { return CanFall; };
-	void SetCanFall(int canfall) { CanFall = canfall; };*/
-
-	/*void StartFlying() { flying_start = GetTickCount(); }
-	DWORD GetFlyingStart()
-	{
-		return flying_start;
-	}*/
-
 	DWORD Getspeedup_start(){ return speedup_start; }
 	void Setspeedup_start(int value) { speedup_start = value; };
 	
 	void StartSpeedup() { speedup_start = GetTickCount(); }
 	int GetspeedLevel() { return speedLevel; }
 	void SetspeedLevel(int value) { speedLevel = value; }
+	int GetType(){ return type; }
+	void SetType(int type){ this->type = type; }
+
+	void SetIsAppeared(bool value) { isAppeared = value; }
+	void SetIsAbleGreenWalk(bool value) { isGreenAbleWalk = value; }
+	void SetIsAbleRedWalk(bool value) { isRedAbleWalk = value; }
+	
+
 };

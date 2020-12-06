@@ -95,16 +95,9 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (vx < 0)
 				vx = -vx;
 	}
-	/*if (state == SHELL_STATE_WALKING_RIGHT || state == SHELL_STATE_WALKING_LEFT)
-	{
+	
 		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-		mario->SetAniKick(1);
-		mario->StartKick();
-	}*/
-	//if (state == KOOPAS_STATE_SHELL)
-	//{
-		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-		if (Hold == true) {
+		if (Hold == 1) {
 			
 			if (mario->GetHolding() == false)
 			{
@@ -147,85 +140,23 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (x > 700)
 			{
+				x = 699;
 				vx = -vx;
 			}
 			if (x < 590)
 			{
+				x = 591;
 				vx = -vx;
 			}
 		}
-		/*else if(mario->GetKickKoopas()==1)
-		{
-			mario->SetAniKick(1);
-			mario->StartKick();
-			if (nx > 0)
-				SetState(SHELL_STATE_WALKING_RIGHT);
-			else
-				SetState(SHELL_STATE_WALKING_LEFT);
-		}*/
+		
 
-	//}
-	//x += dx;
-	//y += dy;
-
-	//if (vx < 0 && x < 593) {
-	//	x = 593; vx = -vx; y = 94;
-	//}
-	//if (GetState() == KOOPAS_STATE_WALKING)
-	//{
-
-	//	if (vx > 0 && x > 705) {
-	//		x = 705; vx = -vx; y = 94;
-	//		if (vx < 0 && x < 593) {
-	//			x = 593; vx = -vx; /*y = 94*/;
-	//		}
-
-	//		if (vx > 0 && x > 705) {
-	//			x = 705; vx = -vx; /*y = 94*/;
-	//		}
-	//	}
-	//	else if (GetState() == SHELL_STATE_WALKING)
-	//	{
-	//		if (vx < 0 && x < 580) {
-	//			x = 580; vx = -vx; /*y = 94*/;
-	//		}
-	//	}
-
-
-		if (GetTickCount() - Prerevive_start > 5000 && PREREVIVE == true)
+		if (GetTickCount() - Prerevive_start > 5000 && PREREVIVE ==1)
 		{
 			Prerevive_start = 0;
 			SetState(KOOPAS_STATE_PREREVIVE);
 		}
 
-		/*if (GetTickCount() - Revive_start > 8000 && REVIVE == true)
-		{
-
-			SetState(KOOPAS_STATE_WALKING);
-
-		}*/
-	//	if (state == KOOPAS_STATE_DIE)
-	//	{
-	//		if (Hold == 1)
-	//		{
-	//			CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	//			if (mario->GetHolding() == 0)
-	//			{
-	//				Hold = 0;
-	//				StartPRE_REVIVE();
-	//				StartRevive();
-	//				SetLevel(KOOPAS_LEVEL_NORMAL);
-	//			}
-	//			else
-	//			{
-	//				x = mario->vx;
-	//				y = mario->vy;
-	//			}
-	//			vx = 0;
-	//		}
-
-
-		//}
 
 }
 
