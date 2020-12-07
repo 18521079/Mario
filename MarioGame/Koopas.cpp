@@ -25,7 +25,7 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 	top = y;
 	right = x + KOOPAS_BBOX_WIDTH;
 
-	if (state == KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN)
+	if (state == KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN|| state==SHELL_STATE_FALL)
 		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
 	else if (state == SHELL_STATE_WALKING_RIGHT || state == SHELL_STATE_WALKING_LEFT)
 	{
@@ -184,7 +184,7 @@ void CKoopas::Render()
 	else if (type == 2)
 	{
 		ani = GREENKOOPAS_ANI_WALKING_LEFT;
-		if (state ==KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN) {
+		if (state ==KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN || state==SHELL_STATE_FALL) {
 			ani = GREENKOOPAS_ANI_SHELL;
 
 		}
@@ -269,6 +269,11 @@ void CKoopas::SetState(int state)
 		y = 100;
 		vy = 2*KOOPAS_WALKING_SPEED;
 		vx = 0;
+		break;
+	case SHELL_STATE_FALL:
+		vy = KOOPAS_WALKING_SPEED;
+		break;
+
 	}
 
 }

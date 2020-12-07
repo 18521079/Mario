@@ -34,7 +34,8 @@
 
 #define MARIO_STATE_FAST_WALKING_RIGHT			1050
 #define MARIO_STATE_FAST_WALKING_LEFT			1060
-
+#define GREEN_MARIO_STATE_JUMP_UP			1070
+#define GREEN_MARIO_STATE_JUMP_DOWN			1080
 
 #define MARIO_ANI_BIG_IDLE_RIGHT		0
 #define MARIO_ANI_BIG_IDLE_LEFT			1
@@ -102,8 +103,12 @@
 
 #define MARIO_ANI_DIE				8
 
+#define GREEN_MARIO_ANI_BIG_IDLE_RIGHT			54
+#define GREEN_MARIO_ANI_BIG_IDLE_LEFT		55
 #define GREEN_MARIO_ANI_BIG_WALKING_RIGHT			56
 #define GREEN_MARIO_ANI_BIG_WALKING_LEFT			57
+#define GREEN_MARIO_ANI_JUMP_RIGHT		58
+#define GREEN_MARIO_ANI_JUMP_LEFT		59
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
@@ -127,6 +132,7 @@ class CMario : public CGameObject
 	int level;
 	int type;
 	int jump = 0;
+	int greenJump = 0;
 	int hold=0;
 	int aniHold = 0;
 	int shootFire=0;
@@ -170,6 +176,10 @@ public:
 	int Jumping() { return jump; };
 	void SetJumping(int jump) { jump = jump; };
 	int GetJumping() { return jump; };
+
+	int JumpingGreen() { return greenJump; };
+	void SetJumpingGreen(int jump) { greenJump = jump; };
+	int GetJumpingGreen() { return greenJump; };
 	void Reset();
 
 	void SetKickKoopas(int kickkoopas) { KickKoopas = kickkoopas; };

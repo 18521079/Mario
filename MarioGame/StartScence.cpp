@@ -7,6 +7,8 @@
 #include"Background.h"
 #include"StartBackground.h"
 #include"BackgroundUp.h"
+#include"Koopas.h"
+#include"Item.h"
 
 
 using namespace std;
@@ -35,6 +37,9 @@ CStartScence::CStartScence(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_BACKGROUND	2
 #define OBJECT_TYPE_BACKGROUNDUP	3
 #define OBJECT_TYPE_BACKGROUNDDOWN	4
+#define OBJECT_TYPE_KOOPAS_GREEN	16
+#define OBJECT_TYPE_Goomba	5
+#define OBJECT_TYPE_ITEM	6
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -154,18 +159,27 @@ void CStartScence::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_RED_MARIO:
 		obj = new CMario(MARIO_TYPE_RED, x, y);
 		player1 = (CMario*)obj;
-		DebugOut(L"[INFO] Player1 object created!\n");
+		//DebugOut(L"[INFO] Player1 created!\n");
 		break;
 	case OBJECT_TYPE_GREEN_MARIO:
 		obj = new CMario(MARIO_TYPE_GREEN, x, y);
 		player2 = (CMario*)obj;
-		DebugOut(L"[INFO] Player2 object created!\n");
+		//DebugOut(L"[INFO] Player2 object created!\n");
 		break;
 
 	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBackGroundCollision(); break;
 	case OBJECT_TYPE_BACKGROUND: obj = new CBackground(); break;
 	case OBJECT_TYPE_BACKGROUNDUP: obj = new CBackgroundUp(0); break;
 	case OBJECT_TYPE_BACKGROUNDDOWN: obj = new CBackgroundUp(1); break;
+	case OBJECT_TYPE_KOOPAS_GREEN: obj = new CKoopas(2);
+		greenKoopas = (CKoopas*)obj;
+		break;
+	case OBJECT_TYPE_Goomba: obj = new CGoomba();
+		goomba = (CGoomba*)obj;
+		break;
+	case OBJECT_TYPE_ITEM: obj = new CItem(); break;
+		item = (CItem*)obj;
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -237,6 +251,12 @@ void CStartScence::Load()
 void CStartScence::Update(DWORD dt)
 {
 
+	player1->nx = -1;
+	player2->SetState(MARIO_STATE_IDLE);
+	player1->SetState(MARIO_STATE_IDLE);
+	greenKoopas->SetState(KOOPAS_STATE_SHELL);
+	goomba->SetState(GOOMBA_STATE_IDLE);
+
 	if (!isTimeStart)
 	{
 		player1->SetIsAppeared(false);
@@ -244,6 +264,78 @@ void CStartScence::Update(DWORD dt)
 		time_start = GetTickCount();
 		isTimeStart = true;
 	}
+	else if (GetTickCount() - time_start > 800)
+	{
+		player1->SetIsAppeared(true);
+		player2->SetIsAppeared(true);
+	}
+	if (GetTickCount() - time_start > 1100)
+	{
+		//player2->SetJumpingGreen(1);
+		player2->SetState(MARIO_STATE_WALKING_RIGHT);
+
+	}
+
+	if (GetTickCount() - time_start > 1100)
+	{
+
+		player1->SetState(MARIO_STATE_WALKING_LEFT);
+	}
+
+	if (GetTickCount() - time_start > 1300)
+	{
+		player2->SetJumpingGreen(1);
+		player2->SetState(GREEN_MARIO_STATE_JUMP_UP);
+
+
+	}
+	if (GetTickCount() - time_start > 1700)
+	{
+		player2->SetState(GREEN_MARIO_STATE_JUMP_DOWN);
+	}
+	if (GetTickCount() - time_start > 2000)
+	{
+		player2->SetState(GREEN_MARIO_STATE_JUMP_UP);
+		player1->SetState(MARIO_STATE_SIT);
+	}
+	if (GetTickCount() - time_start > 2500)
+	{
+		player1->SetState(MARIO_STATE_IDLE);
+	}
+
+	if (GetTickCount() - time_start > 2600)
+	{
+		player2->SetState(GREEN_MARIO_STATE_JUMP_DOWN);
+	}
+	if (GetTickCount() - time_start > 3000)
+	{
+		greenKoopas->SetState(SHELL_STATE_FALL);
+		goomba->SetState(GOOMBA_STATE_FALL);
+		player2->SetJumpingGreen(0);
+		player2->SetState(MARIO_STATE_WALKING_RIGHT);
+	}
+	if (GetTickCount() - time_start > 3500)
+	{
+		if (player1->GetJumping() == 0)
+		{
+			player1->SetState(MARIO_STATE_JUMP);
+			player1->SetJumping(1);
+		}
+	
+	}
+	if (GetTickCount() - time_start > 3550)
+	{
+		player1->SetLevel(MARIO_LEVEL_TAIL);
+		
+		player1->SetState(MARIO_STATE_FALL);
+		player1->SetJumping(0);
+	}
+
+
+
+
+
+
 
 
 	vector<LPGAMEOBJECT> coObjects;
@@ -257,15 +349,6 @@ void CStartScence::Update(DWORD dt)
 	{
 		objects[i]->Update(dt, &coObjects);
 	}
-
-	player1->nx = -1;
-	
-		
-			player2->SetState(MARIO_STATE_WALKING_RIGHT);
-
-		
-			player1->SetState(MARIO_STATE_WALKING_LEFT);
-		
 
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)

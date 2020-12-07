@@ -109,7 +109,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (!CanFly)
 		CanFall = true;*/
 	
-	//DebugOut(L"touch %d \n",  touch);
 	//DebugOut(L"thoi gian la %d \n", GetTickCount() - fly_start);
 
 	//DebugOut(L"canfly la %d \n", CanFly);
@@ -120,7 +119,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CanFly = 0;
 		SetState(MARIO_STATE_FALL);
 	}
-	CMario* player1 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer1();
+
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -455,8 +454,34 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMario::Render()
 {
-	int ani = -1;
-	if (type == MARIO_TYPE_RED)
+	int ani = 70;
+
+	if (type == MARIO_TYPE_GREEN && isAppeared==true)
+	{
+		if (state == MARIO_STATE_WALKING_RIGHT)
+		{
+			ani = GREEN_MARIO_ANI_BIG_WALKING_RIGHT;
+		}
+		else if(state == MARIO_STATE_WALKING_LEFT)
+			ani = GREEN_MARIO_ANI_BIG_WALKING_LEFT;
+		else if (state == MARIO_STATE_IDLE)
+		{
+			if(nx>0)
+				ani = GREEN_MARIO_ANI_BIG_IDLE_RIGHT;
+			else
+				ani = GREEN_MARIO_ANI_BIG_IDLE_LEFT;
+
+		}
+		if (greenJump == 1 && nx > 0)
+		{
+			ani = GREEN_MARIO_ANI_JUMP_RIGHT;
+		}
+		else if (greenJump == 1 && nx < 0)
+		{
+			ani = GREEN_MARIO_ANI_JUMP_LEFT;
+		}
+	}
+	else  if(isAppeared == true)
 	{
 		if (state == MARIO_STATE_DIE)
 			ani = MARIO_ANI_DIE;
@@ -722,16 +747,7 @@ void CMario::Render()
 			}
 		}
 	}
-	else if(type==MARIO_TYPE_GREEN)
-	{
-		if (state == MARIO_STATE_WALKING_RIGHT)
-		{
-			ani = GREEN_MARIO_ANI_BIG_WALKING_RIGHT;
-		}
-		else
-		ani = GREEN_MARIO_ANI_BIG_WALKING_LEFT;
 
-	}
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
@@ -818,6 +834,18 @@ void CMario::Render()
 			}
 			else vx = -0.5f * MARIO_WALKING_SPEED + -0.015 * speedLevel;
 			break;
+		case GREEN_MARIO_STATE_JUMP_UP:
+			nx = 1;
+			vy = -MARIO_WALKING_SPEED;
+			vx = MARIO_WALKING_SPEED/1.5;
+
+			break;
+		case GREEN_MARIO_STATE_JUMP_DOWN:
+			nx = 1;
+			vy = MARIO_WALKING_SPEED;
+			vx = MARIO_WALKING_SPEED/1.5;
+
+			break;
 		case MARIO_STATE_FAST_WALKING_RIGHT:
 			nx = 1;
 			if (vx >= 0.4f)
@@ -835,7 +863,11 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	
 	left = x;
 	top = y;
-	
+	/*if (state == MARIO_STATE_SIT)
+	{
+		right = x + MARIO_SMALL_BBOX_WIDTH;
+		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
+	}*/
 	 if (level != MARIO_LEVEL_SMALL /*&& state != MARIO_STATE_SIT*/)
 	{
 		right = x + MARIO_BIG_BBOX_WIDTH;

@@ -6,6 +6,9 @@
 #include "Mario.h"
 #include "PlayScence.h"
 #include"BackGroundCollision.h"
+#include"Koopas.h"
+#include"Goomba.h"
+#include"Item.h"
 
 
 
@@ -15,6 +18,9 @@ protected:
 
 	CMario* player1;	
 	CMario* player2;
+	CKoopas* greenKoopas;
+	CGoomba* goomba;
+	CItem* item;
 	vector<LPGAMEOBJECT> objects;
 
 

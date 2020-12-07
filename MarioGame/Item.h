@@ -10,6 +10,9 @@
 #define ITEM_STATE_COIN 400
 
 
+#define ITEM_STATE_FALL 500
+
+
 class CItem : public CGameObject
 {
 	int touch = 0;

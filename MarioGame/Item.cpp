@@ -103,6 +103,9 @@ void CItem::SetState(int state)
 		break;
 	case ITEM_STATE_COIN:
 		vy = 0.09;
+		break;
+	case ITEM_STATE_FALL:
+		vy = 0.09;
 	}
 
 }
