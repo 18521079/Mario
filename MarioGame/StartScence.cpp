@@ -257,6 +257,8 @@ void CStartScence::Update(DWORD dt)
 	greenKoopas->SetState(KOOPAS_STATE_SHELL);
 	goomba->SetState(GOOMBA_STATE_IDLE);
 
+	float x, y;
+	player2->GetPosition(x, y);
 	if (!isTimeStart)
 	{
 		player1->SetIsAppeared(false);
@@ -314,22 +316,66 @@ void CStartScence::Update(DWORD dt)
 		player2->SetJumpingGreen(0);
 		player2->SetState(MARIO_STATE_WALKING_RIGHT);
 	}
-	if (GetTickCount() - time_start > 3500)
+	if (GetTickCount() - time_start > 6000)
 	{
 		if (player1->GetJumping() == 0)
 		{
 			player1->SetState(MARIO_STATE_JUMP);
 			player1->SetJumping(1);
+
 		}
+		player2->SetPosition(x, 120);
+		player2->nx = -1;
+		player2->SetState(MARIO_STATE_WALKING_LEFT);
 	
 	}
-	if (GetTickCount() - time_start > 3550)
+	if (GetTickCount() - time_start > 6090)
+	{
+		goomba->SetState(GOOMBA_STATE_WALKING);
+	}
+	if (GetTickCount() - time_start > 6100)
 	{
 		player1->SetLevel(MARIO_LEVEL_TAIL);
 		
-		player1->SetState(MARIO_STATE_FALL);
+		player1->SetState(RED_MARIO_STATE_FALL);
 		player1->SetJumping(0);
 	}
+	if (GetTickCount() - time_start > 6500)
+	{
+		goomba->SetState(GOOMBA_STATE_DIE);
+	}
+	if (GetTickCount() - time_start > 7000)
+	{
+		player1->SetState(MARIO_STATE_WALKING_RIGHT);
+	}
+
+	if (GetTickCount() - time_start > 7100)
+	{
+		goomba->SetState(GOOMBA_STATE_DISAPPEAR);
+	}
+	if (GetTickCount() - time_start > 7600)
+	{
+		greenKoopas->SetState(SHELL_STATE_WALKING_LEFT);
+	}
+	
+	if (GetTickCount() - time_start > 8300)
+	{
+		player1->SetState(MARIO_STATE_IDLE);
+		player2->SetAniHolding(1);
+		//greenKoopas->SetHolding(1);
+		greenKoopas->x = player2->x + 12 * player2->nx;
+		greenKoopas->y = player2->y + 5;
+	}
+	if (GetTickCount() - time_start > 8500)
+	{
+		player1->SetState(MARIO_STATE_WALKING_LEFT);
+		greenKoopas->SetState(SHELL_STATE_WALKING_LEFT);
+
+	}
+
+
+	
+	
 
 
 

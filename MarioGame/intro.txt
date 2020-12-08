@@ -680,11 +680,9 @@ F# id	file_path	transparent_color_r	g	b
 4	0	-90	353
 #4	256	-90	353
 
-#GREEN KOOPAS
-16	100	-100	7
 
 #goomba
-5	70	-40	4
+5	65	-35	4
 
 #nấm
 6	40	40	4490
@@ -694,6 +692,9 @@ F# id	file_path	transparent_color_r	g	b
 
 #==== MARIO GREEN===
 10	0	118	1
+
+#GREEN KOOPAS
+16	100	-100	7
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id

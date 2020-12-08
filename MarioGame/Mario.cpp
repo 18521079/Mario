@@ -660,7 +660,7 @@ void CMario::Render()
 				ani = MARIO_ANI_TAIL_WALKING_FAST_RIGHT;
 				}
 
-				else if (state == MARIO_STATE_FALL)
+				else if (state == MARIO_STATE_FALL || state ==RED_MARIO_STATE_FALL)
 				{
 				if (nx > 0)
 					ani = MARIO_ANI_TAIL_FALL_RIGHT;
@@ -775,6 +775,11 @@ void CMario::Render()
 			break;
 		case MARIO_STATE_JUMP:
 			// TODO: need to check if Mario is *current* on a platform before allowing to jump again
+			if (type == 1)
+			{
+				vy = -MARIO_JUMP_SPEED_Y/100;
+			}
+			else
 			vy = -MARIO_JUMP_SPEED_Y;
 			//ny = 1;
 			break;
@@ -844,6 +849,11 @@ void CMario::Render()
 			nx = 1;
 			vy = MARIO_WALKING_SPEED;
 			vx = MARIO_WALKING_SPEED/1.5;
+
+			break;
+		case RED_MARIO_STATE_FALL:
+			vy = MARIO_WALKING_SPEED/2;
+			vx = -MARIO_WALKING_SPEED;
 
 			break;
 		case MARIO_STATE_FAST_WALKING_RIGHT:
