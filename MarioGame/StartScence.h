@@ -8,7 +8,7 @@
 #include"BackGroundCollision.h"
 #include"Koopas.h"
 #include"Goomba.h"
-#include"Item.h"
+#include"ItemIntro.h"
 
 
 
@@ -19,8 +19,11 @@ protected:
 	CMario* player1;	
 	CMario* player2;
 	CKoopas* greenKoopas;
+	CKoopas* shellKoopas;
+	CKoopas* finalKoopas;
 	CGoomba* goomba;
-	CItem* item;
+	CItemIntro* mushroom;
+	CItemIntro* leaf;
 	vector<LPGAMEOBJECT> objects;
 
 

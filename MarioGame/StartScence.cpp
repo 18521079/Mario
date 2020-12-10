@@ -8,7 +8,8 @@
 #include"StartBackground.h"
 #include"BackgroundUp.h"
 #include"Koopas.h"
-#include"Item.h"
+#include"ItemIntro.h"
+
 
 
 using namespace std;
@@ -39,7 +40,10 @@ CStartScence::CStartScence(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_BACKGROUNDDOWN	4
 #define OBJECT_TYPE_KOOPAS_GREEN	16
 #define OBJECT_TYPE_Goomba	5
-#define OBJECT_TYPE_ITEM	6
+#define OBJECT_TYPE_MUSHROOM	11
+#define OBJECT_TYPE_LEAF	12
+#define OBJECT_TYPE_SHELL_GREEN	7
+#define OBJECT_TYPE_KOOPAS_GREEN_FINAL	6
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -174,11 +178,21 @@ void CStartScence::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS_GREEN: obj = new CKoopas(2);
 		greenKoopas = (CKoopas*)obj;
 		break;
+	case OBJECT_TYPE_SHELL_GREEN: obj = new CKoopas(4);
+		shellKoopas= (CKoopas*)obj;
+		break;
 	case OBJECT_TYPE_Goomba: obj = new CGoomba();
 		goomba = (CGoomba*)obj;
 		break;
-	case OBJECT_TYPE_ITEM: obj = new CItem(); break;
-		item = (CItem*)obj;
+	case OBJECT_TYPE_MUSHROOM: obj = new CItemIntro(0);
+		mushroom = (CItemIntro*)obj;
+		break;
+	case OBJECT_TYPE_LEAF: obj = new CItemIntro(1);
+		leaf = (CItemIntro*)obj;
+		break;
+
+	case OBJECT_TYPE_KOOPAS_GREEN_FINAL: obj = new CKoopas(3);
+		finalKoopas = (CKoopas*)obj;
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -250,15 +264,21 @@ void CStartScence::Load()
 
 void CStartScence::Update(DWORD dt)
 {
-
+	//item->SetState(ITEM_STATE_DISAPPEAR);
 	player1->nx = -1;
 	player2->SetState(MARIO_STATE_IDLE);
 	player1->SetState(MARIO_STATE_IDLE);
 	greenKoopas->SetState(KOOPAS_STATE_SHELL);
 	goomba->SetState(GOOMBA_STATE_IDLE);
+	shellKoopas->SetState(KOOPAS_STATE_SHELL);
+	//finalKoopas->SetState(KOOPAS_STATE_SHELL);
 
 	float x, y;
 	player2->GetPosition(x, y);
+
+	float x1, y1;
+	greenKoopas->GetPosition(x1, y1);
+
 	if (!isTimeStart)
 	{
 		player1->SetIsAppeared(false);
@@ -273,18 +293,15 @@ void CStartScence::Update(DWORD dt)
 	}
 	if (GetTickCount() - time_start > 1100)
 	{
-		//player2->SetJumpingGreen(1);
+		player2->SetJumpingGreen(1);
 		player2->SetState(MARIO_STATE_WALKING_RIGHT);
-
-	}
-
-	if (GetTickCount() - time_start > 1100)
-	{
-
 		player1->SetState(MARIO_STATE_WALKING_LEFT);
+
 	}
 
-	if (GetTickCount() - time_start > 1300)
+
+
+	if (GetTickCount() - time_start >= 1300)
 	{
 		player2->SetJumpingGreen(1);
 		player2->SetState(GREEN_MARIO_STATE_JUMP_UP);
@@ -312,9 +329,16 @@ void CStartScence::Update(DWORD dt)
 	if (GetTickCount() - time_start > 3000)
 	{
 		greenKoopas->SetState(SHELL_STATE_FALL);
+		shellKoopas->SetState(SHELL_STATE_FALL);
 		goomba->SetState(GOOMBA_STATE_FALL);
+		mushroom->SetState(ITEM_STATE_FALL);
+		leaf->SetState(ITEM_STATE_FALL);
 		player2->SetJumpingGreen(0);
 		player2->SetState(MARIO_STATE_WALKING_RIGHT);
+	}
+	if (GetTickCount() - time_start > 5900)
+	{
+		mushroom->SetState(ITEM_STATE_WALKING_LEFT);
 	}
 	if (GetTickCount() - time_start > 6000)
 	{
@@ -336,7 +360,7 @@ void CStartScence::Update(DWORD dt)
 	if (GetTickCount() - time_start > 6100)
 	{
 		player1->SetLevel(MARIO_LEVEL_TAIL);
-		
+		leaf->SetState(ITEM_STATE_DISAPPEAR);
 		player1->SetState(RED_MARIO_STATE_FALL);
 		player1->SetJumping(0);
 	}
@@ -353,33 +377,69 @@ void CStartScence::Update(DWORD dt)
 	{
 		goomba->SetState(GOOMBA_STATE_DISAPPEAR);
 	}
-	if (GetTickCount() - time_start > 7600)
+	if (GetTickCount() - time_start > 7800)
 	{
 		greenKoopas->SetState(SHELL_STATE_WALKING_LEFT);
 	}
+	if (GetTickCount() - time_start > 8000)
+	{
+		shellKoopas->SetState(KOOPAS_STATE_DIE_FALL);
+	}
 	
-	if (GetTickCount() - time_start > 8300)
+	if (GetTickCount() - time_start > 8300 /*&& GetTickCount() - time_start < 8400*/)
 	{
 		player1->SetState(MARIO_STATE_IDLE);
 		player2->SetAniHolding(1);
-		//greenKoopas->SetHolding(1);
-		greenKoopas->x = player2->x + 12 * player2->nx;
-		greenKoopas->y = player2->y + 5;
+		player2->SetHolding(1);
+		greenKoopas->SetHolding(1);
+
 	}
-	if (GetTickCount() - time_start > 8500)
+	if (GetTickCount() - time_start > 8400)
 	{
 		player1->SetState(MARIO_STATE_WALKING_LEFT);
-		greenKoopas->SetState(SHELL_STATE_WALKING_LEFT);
+
+	}
+	if(GetTickCount() - time_start > 9000)
+	{
+		player2->SetState(MARIO_STATE_IDLE);
+		player2->SetHolding(0);
+		greenKoopas->nx = 1;
+		greenKoopas->SetHolding(0);
+		greenKoopas->SetState(SHELL_STATE_WALKING_RIGHT);
+
+	}
+	if (GetTickCount() - time_start > 9400)
+	{
+		greenKoopas->SetState(KOOPAS_STATE_SHELL);
+		player1->SetState(MARIO_STATE_WALKING_RIGHT);
+		//greenKoopas->SetState(SHELL_STATE_WALKING_RIGHT);
 
 	}
 
+	if (GetTickCount() - time_start > 9500)
+	{
+		greenKoopas->SetState(KOOPAS_STATE_SHELL);
 
-	
-	
+	}
+	if (GetTickCount() - time_start > 10300)
+	{
+		greenKoopas->SetState(SHELL_STATE_WALKING_LEFT);
+		player1->SetState(MARIO_STATE_IDLE);
+		player2->SetState(MARIO_STATE_WALKING_RIGHT);
 
+	}
 
+	if (GetTickCount() - time_start > 10600)
+	{
+		player1->SetLevel(MARIO_LEVEL_SMALL);
+		//player1->SetState(MARIO_STATE_WALKING_RIGHT);
 
+	}
+	if (GetTickCount() - time_start > 11800)
+	{
+		player1->SetState(MARIO_STATE_WALKING_RIGHT);
 
+	}
 
 
 
@@ -435,6 +495,9 @@ void CStartScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_3:
+		CGame::GetInstance()->SwitchScene(3);
+		break;
+	case DIK_2:
 		CGame::GetInstance()->SwitchScene(2);
 		break;
 	}

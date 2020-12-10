@@ -160,6 +160,7 @@
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="HoldBrick.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemIntro.cpp" />
     <ClCompile Include="KeyEventHandler.cpp" />
     <ClCompile Include="Koopas.cpp" />
     <ClCompile Include="KoopasBrick.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="HoldBrick.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemIntro.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="KoopasBrick.h" />

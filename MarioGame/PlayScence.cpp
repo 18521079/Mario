@@ -517,10 +517,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		mario->ny = 1;
 	}
 
-	else if (game->IsKeyDown(DIK_SPACE))
-	{
-		mario->ny = 1;
-	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
 		mario->SetState(MARIO_STATE_SIT);

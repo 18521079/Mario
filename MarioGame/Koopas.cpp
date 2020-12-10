@@ -5,6 +5,7 @@
 #include"Scence.h"
 #include"PlayScence.h"
 #include"Item.h"
+#include"StartScence.h"
 
 CKoopas::CKoopas(int t)
 {
@@ -47,7 +48,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
-	if (state != KOOPAS_STATE_DIE)
+	if (state != KOOPAS_STATE_DIE_FALL)
 		CalcPotentialCollisions(coObjects, coEvents);
 	if (coEvents.size() == 0)
 	{
@@ -99,7 +100,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 		if (Hold == 1) {
 			
-			if (mario->GetHolding() == false)
+			/*if (mario->GetHolding() == false)
 			{
 				Hold = false;
 				mario->SetAniHolding(0);
@@ -114,7 +115,8 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					SetState(SHELL_STATE_WALKING_LEFT);
 
 
-			}
+			}*/
+
 
 			if (mario->GetLevel() != MARIO_LEVEL_SMALL)
 			{
@@ -129,6 +131,38 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = 0;
 		}
 		
+		CMario* mario2 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer2();
+		if (Hold == 1) {
+
+			if (mario2->GetLevel() != MARIO_LEVEL_SMALL)
+			{
+				x = mario2->x + 10 * mario->nx;
+				y = mario2->y + 5;
+			}
+			else
+			{
+				x = mario2->x + 10 * mario2->nx;
+				y = mario2->y - 3;
+			}
+			vy = 0;
+		}
+
+		/*CMario* mario1 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer1();
+		if (Hold == 1) {
+
+			if (mario1->GetLevel() != MARIO_LEVEL_SMALL)
+			{
+				x = mario1->x + 10 * mario1->nx;
+				y = mario1->y + 5;
+			}
+			else
+			{
+				x = mario1->x + 10 * mario1->nx;
+				y = mario1->y - 3;
+			}
+			vy = 0;
+		}*/
+
 		if (y > 140)
 		{
 			if(type==3 && state==KOOPAS_STATE_WALKING_LEFT || state == KOOPAS_STATE_WALKING_RIGHT)
@@ -212,10 +246,22 @@ void CKoopas::Render()
 			ani = GREENKOOPAS_ANI_SHELL_WALKING_LEFT;
 		else if (state == SHELL_STATE_WALKING_LEFT)
 			ani = GREENKOOPAS_ANI_SHELL_WALKING_LEFT;
+		else if (state == KOOPAS_STATE_SHELL) {
+			ani = GREENKOOPAS_ANI_SHELL;
+
+		}
+		else if(state==KOOPAS_STATE_WALKING_LEFT)
+			ani = GREENKOOPAS_ANI_WALKING_LEFT;
+		else if(state == KOOPAS_STATE_WALKING_RIGHT_INTRO)
+			ani = GREENKOOPAS_ANI_WALKING_RIGHT;
+
 		else if (vx > 0) ani = GREENKOOPAS_ANI_FLYING_RIGHT;
 		else if (vx <= 0) ani = GREENKOOPAS_ANI_FLYING_LEFT;
 	}
-
+	else if (type == KOOPAS_TYPE_SHELL)
+	{
+		ani = BACK_KOOPAS_ANI_SHELL;
+	}
 	animation_set->at(ani)->Render(x, y);
 
 	//RenderBoundingBox();
@@ -272,6 +318,18 @@ void CKoopas::SetState(int state)
 		break;
 	case SHELL_STATE_FALL:
 		vy = KOOPAS_WALKING_SPEED;
+		break;
+	case KOOPAS_STATE_DIE_FALL:
+		vy = KOOPAS_WALKING_SPEED;
+		break;
+	case KOOPAS_STATE_WALKING_RIGHT_INTRO:
+		if (type == 3)
+		{
+			vx = 2 * KOOPAS_WALKING_SPEED;
+		}
+		else
+			vx = KOOPAS_WALKING_SPEED;
+		nx = 1;
 		break;
 
 	}

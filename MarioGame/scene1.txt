@@ -200,7 +200,7 @@ F# id	file_path	transparent_color_r	g	b
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = tree
 # MARIO
-
+#
 1	0	0	11
 1	0	16	11
 1	0	32	24
@@ -211,7 +211,7 @@ F# id	file_path	transparent_color_r	g	b
 1	0	112	1
 1	0	128	1
 1	0	144	1
-
+#
 1	15	0	11
 1	15	16	11
 18	15	32	3
@@ -222,8 +222,7 @@ F# id	file_path	transparent_color_r	g	b
 1	15	112	8
 2	15	128	8
 2	15	144	1
-
-
+#
 1	30	0	11
 1	30	16	11
 2	30	32	24
@@ -234,8 +233,7 @@ F# id	file_path	transparent_color_r	g	b
 1	30	112	8
 1	30	128	8
 1	30	144	1
-
-
+#
 #cái khác nè
 18	45	0	31
 ---
@@ -244,14 +242,14 @@ F# id	file_path	transparent_color_r	g	b
 1	45	48	5
 18	45	64	22
 2	46	80	25
-
+#
 #cái khác nè
 18	45	96	22
 ---
 2	45	112	25
 2	45	128	35
 1	45	144	1
-
+#
 2	60	0	24
 1	60	16	11
 1	60	32	11
@@ -262,7 +260,7 @@ F# id	file_path	transparent_color_r	g	b
 1	60	112	8
 2	60	128	24
 1	60	144	1
-
+#
 18	75	0	21
 1	75	16	11
 1	75	32	11
@@ -273,8 +271,7 @@ F# id	file_path	transparent_color_r	g	b
 1	75	112	8
 2	75	128	21
 1	75	144	1
-
-
+#
 2	90	0	24
 1	90	16	11
 1	90	32	11
@@ -285,8 +282,7 @@ F# id	file_path	transparent_color_r	g	b
 1	90	112	1
 2	90	128	24
 1	90	144	1
-
-
+#
 18	105	0	32
 2	105	16	25
 18	105	32	22
@@ -297,11 +293,9 @@ F# id	file_path	transparent_color_r	g	b
 2	105	112	25
 18	105	128	36
 1	105	144	1
-
-
-
-0	15	32	41
-			
+#
+#mario
+#			
 2	120	0	24
 1	120	16	11
 2	120	32	24
@@ -312,8 +306,7 @@ F# id	file_path	transparent_color_r	g	b
 1	120	112	61
 1	120	128	66
 1	120	144	1
-
-
+#
 18	135	0	33
 1	135	16	11
 18	135	32	34
@@ -324,7 +317,7 @@ F# id	file_path	transparent_color_r	g	b
 1	135	112	1
 1	135	128	62
 1	135	144	1
-
+#
 2	150	0	24
 1	150	16	11
 1	150	32	24
@@ -335,7 +328,7 @@ F# id	file_path	transparent_color_r	g	b
 1	150	112	1
 1	150	128	62
 1	150	144	1
-
+#
 1	165	0	21
 1	165	16	25
 1	165	32	2
@@ -346,7 +339,7 @@ F# id	file_path	transparent_color_r	g	b
 1	165	112	1
 1	165	128	62
 1	165	144	1
-
+#
 1	180	0	11
 1	180	16	11
 1	180	32	11
@@ -357,7 +350,6 @@ F# id	file_path	transparent_color_r	g	b
 1	180	112	61
 1	180	128	65
 1	180	144	1
-
 1	195	0	11
 1	195	16	11
 1	195	32	11
@@ -368,6 +360,8 @@ F# id	file_path	transparent_color_r	g	b
 1	195	112	11
 1	195	128	11
 1	195	144	11
+#
+0	15	32	41
 
 50	300	98	0	316	150	2
 	

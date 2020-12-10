@@ -175,7 +175,7 @@ public:
 	void SetLevel(int l) { level = l; }
 	int GetLevel() { return level; };
 	int Jumping() { return jump; };
-	void SetJumping(int jump) { jump = jump; };
+	void SetJumping(int jump) { this->jump = jump; };
 	int GetJumping() { return jump; };
 
 	int JumpingGreen() { return greenJump; };

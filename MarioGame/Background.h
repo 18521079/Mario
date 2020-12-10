@@ -1,6 +1,5 @@
 #pragma once
 #include "GameObject.h"
-
 class CBackground : public CGameObject
 {
 	virtual void Render();
