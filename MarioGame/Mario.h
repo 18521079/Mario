@@ -161,6 +161,9 @@ class CMario : public CGameObject
 	DWORD speedup_start;
 
 	int speedLevel = 1;
+	int score=0;
+	int coin=0;
+
 
 public:
 
@@ -224,6 +227,8 @@ public:
 	void SetIsAppeared(bool value) { isAppeared = value; }
 	void SetIsAbleGreenWalk(bool value) { isGreenAbleWalk = value; }
 	void SetIsAbleRedWalk(bool value) { isRedAbleWalk = value; }
-	
+	int GetScore() { return score; };
+	int GetCoin() { return coin; };
+
 
 };

@@ -6,13 +6,15 @@
 #include "BackGroundCollision.h"
 #include "Mario.h"
 #include "Goomba.h"
+#include"HUD.h"
 //#include "Koopas.h"
 
 
 class CPlayScene : public CScene
 {
 protected:
-	CMario* player;					// A play scene has to have player, right? 
+	CMario* player;					// A play scene has to have player, right?
+	//CHUD* HUD;
 
 	vector<LPGAMEOBJECT> objects;
 
