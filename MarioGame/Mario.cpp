@@ -405,6 +405,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						else
 						{
 							item->SetState(ITEM_STATE_COIN);
+							coin++;
+							score++;
 						}
 
 					/*}*/
@@ -413,9 +415,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if ( item->GetState() == ITEM_STATE_LEAF|| item->GetState() == ITEM_STATE_MUSHROOM)
 				{
 				level++;
+				score = score + 1000.0f;
 				SetPosition(x, y - 16.0f);
 				item->SetState(300);
 				}
+				
 			
 			}
 			else if (dynamic_cast<CHoldBrick*>(e->obj)) // if e->obj is Goomba 

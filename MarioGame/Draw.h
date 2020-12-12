@@ -5,7 +5,7 @@
 #include "mario.h"
 #include"Sprites.h"
 
-#define SPRITE_ID_ZERO	90000
+#define SPRITE_ID_ZERO	0
 
 #define SPRITE_ID_MUSHROOM	91001
 #define	SPRITE_ID_FLOWER	91002

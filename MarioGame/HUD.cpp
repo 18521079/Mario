@@ -65,16 +65,18 @@ void CHUD::Render()
 
 
 	CSprites* sprite = CSprites::GetInstance();
-	sprite->Get(50000)->Draw(cx, cy + game->GetScreenHeight() - HUD_BBOX_HEIGHT+8);
-	sprite->Get(SPRITE_M_CHARACTER)->Draw(cx + 10, cy + game->GetScreenHeight() - 20);
+	sprite->Get(66661)->Draw(cx, cy + game->GetScreenHeight() - HUD_BBOX_HEIGHT + 5);
+	sprite->Get(66660)->Draw(cx, cy + game->GetScreenHeight() - HUD_BBOX_HEIGHT+8);
+	//sprite->Get(10001)->Draw(cx, cy + game->GetScreenHeight() - HUD_BBOX_HEIGHT + 8);
+	sprite->Get(66662)->Draw(cx+160, cy + game->GetScreenHeight() - HUD_BBOX_HEIGHT + 8);
+
+	sprite->Get(SPRITE_M_CHARACTER)->Draw(cx + 3, cy + game->GetScreenHeight() - 20);
 
 	string str = to_string(mario->GetCoin());
 
-	event->DrawNumber(3, cx + 132, cy + game->GetScreenHeight() - 19, time);
-	event->DrawNumber(7, cx + 58, cy + game->GetScreenHeight() - 19, mario->GetScore());
-	//event->DrawNumber(1, cx + 40, cy + game->GetScreenHeight() - 19, mario->GetLive());
-	//event->DrawNumber(1, cx + 42, cy + game->GetScreenHeight() - 27, game->GetCurrentSceneId());
-	event->DrawNumber(str.size(), cx + 140, cy + game->GetScreenHeight() - 27, mario->GetCoin());
+	event->DrawNumber(3, cx + 125, cy + game->GetScreenHeight() - 18, time);
+	event->DrawNumber(7, cx + 51, cy + game->GetScreenHeight() - 19, mario->GetScore());
+	event->DrawNumber(str.size(), cx + 133, cy + game->GetScreenHeight() - 27, mario->GetCoin());
 
 	//event->DrawPower(cx + 58, cy + game->GetScreenHeight() - 27, mario->metter);
 
