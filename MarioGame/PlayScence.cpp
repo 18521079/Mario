@@ -354,8 +354,31 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	mario->GetPosition(x, y);
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
-		if (mario->GetJumping() == 0)
+	case DIK_S:
+		if (mario->vx > 0.2f)
+		{
+			mario->SetCanFly(1);
+		}
+		if (mario->GetLevel() == MARIO_LEVEL_TAIL && mario->GetCanFly()== 1)
+		{
+			
+			if (mario->GetFirstTimeFly() == 0 && mario->GetCanFly() == 1)
+			{
+				mario->SetFirstTimeFly(1);
+				mario->SetFlyingStart();
+			}
+			if (mario->GetFirstTimeFly() == 1 && GetTickCount() - mario->GetFlyingStart() <= 5000)
+			{
+				mario->SetState(MARIO_STATE_FLY);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_FALL);
+				mario->SetCanFly(0);
+			}
+
+		}
+		else if (mario->GetJumping() == 0)
 		{
 			mario->SetState(MARIO_STATE_JUMP);
 			mario->ny = 1;
@@ -377,7 +400,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_W:
 		mario->SetState(MARIO_STATE_KICK);
 		break;
-	case DIK_A:
+	case DIK_L:
 		mario->Reset();
 		break;
 	case DIK_E:
@@ -393,7 +416,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_P:
 		mario->SetHolding(1);
 		break;
-	case DIK_S:
+	case DIK_A:
 		mario->SetSpin(1);
 		mario->StartSpin();
 		break;
@@ -416,28 +439,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetState(MARIO_STATE_FALL);
 		}
 		break;
-	case DIK_F:
-			if (mario->vx > 0.2f)
-			{
-				mario->SetCanFly(1);
-			}
-			if (mario->GetFirstTimeFly() == 0 && mario->GetCanFly()==1)
-			{
-				mario->SetFirstTimeFly(1);
-				mario->SetFlyingStart();
-			}
-			if (mario->GetFirstTimeFly() == 1 && GetTickCount() - mario->GetFlyingStart() <= 5000)
-			{
-				mario->SetState(MARIO_STATE_FLY);
-			}
-			else
-			{
-				mario->SetState(MARIO_STATE_FALL);
-				mario->SetCanFly(0);
-			}
-
-			break;
-		
+	
 
 	}
 }
@@ -458,8 +460,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_D:
 		mario->SetCanFly(0);
 		break;
-	/*case DIK_F:
-		mario->SetState(MARIO_STATE_FLY);*/
+	case DIK_S:
 
 		break;
 	}
@@ -477,7 +478,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	if (game->IsKeyDown(DIK_RIGHT))
-		if (game->IsKeyDown(DIK_LSHIFT))
+		if (game->IsKeyDown(DIK_A))
 		{
 			if (mario->Getspeedup_start() == 0)
 				mario->StartSpeedup();
@@ -495,7 +496,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 	else if (game->IsKeyDown(DIK_LEFT))
 	{
-		if (game->IsKeyDown(DIK_LSHIFT))
+		if (game->IsKeyDown(DIK_A))
 		{
 			if (mario->Getspeedup_start() == 0)
 				mario->StartSpeedup();

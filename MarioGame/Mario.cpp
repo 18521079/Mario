@@ -330,6 +330,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (e->ny > 0 || e->nx != 0)
 			{
 				coin->SetState(COIN_STATE_DISAPPEAR);
+				coin++;
 			}
 			}
 			else if (dynamic_cast<CBreakableBrick*>(e->obj)) // if e->obj is Goomba 

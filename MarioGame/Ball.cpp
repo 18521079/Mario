@@ -90,7 +90,7 @@ void CBall::Render()
 	}
 	animation_set->at(ani)->Render(x, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CBall::SetState(int state)

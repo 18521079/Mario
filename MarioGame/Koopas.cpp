@@ -246,14 +246,14 @@ void CKoopas::Render()
 			ani = GREENKOOPAS_ANI_SHELL_WALKING_LEFT;
 		else if (state == SHELL_STATE_WALKING_LEFT)
 			ani = GREENKOOPAS_ANI_SHELL_WALKING_LEFT;
-		else if (state == KOOPAS_STATE_SHELL) {
+		else if (state == KOOPAS_STATE_SHELL)
 			ani = GREENKOOPAS_ANI_SHELL;
 
-		}
-		else if(state==KOOPAS_STATE_WALKING_LEFT)
+		
+		/*else if(state==KOOPAS_STATE_WALKING_LEFT)
 			ani = GREENKOOPAS_ANI_WALKING_LEFT;
 		else if(state == KOOPAS_STATE_WALKING_RIGHT_INTRO)
-			ani = GREENKOOPAS_ANI_WALKING_RIGHT;
+			ani = GREENKOOPAS_ANI_WALKING_RIGHT;*/
 
 		else if (vx > 0) ani = GREENKOOPAS_ANI_FLYING_RIGHT;
 		else if (vx <= 0) ani = GREENKOOPAS_ANI_FLYING_LEFT;
