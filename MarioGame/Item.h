@@ -9,10 +9,6 @@
 #define ITEM_STATE_DISAPPEAR 300
 #define ITEM_STATE_COIN 400
 
-
-#define ITEM_STATE_FALL 500
-
-
 class CItem : public CGameObject
 {
 	int touch = 0;
@@ -23,6 +19,4 @@ public:
 	virtual void SetState(int state);
 	int GetTouch() { return touch; };
 	void SetTouch(int act) { touch = act; };
-	
-	
 };

@@ -65,7 +65,7 @@ void CHUD::Render()
 
 
 	CSprites* sprite = CSprites::GetInstance();
-	sprite->Get(50000)->Draw(cx, cy + game->GetScreenHeight() - HUD_BBOX_HEIGHT);
+	sprite->Get(50000)->Draw(cx, cy + game->GetScreenHeight() - HUD_BBOX_HEIGHT+8);
 	sprite->Get(SPRITE_M_CHARACTER)->Draw(cx + 10, cy + game->GetScreenHeight() - 20);
 
 	string str = to_string(mario->GetCoin());

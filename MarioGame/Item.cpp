@@ -1,5 +1,4 @@
 #include "Item.h"
-#include "Item.h"
 #include "Utils.h"
 #include "Mario.h"
 #include"QuestionBlock.h"
@@ -13,7 +12,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-	
+
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);
@@ -22,19 +21,18 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			CQuestionBlock* question = dynamic_cast<CQuestionBlock*>(obj);
 			if (GetTouch() == 1)
 			{
-				if(x==question->x )
-				question->SetState(BLOCK_STATE_INACTIVITY);
+				if (x == question->x)
+					question->SetState(BLOCK_STATE_INACTIVITY);
 			}
 
 		}
 	}
-	
 	if (state == ITEM_STATE_MUSHROOM)
 	{
 		CalcPotentialCollisions(coObjects, coEvents);
 		vy += 0.0009 * dt;
-		vx = 0.009*dt;
-		
+		vx = 0.009 * dt;
+
 		if (coEvents.size() == 0)
 		{
 			x -= dx;
@@ -63,19 +61,27 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				vy = 0;
 			}
 		}
+
 	}
+	
 	else if (state == ITEM_STATE_LEAF)
 	{
-		y += 0.02 * dt;
-		x += 0.02 * dt;
+
+	y += 0.02 * dt;
+	x += 0.02 * dt;
 	}
+
+
 	else if (state == ITEM_STATE_COIN)
 	{
-		
+		y -= 0.09 * dt;
+		if (y < 80)
+
 		y -= dy;
 
 		if (y < 20 && vy>0)
 		{
+			y += 0.02 * dt;
 			vy = -vy;
 		}
 		else if (y > 89)
@@ -85,6 +91,8 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+
 }
 
 
@@ -101,20 +109,15 @@ void CItem::SetState(int state)
 		x = -100;
 		y = -100;
 		break;
-	case ITEM_STATE_COIN:
-		vy = 0.09;
-		break;
-	case ITEM_STATE_FALL:
-		vy = 0.09;
 	}
 
 }
 
 void CItem::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-		l = x;
-		t = y;
-		r = x + ITEM_BBOX_WIDTH;
-		b = y + ITEM_BBOX_HEIGHT;
-	
+	l = x;
+	t = y;
+	r = x + ITEM_BBOX_WIDTH;
+	b = y + ITEM_BBOX_HEIGHT;
+
 }
