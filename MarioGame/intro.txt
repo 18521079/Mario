@@ -557,16 +557,20 @@ F# id	file_path	transparent_color_r	g	b
 
 # Background intro scene
 #first
-1450	110001	500	120050	3500	120050	100000000000000000000000000000000000
+1450	110001	500	120050	3500
+
 #second
 1451	120051	100
 #final
 1452	120052	100
 
 #BackgroundUp
-1453	99999	500	110001	1000000
+1453	99999	500	110001	10000
 1454	99999	2500	120051	3000	120052	100000000000000000000000
+#1454	99999	2500	120051	3000	120052	100
 1455	120050	100
+
+2000	120052	100
 
 9999	99999	100
 
@@ -641,12 +645,13 @@ F# id	file_path	transparent_color_r	g	b
 301	1301
 
 #BACKGROUND FOR INTROSCENE
-351	1450	1451	1452
+351	1450
 
 #backgroundup
 352	1453
-353	1454
+353	1454	1454
 355	1455
+
 
 #-------======-----------
 #rùa đỏ : Koopas 7
@@ -668,7 +673,7 @@ F# id	file_path	transparent_color_r	g	b
 # MARIO
 #FIRST
 2	0	-35	351
-#2	256	-35	351
+
 
 #BRICK 
 1	-256	150	301
@@ -678,11 +683,15 @@ F# id	file_path	transparent_color_r	g	b
 
 #BackgroundUp
 3	0	-35	352
+
+
+//back ground màu đen ở dưới----
 2	256	-35	355
 2	256	35	355
+#---------------------------
 
+#BackgroundDown
 4	0	-90	353
-#4	256	-90	353
 
 #cái vỏ xanh
 7	180	-80	7

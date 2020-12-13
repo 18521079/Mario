@@ -15,18 +15,26 @@ void CBackgroundUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 }
 
+void CBackgroundUp::Render()
+{
+	int ani = 0;
+	if (state == BACKGROUND_STATE_FINAL)
+	{
+		ani = BACKGROUND_ANI_FINAL;
+	}
+	animation_set->at(ani)->Render(x, y);
+}
+
 void CBackgroundUp::SetState(int state)
 {
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case BACKGROUND_STATE_UP:
+	case BACKGROUND_STATE_FINAL:
 		vx = 0;
-		vy = BACKGROUND_UP_SPEED_Y;
+		vy = 0;
 		break;
-	case BACKGROUND_STATE_DOWN:
-		vx = 0;
-		vy = BACKGROUND_DOWN_SPEED_Y;
+	
 
 	}
 }

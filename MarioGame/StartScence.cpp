@@ -173,7 +173,10 @@ void CStartScence::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBackGroundCollision(); break;
 	case OBJECT_TYPE_BACKGROUND: obj = new CBackground(); break;
-	case OBJECT_TYPE_BACKGROUNDUP: obj = new CBackgroundUp(0); break;
+	case OBJECT_TYPE_BACKGROUNDUP: obj = new CBackgroundUp(0);
+		backgroundup = (CBackgroundUp*)obj;
+		break;
+
 	case OBJECT_TYPE_BACKGROUNDDOWN: obj = new CBackgroundUp(1); break;
 	case OBJECT_TYPE_KOOPAS_GREEN: obj = new CKoopas(2);
 		greenKoopas = (CKoopas*)obj;
@@ -335,6 +338,10 @@ void CStartScence::Update(DWORD dt)
 		leaf->SetState(ITEM_STATE_FALL);
 		player2->SetJumpingGreen(0);
 		player2->SetState(MARIO_STATE_WALKING_RIGHT);
+	}
+	if (GetTickCount() - time_start > 5500)
+	{
+		backgroundup->SetState(BACKGROUND_STATE_FINAL);
 	}
 	if (GetTickCount() - time_start > 5900)
 	{

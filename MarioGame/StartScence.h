@@ -9,6 +9,7 @@
 #include"Koopas.h"
 #include"Goomba.h"
 #include"ItemIntro.h"
+#include"BackgroundUp.h"
 
 
 
@@ -24,6 +25,7 @@ protected:
 	CGoomba* goomba;
 	CItemIntro* mushroom;
 	CItemIntro* leaf;
+	CBackgroundUp* backgroundup;
 	vector<LPGAMEOBJECT> objects;
 
 

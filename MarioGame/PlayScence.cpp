@@ -355,7 +355,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
-		if (mario->vx > 0.2f)
+		if (mario->vx > 0.3f)
 		{
 			mario->SetCanFly(1);
 		}
@@ -506,6 +506,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 					mario->SetspeedLevel(mario->GetspeedLevel() + 1);
 					mario->Setspeedup_start(0);
 				}
+				
 		}
 		else
 		{
