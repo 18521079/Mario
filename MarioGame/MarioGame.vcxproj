@@ -168,6 +168,7 @@
     <ClCompile Include="KoopasBrick.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
+    <ClCompile Include="MenuIntro.cpp" />
     <ClCompile Include="Pbell.cpp" />
     <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="Portal.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="KoopasBrick.h" />
     <ClInclude Include="Mario.h" />
+    <ClInclude Include="MenuIntro.h" />
     <ClInclude Include="Pbell.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="Portal.h" />

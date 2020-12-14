@@ -2426,4 +2426,4 @@ gạch chặn rùa
 17	1480	50	200
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id
-50	300	98	0	316	150	3	
+#50	300	98	0	316	150	3	

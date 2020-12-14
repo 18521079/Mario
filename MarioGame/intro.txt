@@ -12,6 +12,7 @@ F# id	file_path	transparent_color_r	g	b
 90	textures\mario3.png	255	255	255
 160	textures\title2.png	237	28	36
 180	textures\blackturtle.png	255	255	255
+200	textures\menu_game.png	255	219	161
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -288,6 +289,12 @@ F# id	file_path	transparent_color_r	g	b
 #Final Background (with color)
 120052	516	226	772	412	160
 
+#=== MENU GAME===
+#=== PLAYER 1===
+120201	0	0	112	40	200
+#=== PLAYER 2===
+120202	125	0	237	40	200
+
 
 #-================================================#
 #=== =====RÙA ĐỎ ===
@@ -440,6 +447,10 @@ F# id	file_path	transparent_color_r	g	b
 #face up die
 832	60101	100
 
+#=== MENU GAME
+1481	120201	100
+1482	120202	100
+
 #========== MARIO ĐUÔI ============
 # Đứng yên phải
 550	17009	100
@@ -566,8 +577,7 @@ F# id	file_path	transparent_color_r	g	b
 
 #BackgroundUp
 1453	99999	500	110001	10000
-1454	99999	2500	120051	3000	120052	100000000000000000000000
-#1454	99999	2500	120051	3000	120052	100
+1454	99999	2500	120051	3000	120052	100
 1455	120050	100
 
 2000	120052	100
@@ -649,8 +659,11 @@ F# id	file_path	transparent_color_r	g	b
 
 #backgroundup
 352	1453
-353	1454	1454
+353	1454	2000
 355	1455
+
+#MENU GAME
+411	9999	1481	1482
 
 
 #-------======-----------
@@ -719,6 +732,8 @@ F# id	file_path	transparent_color_r	g	b
 6	-230	120	7
 6	-210	120	7
 
+#MENU GAME
+8	75	105	411
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id

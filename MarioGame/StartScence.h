@@ -10,6 +10,7 @@
 #include"Goomba.h"
 #include"ItemIntro.h"
 #include"BackgroundUp.h"
+#include"MenuIntro.h"
 
 
 
@@ -25,7 +26,8 @@ protected:
 	CGoomba* goomba;
 	CItemIntro* mushroom;
 	CItemIntro* leaf;
-	CBackgroundUp* backgroundup;
+	CBackgroundUp* backgrounddown;
+	CMenuIntro* menu;
 	vector<LPGAMEOBJECT> objects;
 
 
@@ -56,6 +58,7 @@ public:
 	CMario* GetPlayer1() { return player1; }
 
 	CMario* GetPlayer2() { return player2; }
+	CMenuIntro* GetMenuIntro() { return menu; }
 
 	
 };

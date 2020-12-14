@@ -44,6 +44,7 @@ CStartScence::CStartScence(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_LEAF	12
 #define OBJECT_TYPE_SHELL_GREEN	7
 #define OBJECT_TYPE_KOOPAS_GREEN_FINAL	6
+#define OBJECT_TYPE_MENU	8
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -173,11 +174,14 @@ void CStartScence::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBackGroundCollision(); break;
 	case OBJECT_TYPE_BACKGROUND: obj = new CBackground(); break;
-	case OBJECT_TYPE_BACKGROUNDUP: obj = new CBackgroundUp(0);
-		backgroundup = (CBackgroundUp*)obj;
+	case OBJECT_TYPE_BACKGROUNDUP: obj = new CBackgroundUp(0); break;
+	case OBJECT_TYPE_MENU: obj = new CMenuIntro();
+		menu = (CMenuIntro*)obj;
 		break;
-
-	case OBJECT_TYPE_BACKGROUNDDOWN: obj = new CBackgroundUp(1); break;
+	case OBJECT_TYPE_BACKGROUNDDOWN: obj = new CBackgroundUp(1); 
+		backgrounddown = (CBackgroundUp*)obj;
+		break;
+		break;
 	case OBJECT_TYPE_KOOPAS_GREEN: obj = new CKoopas(2);
 		greenKoopas = (CKoopas*)obj;
 		break;
@@ -341,7 +345,7 @@ void CStartScence::Update(DWORD dt)
 	}
 	if (GetTickCount() - time_start > 5500)
 	{
-		backgroundup->SetState(BACKGROUND_STATE_FINAL);
+		backgrounddown->SetState(BACKGROUND_STATE_FINAL);
 	}
 	if (GetTickCount() - time_start > 5900)
 	{
@@ -445,6 +449,7 @@ void CStartScence::Update(DWORD dt)
 	if (GetTickCount() - time_start > 11800)
 	{
 		player1->SetState(MARIO_STATE_WALKING_RIGHT);
+		menu->SetState(MENU_STATE_1);
 
 	}
 
@@ -498,7 +503,7 @@ void CStartScence::Unload()
 void CStartScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-
+	CMenuIntro* menu = ((CStartScence*)scence)->GetMenuIntro();
 	switch (KeyCode)
 	{
 	case DIK_3:
@@ -507,6 +512,13 @@ void CStartScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_2:
 		CGame::GetInstance()->SwitchScene(2);
 		break;
+			
+	case DIK_Q:
+		if(menu->GetState()==MENU_STATE_1)
+			menu->SetState(MENU_STATE_2);
+		else
+			menu->SetState(MENU_STATE_1);
+			break;
 	}
 }
 void CStartScenceKeyHandler::OnKeyUp(int KeyCode)
