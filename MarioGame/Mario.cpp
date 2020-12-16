@@ -69,7 +69,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != MARIO_STATE_DIE)
+	if (state != MARIO_STATE_DIE && state!=MARIO_STATE_MOVE_LEFT && state != MARIO_STATE_MOVE_RIGHT && state != MARIO_STATE_MOVE_UP && state != MARIO_STATE_MOVE_DOWN)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
@@ -860,6 +860,25 @@ void CMario::Render()
 			vy = MARIO_WALKING_SPEED/2;
 			vx = -MARIO_WALKING_SPEED;
 
+			break;
+		case MARIO_STATE_MOVE_DOWN:
+			vy = MARIO_WALKING_SPEED;
+			vx = 0;
+			break;
+		case MARIO_STATE_MOVE_UP:
+			vy = -MARIO_JUMP_SPEED_Y;
+			vx = 0;
+			break;
+		case MARIO_STATE_MOVE_LEFT:
+			vx = -MARIO_WALKING_SPEED;
+			nx = -1;
+			ny = 0;
+			break;
+		case MARIO_STATE_MOVE_RIGHT:
+			vx = MARIO_WALKING_SPEED*2.0f;
+			nx = 1;
+			ny = 0;
+			vy = 0;
 			break;
 		case MARIO_STATE_FAST_WALKING_RIGHT:
 			nx = 1;

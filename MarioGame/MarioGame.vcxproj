@@ -180,6 +180,7 @@
     <ClCompile Include="Turtle.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WingGoomba.cpp" />
+    <ClCompile Include="WorldMapScence.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Turtle.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WingGoomba.h" />
+    <ClInclude Include="WorldMapScence.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,6 +6,7 @@
 
 #include "PlayScence.h"
 #include"StartScence.h"
+#include"WorldMapScence.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -341,6 +342,11 @@ void CGame::_ParseSection_SCENES(string line)
 	if (id == 1)
 	{
 		LPSCENE scene = new CStartScence(id, path);
+		scenes[id] = scene;
+	}
+	else if (id == 2)
+	{
+		LPSCENE scene = new CWorldMapScene(id, path);
 		scenes[id] = scene;
 	}
 	else

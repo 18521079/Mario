@@ -514,7 +514,7 @@ void CStartScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_3:
 		CGame::GetInstance()->SwitchScene(3);
 		break;
-	case DIK_2:
+	case DIK_W:
 		CGame::GetInstance()->SwitchScene(2);
 		break;
 	
