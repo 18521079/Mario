@@ -58,6 +58,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		vy += MARIO_GRAVITY * dt;
 	}
+	/*else if (state == MARIO_STATE_MOVE_LEFT && state == MARIO_STATE_MOVE_RIGHT && state == MARIO_STATE_MOVE_UP && state == MARIO_STATE_MOVE_DOWN)
+	{
+		vy += 0.0f * dt;
+	}*/
 	else
 	{
 		vy += MARIO_GRAVITY_FALL/9000 * dt;
@@ -69,7 +73,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 
 	// turn off collision when die 
-	if (state != MARIO_STATE_DIE && state!=MARIO_STATE_MOVE_LEFT && state != MARIO_STATE_MOVE_RIGHT && state != MARIO_STATE_MOVE_UP && state != MARIO_STATE_MOVE_DOWN)
+	if (state != MARIO_STATE_DIE && /*state!=MARIO_STATE_MOVE_LEFT && state != MARIO_STATE_MOVE_RIGHT &&*/ state != MARIO_STATE_MOVE_UP && state != MARIO_STATE_MOVE_DOWN)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
@@ -427,7 +431,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 			CHoldBrick* brick = dynamic_cast<CHoldBrick*>(e->obj);
 			SetPosition(brick->x , brick->y);
-
+			brick->SetState(BRICK_STATE_M);
 
 			}
 			
@@ -862,7 +866,7 @@ void CMario::Render()
 
 			break;
 		case MARIO_STATE_MOVE_DOWN:
-			vy = MARIO_WALKING_SPEED;
+			vy = MARIO_JUMP_SPEED_Y/2.0f;
 			vx = 0;
 			break;
 		case MARIO_STATE_MOVE_UP:
@@ -870,12 +874,12 @@ void CMario::Render()
 			vx = 0;
 			break;
 		case MARIO_STATE_MOVE_LEFT:
-			vx = -MARIO_WALKING_SPEED;
+			vx = -MARIO_JUMP_SPEED_Y/1.75f;
 			nx = -1;
 			ny = 0;
 			break;
 		case MARIO_STATE_MOVE_RIGHT:
-			vx = MARIO_WALKING_SPEED*2.0f;
+			vx = MARIO_JUMP_SPEED_Y/1.75f;
 			nx = 1;
 			ny = 0;
 			vy = 0;

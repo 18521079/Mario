@@ -1,7 +1,10 @@
 #include "HoldBrick.h"
 void CHoldBrick::Render()
 {
-	animation_set->at(0)->Render(x, y);
+	int ani = BRICK_ANI_LEVEL;
+	if (state == BRICK_STATE_M)
+		ani = BRICK_ANI_M;
+	animation_set->at(ani)->Render(x, y);
 	//RenderBoundingBox();
 }
 

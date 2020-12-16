@@ -500,7 +500,7 @@ void CWorldMapSceneKeyHandler::KeyState(BYTE* states)
 
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		mario->SetState(MARIO_STATE_SIT);
+		mario->SetState(MARIO_STATE_MOVE_DOWN);
 		//mario->SetPosition(x, y - 1.0f);
 	}
 	else if (game->IsKeyDown(DIK_T))
