@@ -452,6 +452,11 @@ void CStartScence::Update(DWORD dt)
 		menu->SetState(MENU_STATE_1);
 
 	}
+	if (GetTickCount() - time_start > 12300)
+	{
+		player1->SetIsAppeared(false);
+	}
+
 
 
 
@@ -512,12 +517,10 @@ void CStartScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_2:
 		CGame::GetInstance()->SwitchScene(2);
 		break;
+	
 			
 	case DIK_Q:
-		if(menu->GetState()==MENU_STATE_1)
-			menu->SetState(MENU_STATE_2);
-		else
-			menu->SetState(MENU_STATE_1);
+		menu->SetState(MENU_STATE_2);
 			break;
 	}
 }

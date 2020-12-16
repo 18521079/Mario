@@ -1,7 +1,6 @@
 #include "MenuIntro.h"
 CMenuIntro::CMenuIntro()
 {
-	SetState(MENU_STATE_DISAPPEAR);
 }
 
 void CMenuIntro::Render()

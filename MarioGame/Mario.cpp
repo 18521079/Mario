@@ -632,7 +632,7 @@ void CMario::Render()
 					else ani = MARIO_ANI_TAIL_FLY_LEFT;
 				}
 
-				if (state == MARIO_STATE_IDLE && CanFly != 1)
+				if (state == MARIO_STATE_IDLE && CanFly != 1 && Spin != 1)
 				{
 					if (vx == 0)
 					{
