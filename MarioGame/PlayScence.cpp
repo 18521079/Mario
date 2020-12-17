@@ -385,6 +385,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetJumping(1);
 		}
 
+		else if (mario->GetJumping()==1 && mario->GetLevel() == MARIO_LEVEL_TAIL)
+		{
+			
+			mario->SetCheckFall(true);
+			
+			mario->SetState(MARIO_STATE_FALL);
+		}
+
 		break;
 	case DIK_O:
 		if (mario->GetJumping() == 0)
@@ -460,9 +468,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_D:
 		mario->SetCanFly(0);
 		break;
-	case DIK_S:
-
-		break;
+	/*case DIK_S:
+		mario->SetCheckFall(false);
+		break;*/
 	}
 }
 

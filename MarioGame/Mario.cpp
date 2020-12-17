@@ -155,6 +155,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (GetJumping() == 1)
 			{
 				jump = 0;
+				SetCheckFall(false);
 			}
 			//CanFall = 0;
 		}
@@ -498,7 +499,7 @@ void CMario::Render()
 			if (level == MARIO_LEVEL_BIG)
 			{
 
-				if (state == MARIO_STATE_IDLE)
+				if (state == MARIO_STATE_IDLE && jump!=1)
 				{
 
 					if (vx == 0)
@@ -578,7 +579,7 @@ void CMario::Render()
 
 			if (level == MARIO_LEVEL_SMALL)
 			{
-				if (state == MARIO_STATE_IDLE)
+				if (state == MARIO_STATE_IDLE && jump!=1)
 				{
 					if (vx == 0)
 					{
@@ -634,7 +635,7 @@ void CMario::Render()
 					else ani = MARIO_ANI_TAIL_FLY_LEFT;
 				}
 
-				if (state == MARIO_STATE_IDLE && CanFly != 1 && Spin != 1)
+				if (state == MARIO_STATE_IDLE && CanFly != 1 && Spin != 1 && jump !=1)
 				{
 					if (vx == 0)
 					{
@@ -667,7 +668,7 @@ void CMario::Render()
 				ani = MARIO_ANI_TAIL_WALKING_FAST_RIGHT;
 				}
 
-				else if (state == MARIO_STATE_FALL || state ==RED_MARIO_STATE_FALL)
+				else if (state == MARIO_STATE_FALL || state ==RED_MARIO_STATE_FALL || checkFall==true)
 				{
 				if (nx > 0)
 					ani = MARIO_ANI_TAIL_FALL_RIGHT;
@@ -689,11 +690,11 @@ void CMario::Render()
 				{
 					ani = MARIO_ANI_TAIL_SPIN;
 				}
-				else if (jump == 1 && nx > 0)
+				else if (jump == 1 && nx > 0 && checkFall !=true)
 				{
 					ani = MARIO_ANI_TAIL_JUMP_RIGHT;
 				}
-				else if (jump == 1 && nx < 0)
+				else if (jump == 1 && nx < 0 && checkFall !=true)
 				{
 					ani = MARIO_ANI_TAIL_JUMP_LEFT;
 				}

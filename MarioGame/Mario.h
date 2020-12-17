@@ -237,6 +237,7 @@ public:
 	void SetIsAbleRedWalk(bool value) { isRedAbleWalk = value; }
 	int GetScore() { return score; };
 	int GetCoin() { return coin; };
-
+	void SetCheckFall(bool value) { checkFall = value; }
+	bool GetCheckFall() { return checkFall; }
 
 };
