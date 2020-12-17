@@ -67,6 +67,11 @@ CWorldMapScene::CWorldMapScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_KOOPAS_WING	17
 #define OBJECT_TYPE_HOLDBRICK	18
 
+#define OBJECT_TYPE_NODE_UP_DOWN	20
+#define OBJECT_TYPE_NODE_UP	21
+#define OBJECT_TYPE_NODE_DOWN 22
+
+
 #define OBJECT_TYPE_PORTAL	50
 
 #define MAX_SCENE_LINE 1024
@@ -206,6 +211,7 @@ void CWorldMapScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BOX: obj = new CBox(); break;
 	case OBJECT_TYPE_BREAKABLE_BRICK: obj = new CBreakableBrick(); break;
 	case OBJECT_TYPE_HOLDBRICK: obj = new CHoldBrick(); break;
+
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -356,17 +362,12 @@ void CWorldMapSceneKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_UP:
-		
-		mario->SetState(MARIO_STATE_MOVE_UP);
-		mario->ny = 1;
-		break;
-	case DIK_O:
-		if (mario->GetJumping() == 0)
+		if (mario->y > 10)
 		{
-			mario->SetState(MARIO_STATE_HIGHT_JUMP);
+			mario->SetState(MARIO_STATE_MOVE_UP);
 			mario->ny = 1;
-			mario->SetJumping(1);
 		}
+		break;
 	case DIK_Q:
 		mario->SetPosition(x, y - 16.0f);
 		mario->SetLevel(MARIO_LEVEL_BIG);
@@ -464,7 +465,7 @@ void CWorldMapSceneKeyHandler::KeyState(BYTE* states)
 				mario->Setspeedup_start(0);
 			}
 		}
-		else
+		else 
 		{
 
 			mario->SetState(MARIO_STATE_MOVE_RIGHT);
@@ -489,24 +490,14 @@ void CWorldMapSceneKeyHandler::KeyState(BYTE* states)
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
 	}
-	else if (game->IsKeyDown(DIK_LSHIFT))
-		mario->SetState(MARIO_STATE_KICK);
-
-	else if (game->IsKeyDown(DIK_Y))
-	{
-		mario->SetState(MARIO_STATE_FLY);
-		mario->ny = 1;
-	}
 
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
+		if(y<128.0f)
 		mario->SetState(MARIO_STATE_MOVE_DOWN);
-		//mario->SetPosition(x, y - 1.0f);
+		
 	}
-	else if (game->IsKeyDown(DIK_T))
-	{
-		mario->SetState(MARIO_STATE_FAST_WALKING);
-	}
+	
 
 	else
 
