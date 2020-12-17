@@ -151,10 +151,13 @@ class CMario : public CGameObject
 	bool isAppeared = true;
 	bool isGreenAbleWalk = true;
 	bool isRedAbleWalk = true;
+	bool checkFall = false;
+
 
 	int FirstTimeFly=0;
 	int CanFly=0;
 	DWORD fly_start = 0;
+
 
 	//DWORD flying_start = 0;
 	DWORD untouchable_start;

@@ -71,7 +71,16 @@ void CHUD::Render()
 	sprite->Get(66662)->Draw(cx+160, cy + game->GetScreenHeight() - HUD_BBOX_HEIGHT + 8);
 
 	sprite->Get(SPRITE_M_CHARACTER)->Draw(cx + 3, cy + game->GetScreenHeight() - 20);
-
+	sprite->Get(4)->Draw(cx + 38, cy + game->GetScreenHeight() - 18);
+	sprite->Get(1)->Draw(cx + 38, cy + game->GetScreenHeight() - 25);
+	sprite->Get(SPRITE_POWER_BLACK)->Draw(cx + 53, cy + game->GetScreenHeight() - 25);
+	sprite->Get(SPRITE_POWER_BLACK)->Draw(cx + 61, cy + game->GetScreenHeight() - 25);
+	sprite->Get(SPRITE_POWER_BLACK)->Draw(cx + 69, cy + game->GetScreenHeight() - 25);
+	sprite->Get(SPRITE_POWER_BLACK)->Draw(cx + 77, cy + game->GetScreenHeight() - 25);
+	sprite->Get(SPRITE_POWER_BLACK)->Draw(cx + 85, cy + game->GetScreenHeight() - 25);
+	sprite->Get(SPRITE_POWER_BLACK)->Draw(cx + 93, cy + game->GetScreenHeight() - 25);
+	
+	sprite->Get(SPRITE_P_CHARACTER_BLACK)->Draw(cx + 101, cy + game->GetScreenHeight() - 25);
 	string str = to_string(mario->GetCoin());
 
 	event->DrawNumber(3, cx + 125, cy + game->GetScreenHeight() - 18, time);

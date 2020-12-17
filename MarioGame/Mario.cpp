@@ -58,10 +58,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		vy += MARIO_GRAVITY * dt;
 	}
-	/*else if (state == MARIO_STATE_MOVE_LEFT && state == MARIO_STATE_MOVE_RIGHT && state == MARIO_STATE_MOVE_UP && state == MARIO_STATE_MOVE_DOWN)
-	{
-		vy += 0.0f * dt;
-	}*/
+	
 	else
 	{
 		vy += MARIO_GRAVITY_FALL/9000 * dt;
@@ -328,13 +325,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CCoin*>(e->obj)) // if e->obj is Goomba 
 			{
+	
 			CCoin* coin = dynamic_cast<CCoin*>(e->obj);
-
 			// jump on top >> kill Goomba and deflect a bit 
 			if (e->ny > 0 || e->nx != 0)
 			{
 				coin->SetState(COIN_STATE_DISAPPEAR);
-				coin++;
+				this->coin++;
+
 			}
 			}
 			else if (dynamic_cast<CBreakableBrick*>(e->obj)) // if e->obj is Goomba 

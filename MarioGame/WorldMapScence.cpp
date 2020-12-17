@@ -362,7 +362,7 @@ void CWorldMapSceneKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_UP:
-		if (mario->y > 10)
+		if (mario->y > 10 && (mario->x!=15.0f && mario->y!=32.0f))
 		{
 			mario->SetState(MARIO_STATE_MOVE_UP);
 			mario->ny = 1;
@@ -493,7 +493,7 @@ void CWorldMapSceneKeyHandler::KeyState(BYTE* states)
 
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		if(y<128.0f)
+		if(y<128.0f && (mario->x != 15.0f && mario->y != 32.0f))
 		mario->SetState(MARIO_STATE_MOVE_DOWN);
 		
 	}
