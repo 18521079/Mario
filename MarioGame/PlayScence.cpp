@@ -358,13 +358,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
-		if (mario->vx > 0.3f)
+		if (mario->vx > 0.2f)
 		{
 			mario->SetCanFly(1);
+			mario->SetCheckFall(false);
 		}
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL && mario->GetCanFly()== 1)
 		{
-			
+			mario->SetCheckFall(false);
 			if (mario->GetFirstTimeFly() == 0 && mario->GetCanFly() == 1)
 			{
 				mario->SetFirstTimeFly(1);
@@ -451,7 +452,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		break;
 	
-
+	case DIK_B:
+		CGame::GetInstance()->SwitchScene(4);
+		break;
 	}
 }
 
@@ -525,8 +528,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
 	}
-	else if (game->IsKeyDown(DIK_LSHIFT))
-		mario->SetState(MARIO_STATE_KICK);
+	else if (game->IsKeyDown(DIK_UP))
+	{
+		if (mario->y > 170)
+		{
+			mario->SetPosition(2671.0f, 110.0f);
+		}
+	}
 
 	else if (game->IsKeyDown(DIK_Y))
 	{
@@ -536,7 +544,13 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
+		if (mario->y <= 0)
+		{
+			mario->SetPosition(150.0f, 300.0f);
+		}
+		else
 		mario->SetState(MARIO_STATE_SIT);
+		
 		//mario->SetPosition(x, y - 1.0f);
 	}
 	else if (game->IsKeyDown(DIK_T))

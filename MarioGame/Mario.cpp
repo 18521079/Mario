@@ -691,11 +691,11 @@ void CMario::Render()
 				else
 				{
 
-				if (aniHold == 1 && nx > 0)
+				if (aniHold == 1 && nx > 0 && CanFly!=1)
 				{
 					ani = MARIO_ANI_TAIL_HOLD_RIGHT;
 				}
-				else if (aniHold == 1 && nx < 0)
+				else if (aniHold == 1 && nx < 0 && CanFly!=1)
 				{
 					ani = MARIO_ANI_TAIL_HOLD_LEFT;
 				}

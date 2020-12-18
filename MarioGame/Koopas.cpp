@@ -97,55 +97,53 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				vx = -vx;
 	}
 	
-		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-		if (Hold == 1) {
-			
-			/*if (mario->GetHolding() == false)
+	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (Hold == 1 || mario->GetHolding()==1) {
+
+		/*if (mario->GetHolding() == false)
+		{
+			Hold = false;
+			mario->SetAniHolding(0);
+			mario->SetAniKick(1);
+			mario->StartKick();
+			if (mario->nx > 0)
 			{
-				Hold = false;
-				mario->SetAniHolding(0);
-				mario->SetAniKick(1);
-				mario->StartKick();
-				if (mario->nx > 0)
-				{
-	
-					SetState(SHELL_STATE_WALKING_RIGHT);
-				}
-				else
-					SetState(SHELL_STATE_WALKING_LEFT);
 
-
-			}*/
-
-
-			if (mario->GetLevel() != MARIO_LEVEL_SMALL)
-			{
-				x = mario->x + 10 * mario->nx;
-				y = mario->y + 5;
+				SetState(SHELL_STATE_WALKING_RIGHT);
 			}
 			else
-			{
-				x = mario->x + 10 * mario->nx;
-				y = mario->y-3;
-			}
-			vy = 0;
-		}
-		
-		CMario* mario2 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer2();
-		if (Hold == 1) {
+				SetState(SHELL_STATE_WALKING_LEFT);
+		}*/
 
-			if (mario2->GetLevel() != MARIO_LEVEL_SMALL)
-			{
-				x = mario2->x + 10 * mario->nx;
-				y = mario2->y + 5;
-			}
-			else
-			{
-				x = mario2->x + 10 * mario2->nx;
-				y = mario2->y - 3;
-			}
-			vy = 0;
+
+		if (mario->GetLevel() != MARIO_LEVEL_SMALL)
+		{
+			x = mario->x + 10 * mario->nx;
+			y = mario->y + 5;
 		}
+		else
+		{
+			x = mario->x + 10 * mario->nx;
+			y = mario->y - 3;
+		}
+		vy = 0;
+	}
+
+	CMario* mario2 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer2();
+	if (Hold == 1) {
+
+		if (mario2->GetLevel() != MARIO_LEVEL_SMALL)
+		{
+			x = mario2->x + 10 * mario->nx;
+			y = mario2->y + 5;
+		}
+		else
+		{
+			x = mario2->x + 10 * mario2->nx;
+			y = mario2->y - 3;
+		}
+		vy = 0;
+	}
 
 		/*CMario* mario1 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer1();
 		if (Hold == 1) {
