@@ -21,6 +21,7 @@
 #include"Pbell.h"
 #include"HoldBrick.h"
 #include"StartScence.h"
+#include"Card.h"
 
 
 CMario::CMario(float x, float y) : CGameObject()
@@ -381,6 +382,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else
 					level = MARIO_LEVEL_BIG;
 
+			}
+			else if (dynamic_cast<CCard*>(e->obj)) // if e->obj is Goomba 
+			{
+
+			CCard* card = dynamic_cast<CCard*>(e->obj);
+			// jump on top >> kill Goomba and deflect a bit 
+			if (e->ny > 0 || e->nx != 0)
+			{
+				card->SetState(COIN_STATE_DISAPPEAR);
+				this->card++;
+
+			}
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{

@@ -31,7 +31,7 @@ class CFlower : public CGameObject
 	DWORD timeFiring_start;
 	bool FirstFiring = false;
 	bool hasFired = false;
-	int ID;
+	/*int ID;*/
 	
 
 public:

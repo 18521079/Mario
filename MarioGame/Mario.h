@@ -171,6 +171,7 @@ class CMario : public CGameObject
 	int speedLevel = 1;
 	int score=0;
 	int coin=0;
+	int card = 0;
 
 
 public:
@@ -239,5 +240,6 @@ public:
 	int GetCoin() { return coin; };
 	void SetCheckFall(bool value) { checkFall = value; }
 	bool GetCheckFall() { return checkFall; }
+	int GetCard() { return card; };
 
 };

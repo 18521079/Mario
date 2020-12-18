@@ -67,4 +67,3 @@ public:
 	void SetTime(int t) { time = t; }
 };
 
-
