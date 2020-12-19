@@ -57,10 +57,11 @@ class CKoopas : public CGameObject
 	virtual void Render();
 	int PREREVIVE =0;
 	int REVIVE = 0;
-	int level;
+	//int level;
 	int MarioKick=0;
 	int Hold=0;
 	int type;
+
 	DWORD Prerevive_start;
 	DWORD Revive_start;
 
@@ -69,8 +70,8 @@ class CKoopas : public CGameObject
 public:
 	CKoopas(int type);
 	virtual void SetState(int state);
-	void SetLevel(int l) { level = l; };
-	int GetLevel() { return level; };
+	/*void SetLevel(int l) { level = l; };
+	int GetLevel() { return level; };*/
 	void SetMarioKick(int kick) { MarioKick = kick; };
 	int GetMarioKick() { return MarioKick; };
 	void StartPRE_REVIVE() { PREREVIVE = 1; Prerevive_start = GetTickCount(); }

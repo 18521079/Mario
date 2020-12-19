@@ -17,8 +17,6 @@
 
 class CBall : public CGameObject
 {
-	int activity = 0;
-	DWORD activity_start=0;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -29,8 +27,6 @@ class CBall : public CGameObject
 public:
 	CBall();
 	virtual void SetState(int state);
-	void ActivityStart() { activity_start = GetTickCount(); activity = 1;
-	SetState(BALL_STATE_ACTIVITY); };
 	void SetIsFiring(bool value) { isFiring = value; };
 
 	bool GetIsFiring() { return isFiring; }

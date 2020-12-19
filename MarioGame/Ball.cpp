@@ -6,7 +6,7 @@
 
 CBall::CBall()
 {
-	//SetState(BALL_STATE_ACTIVITY);
+	SetState(BALL_STATE_ACTIVITY);
 }
 
 void CBall::GetBoundingBox(float& left, float& top, float& right, float& bottom)

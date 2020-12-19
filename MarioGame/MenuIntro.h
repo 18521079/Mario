@@ -8,11 +8,14 @@
 #define MENU_ANI_2	2
 class CMenuIntro :public CGameObject
 {
+	int press=0;
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	public:
 	CMenuIntro();
 	void SetState(int state);
+	int GetPress() { return press; };
+	void SetPress(int press) { this->press = press; };
 
 };
 

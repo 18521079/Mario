@@ -727,13 +727,15 @@ F# id	file_path	transparent_color_r	g	b
 #GREEN KOOPAS
 16	100	-100	7
 
+#MENU GAME
+8	75	105	411
+
 #LINE FINAL KOOPAS
 6	-250	120	7
 6	-230	120	7
 6	-210	120	7
 
-#MENU GAME
-8	75	105	411
+
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id

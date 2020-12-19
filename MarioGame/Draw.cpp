@@ -15,7 +15,7 @@ void CDraw::DrawNumber(int max, float x, float y, int _string)
 	}
 	for (int i = 0; i < str.size(); i++)
 	{
-		CSprites::GetInstance()->Get(SPRITE_ID_ZERO + ConverToInt(str[i]))->Draw(x, y);
+		CSprites::GetInstance()->Get(ConverToInt(str[i]))->Draw(x, y);
 		x += 8;
 	}
 }

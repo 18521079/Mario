@@ -100,22 +100,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	if (Hold == 1 || mario->GetHolding()==1) {
 
-		/*if (mario->GetHolding() == false)
-		{
-			Hold = false;
-			mario->SetAniHolding(0);
-			mario->SetAniKick(1);
-			mario->StartKick();
-			if (mario->nx > 0)
-			{
-
-				SetState(SHELL_STATE_WALKING_RIGHT);
-			}
-			else
-				SetState(SHELL_STATE_WALKING_LEFT);
-		}*/
-
-
+	
 		if (mario->GetLevel() != MARIO_LEVEL_SMALL)
 		{
 			x = mario->x + 10 * mario->nx;
@@ -145,22 +130,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vy = 0;
 	}
 
-		/*CMario* mario1 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer1();
-		if (Hold == 1) {
-
-			if (mario1->GetLevel() != MARIO_LEVEL_SMALL)
-			{
-				x = mario1->x + 10 * mario1->nx;
-				y = mario1->y + 5;
-			}
-			else
-			{
-				x = mario1->x + 10 * mario1->nx;
-				y = mario1->y - 3;
-			}
-			vy = 0;
-		}*/
-
+		
 		if (y > 140)
 		{
 			if(type==3 && state==KOOPAS_STATE_WALKING_LEFT || state == KOOPAS_STATE_WALKING_RIGHT)

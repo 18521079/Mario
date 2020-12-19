@@ -51,10 +51,10 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			y += min_ty * dy + ny * 0.4f;
 
 			// Check collision nx to change direction
-			if (nx != 0 && ny == 0)
+			/*if (nx != 0 && ny == 0)
 			{
 				vx = -vx;
-			}
+			}*/
 
 			if (ny != 0)
 			{

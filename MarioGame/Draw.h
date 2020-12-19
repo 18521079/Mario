@@ -22,6 +22,6 @@
 class CDraw
 {
 public:
-	void DrawNumber(int max, float x, float y, int string = 0);
+	void DrawNumber(int max, float x, float y, int number = 0);
 	int ConverToInt(char C);
 };

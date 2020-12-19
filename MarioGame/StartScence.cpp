@@ -449,7 +449,10 @@ void CStartScence::Update(DWORD dt)
 	if (GetTickCount() - time_start > 11800)
 	{
 		player1->SetState(MARIO_STATE_WALKING_RIGHT);
+		if(menu->GetPress()==0)
 		menu->SetState(MENU_STATE_1);
+		else
+			menu->SetState(MENU_STATE_2);
 
 	}
 	if (GetTickCount() - time_start > 12300)
@@ -520,7 +523,10 @@ void CStartScenceKeyHandler::OnKeyDown(int KeyCode)
 	
 			
 	case DIK_Q:
-		menu->SetState(MENU_STATE_2);
+		if(menu->GetPress()==0)
+		menu->SetPress(1);
+		else
+			menu->SetPress(0);
 			break;
 	}
 }
