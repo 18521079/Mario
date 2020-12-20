@@ -26,7 +26,7 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 	top = y;
 	right = x + KOOPAS_BBOX_WIDTH;
 
-	if (state == KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN|| state==SHELL_STATE_FALL)
+	if (state == KOOPAS_STATE_SHELL || state == KOOPAS_STATE_SHELL_MARIOSPIN|| state==SHELL_STATE_FALL || state==KOOPAS_STATE_RENEW)
 		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
 	else if (state == SHELL_STATE_WALKING_RIGHT || state == SHELL_STATE_WALKING_LEFT)
 	{
@@ -65,6 +65,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - timeRenew_start > 5000)
 			{
+				SetPosition(this->x, this->y -10.0f);
 				SetState(KOOPAS_STATE_RENEW);
 				isRenewStart = false;
 				timeWalking_start = GetTickCount();
@@ -76,7 +77,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetTickCount() - timeWalking_start > 2000)
 		{
 			SetState(KOOPAS_STATE_WALKING_RIGHT);
-			SetPosition(this->x, this->y - (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE));
+			SetPosition(this->x, this->y - 10.0f);
 
 		}
 	}
