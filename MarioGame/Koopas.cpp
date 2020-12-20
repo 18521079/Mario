@@ -40,6 +40,12 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (GetTickCount() - Prerevive_start > 5000 && PREREVIVE == 1)
+	{
+		Prerevive_start = 0;
+		SetState(KOOPAS_STATE_PREREVIVE);
+	}
+
 	CGameObject::Update(dt, coObjects);
 	vy += MARIO_GRAVITY * dt;
 
@@ -153,11 +159,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		
 
-		if (GetTickCount() - Prerevive_start > 5000 && PREREVIVE ==1)
-		{
-			Prerevive_start = 0;
-			SetState(KOOPAS_STATE_PREREVIVE);
-		}
+	
 
 
 }

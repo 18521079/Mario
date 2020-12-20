@@ -362,6 +362,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 			mario->SetCanFly(1);
 			mario->SetCheckFall(false);
+			mario->SetPreFly(0);
 		}
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL && mario->GetCanFly()== 1)
 		{
@@ -494,6 +495,16 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	if (game->IsKeyDown(DIK_RIGHT))
 		if (game->IsKeyDown(DIK_A))
 		{
+			if (mario->vx < 0.3f)
+			{
+				mario->SetPreFly(0);
+			}
+
+			if (mario->vx > 0.3f)
+			{
+				mario->SetPreFly(1);
+			}
+			
 			if (mario->Getspeedup_start() == 0)
 				mario->StartSpeedup();
 			mario->SetState(MARIO_STATE_FAST_WALKING_RIGHT);
@@ -505,7 +516,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		else
 		{
-
+			mario->SetPreFly(0);
 			mario->SetState(MARIO_STATE_WALKING_RIGHT);
 		}
 	else if (game->IsKeyDown(DIK_LEFT))
@@ -525,6 +536,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		else
 		{
 			mario->SetspeedLevel(0);
+			if (mario->vx < 0.2f)
+			{
+				mario->SetPreFly(0);
+			}
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
 	}

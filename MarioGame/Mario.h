@@ -147,6 +147,7 @@ class CMario : public CGameObject
 	int KickKoopas=0;
 	int AniKick = 0;
 	int Spin = 0;
+	int preFly = 0;
 
 	bool isAppeared = true;
 	bool isGreenAbleWalk = true;
@@ -241,5 +242,7 @@ public:
 	void SetCheckFall(bool value) { checkFall = value; }
 	bool GetCheckFall() { return checkFall; }
 	int GetCard() { return card; };
+	int GetPreFly() { return preFly; };
+	void SetPreFly(int pre) { preFly = pre; };
 
 };

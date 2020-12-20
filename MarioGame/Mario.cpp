@@ -81,7 +81,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	if (GetTickCount() - spin_start > 800)
+	if (GetTickCount() - spin_start > 400)
 	{
 		spin_start = 0;
 		SetSpin(0);
@@ -672,11 +672,11 @@ void CMario::Render()
 				}
 
 				// 
-				else if (state == MARIO_STATE_FAST_WALKING_LEFT)
+				else if (/*state == MARIO_STATE_FAST_WALKING_LEFT*/ preFly==1 && nx<0)
 				{
 				ani = MARIO_ANI_TAIL_WALKING_FAST_LEFT;
 				}
-				else if (state == MARIO_STATE_FAST_WALKING_RIGHT)
+				else if (/*state == MARIO_STATE_FAST_WALKING_RIGHT*/preFly==1 && nx>0)
 				{
 				ani = MARIO_ANI_TAIL_WALKING_FAST_RIGHT;
 				}
