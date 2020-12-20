@@ -285,7 +285,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else if (GetSpin() == 1 && level == MARIO_LEVEL_TAIL)
 				{
 					koopas->SetState(KOOPAS_STATE_SHELL_MARIOSPIN);
-					SetPosition(x, y - 5);
+					SetPosition(x-15, y - 15);
 				}
 				if (koopas->GetState() == KOOPAS_STATE_SHELL && GetSpin() != 1)
 				{

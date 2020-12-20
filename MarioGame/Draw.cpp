@@ -4,11 +4,11 @@
 #include <string>
 
 
-void CDraw::DrawNumber(int max, float x, float y, int _string)
+void CDraw::DrawNumber(int size, float x, float y, int number)
 {
-	string str = to_string(_string);
+	string str = to_string(number);
 
-	for (int i = 0; i < (max - str.size()); i++)
+	for (int i = 0; i < (size - str.size()); i++)
 	{
 		CSprites::GetInstance()->Get(SPRITE_ID_ZERO)->Draw(x, y);
 		x += 8;

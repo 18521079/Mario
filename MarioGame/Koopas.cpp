@@ -40,12 +40,7 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (GetTickCount() - Prerevive_start > 5000 && PREREVIVE == 1)
-	{
-		Prerevive_start = 0;
-		SetState(KOOPAS_STATE_PREREVIVE);
-	}
-
+	
 	CGameObject::Update(dt, coObjects);
 	vy += MARIO_GRAVITY * dt;
 
@@ -56,6 +51,35 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state != KOOPAS_STATE_DIE_FALL)
 		CalcPotentialCollisions(coObjects, coEvents);
+	if (state == KOOPAS_STATE_SHELL) {
+
+
+		if (!isRenewStart)
+		{
+			timeRenew_start = GetTickCount();
+			isRenewStart = true;
+		}
+
+		// Set for the Koopas renews if enough time to renew
+		else
+		{
+			if (GetTickCount() - timeRenew_start > 5000)
+			{
+				SetState(KOOPAS_STATE_RENEW);
+				isRenewStart = false;
+				timeWalking_start = GetTickCount();
+			}
+		}
+	}
+	if (state == KOOPAS_STATE_RENEW)
+	{
+		if (GetTickCount() - timeWalking_start > 2000)
+		{
+			SetState(KOOPAS_STATE_WALKING_RIGHT);
+			SetPosition(this->x, this->y - (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE));
+
+		}
+	}
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -176,7 +200,7 @@ void CKoopas::Render()
 			ani = KOOPAS_ANI_SHELL;
 
 		}
-		else if (state == KOOPAS_STATE_PREREVIVE)
+		else if (state == KOOPAS_STATE_RENEW)
 			ani = KOOPAS_ANI_PREREVIVE;
 		else if (state == SHELL_STATE_WALKING_RIGHT)
 			ani = KOOPAS_ANI_SHELL_WALKING_LEFT;
@@ -192,7 +216,7 @@ void CKoopas::Render()
 			ani = GREENKOOPAS_ANI_SHELL;
 
 		}
-		else if (state == KOOPAS_STATE_PREREVIVE)
+		else if (state == KOOPAS_STATE_RENEW)
 			ani = KOOPAS_ANI_PREREVIVE;
 		else if (state == SHELL_STATE_WALKING_RIGHT)
 			ani = GREENKOOPAS_ANI_SHELL_WALKING_LEFT;
@@ -210,7 +234,7 @@ void CKoopas::Render()
 			ani = GREENKOOPAS_ANI_SHELL;
 
 		}
-		else if (state == KOOPAS_STATE_PREREVIVE)
+		else if (state == KOOPAS_STATE_RENEW)
 			ani = KOOPAS_ANI_PREREVIVE;
 		else if (state == SHELL_STATE_WALKING_RIGHT)
 			ani = GREENKOOPAS_ANI_SHELL_WALKING_LEFT;
@@ -266,10 +290,7 @@ void CKoopas::SetState(int state)
 		vx = -KOOPAS_WALKING_SPEED;
 		nx = -1;
 		break;
-	case KOOPAS_STATE_PREREVIVE:
-		vx = KOOPAS_WALKING_SPEED;
-		vy = KOOPAS_WALKING_SPEED;
-		break;
+
 	case SHELL_STATE_WALKING_LEFT:
 			vx = 3.0f* KOOPAS_WALKING_SPEED ;
 		break;

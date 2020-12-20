@@ -11,7 +11,7 @@
 #define KOOPAS_STATE_WALKING_LEFT 700
 #define KOOPAS_STATE_SHELL 200
 #define KOOPAS_STATE_SHELL_MARIOSPIN 800
-#define KOOPAS_STATE_PREREVIVE 300
+#define KOOPAS_STATE_RENEW 300
 #define SHELL_STATE_WALKING_RIGHT 400
 #define SHELL_STATE_WALKING_LEFT 600
 #define SHELL_STATE_FALL 900
@@ -55,15 +55,16 @@ class CKoopas : public CGameObject
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
-	int PREREVIVE =0;
-	int REVIVE = 0;
 	//int level;
 	int MarioKick=0;
 	int Hold=0;
 	int type;
 
-	DWORD Prerevive_start;
-	DWORD Revive_start;
+	DWORD timeRenew_start;
+	bool isRenewStart = false;
+	DWORD timeWalking_start;
+
+	
 
 
 
@@ -74,9 +75,6 @@ public:
 	int GetLevel() { return level; };*/
 	void SetMarioKick(int kick) { MarioKick = kick; };
 	int GetMarioKick() { return MarioKick; };
-	void StartPRE_REVIVE() { PREREVIVE = 1; Prerevive_start = GetTickCount(); }
-	void StartRevive() { REVIVE = 1; Revive_start = GetTickCount(); }
-	int GetRevive() { return REVIVE; };
 	void SetHolding(int h) { Hold = h; };
 	int GetHolding() { return Hold; };
 	void SetType(int t) { type = t; };

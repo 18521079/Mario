@@ -8,7 +8,8 @@ F# id	file_path	transparent_color_r	g	b
 40	textures\enemies.png	163	73	164
 50	textures\enemies-2.png	0	128	128
 60	textures\enemies-2NGUOC.png	0	130	130
-
+120	textures\enemies-4.png	0	255	255
+150	textures\misc3.png	166	185	255
 90	textures\HUD.png	51	255	191
 80	textures\black.png	51	255	191
 250	textures\final.png	0	183	239
@@ -374,6 +375,9 @@ F# id	file_path	transparent_color_r	g	b
 #cái vỏ đi
 66081	256	202	272	218	50
 66082	273	202	289	218	50
+60032	74	127	92	143	120
+
+60040	71	75	89	91	120
 	
 #rùa xanh cánh
 #bay phải:
@@ -874,6 +878,10 @@ F# id	file_path	transparent_color_r	g	b
 #vỏ đi phải
 6065	60065	100	60066	100	60067	100
 
+# renew (RED)
+814	60040	100	60064	100
+
+
 #rùa xanh 
 #đi trái
 66072	66072	100	66073	100
@@ -888,6 +896,9 @@ F# id	file_path	transparent_color_r	g	b
 66080	66080	100
 #vỏ đi
 66082	66081	100	66082	100
+
+#renew 
+804	60032	150	60031	150
 
 #=======hoa====
 #đỏ
@@ -994,9 +1005,9 @@ F# id	file_path	transparent_color_r	g	b
 
 #rùa đỏ : Koopas 7
 #đi phải, đi trái, chết, hồi sinh., 6 xanh đi trái, 7 x phải, 8: bay trái, 9 bay phải, 10 vỏ, 11 vỏ đi
-7	6060	6061	6062	6063	6064	6065	66072	66070	66078	66074	66080	66082	
+7	6060	6061	6062	814	6064	6065	66072	66070	66078	66074	66080	66082	
 # rùa xanh
-100	6060	6061	6062	6063	6064	6065	66072	66070	66078	66074	66080	66082		
+100	6060	6061	6062	6063	6064	6065	66072	66070	66078	66074	66080	66082	60065		
 
 #rùa có cánh
 200	6060	6061	6062	6063	6064	6065	66072	66070	66078	66074	66080	66082		

@@ -13,6 +13,7 @@ class CHUD
 {
 	int time;
 	DWORD count;
+	DWORD count1;
 	int number;
 	int dola;
 	int score;
@@ -28,6 +29,7 @@ public:
 	{
 		time = 300;
 		count = GetTickCount();
+		count1 = GetTickCount();
 		timeItem = 0;
 		event = new CDraw();
 	}
