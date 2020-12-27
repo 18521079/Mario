@@ -73,6 +73,27 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
+	if (type == 3)
+	{
+		if (!isFLying)
+		{
+			timeFlying_start = GetTickCount();
+			isFLying = true;
+		}
+		else
+		{
+			// Set time for Koopas flying
+			if (GetTickCount() - timeFlying_start < 200)
+			{
+				vy = -0.25f;
+			}
+			
+			if (GetTickCount() - timeFlying_start > 2000)
+			{
+				isFLying = false;
+			}
+		}
+	}
 	if (state == KOOPAS_STATE_RENEW)
 	{
 		if (GetTickCount() - timeWalking_start > 2000)

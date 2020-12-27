@@ -59,6 +59,8 @@ class CKoopas : public CGameObject
 	int MarioKick=0;
 	int Hold=0;
 	int type;
+	DWORD timeFlying_start;
+	bool isFLying = false;
 
 	DWORD timeRenew_start;
 	bool isRenewStart = false;
