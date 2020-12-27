@@ -358,7 +358,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_S:
-		if (mario->vx > 0.2f)
+		if (mario->vx > 0.3f)
 		{
 			mario->SetCanFly(1);
 			mario->SetCheckFall(false);
@@ -386,7 +386,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		else if (mario->GetJumping() == 0)
 		{
 			mario->SetState(MARIO_STATE_JUMP);
-			mario->ny = 1;
+			//mario->ny = 1;
 			mario->SetJumping(1);
 		}
 

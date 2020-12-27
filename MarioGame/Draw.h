@@ -21,8 +21,12 @@
 
 class CDraw
 {
+	/*int time;
+	DWORD count;*/
 public:
+	/*void StartCount() { count = GetTickCount(); }*/
 	void DrawNumber(int max, float x, float y, int number = 0);
-	void DrawPower(float x, float y, int m);
+	void DrawPowerBlack(float x, float y);
+	void DrawPowerWhite(float x, float y);
 	int ConverToInt(char C);
 };

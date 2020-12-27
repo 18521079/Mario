@@ -37,7 +37,7 @@ void CHUD::Render()
 {
 	CGame* game = CGame::GetInstance();
 	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-
+	int power;
 	float cx=0.0f;
 	float cy=0.0f;
 	game->SetCamPos(cx, cy);
@@ -50,7 +50,13 @@ void CHUD::Render()
 	sprite->Get(SPRITE_M_CHARACTER)->Draw(cx + 3, cy + game->GetScreenHeight() - 20);
 	sprite->Get(4)->Draw(cx + 38, cy + game->GetScreenHeight() - 18);
 	sprite->Get(1)->Draw(cx + 38, cy + game->GetScreenHeight() - 25);
-	if (mario->GetPreFly()==1 || mario->GetCanFly()==1 )
+
+	if (mario->GetPreFly() == 1 || mario->GetCanFly() == 1)
+		power = 1;
+	else
+		power = 0;
+
+	/*if (mario->GetPreFly()==1 || mario->GetCanFly()==1 )
 	{
 		int x = 0;
 		for (int i = 0; i < 6; i++)
@@ -69,7 +75,7 @@ void CHUD::Render()
 			x += 8;
 		}
 		sprite->Get(SPRITE_P_CHARACTER_BLACK)->Draw(cx + 101, cy + game->GetScreenHeight() - 25);
-	}
+	}*/
 
 	if (mario->GetCard() == 1)
 	{
@@ -82,6 +88,12 @@ void CHUD::Render()
 	event->DrawNumber(3, cx + 125, cy + game->GetScreenHeight() - 18, time);
 	event->DrawNumber(7, cx + 51, cy + game->GetScreenHeight() - 19, mario->GetScore());
 	event->DrawNumber(str.size(), cx + 133, cy + game->GetScreenHeight() - 27, mario->GetCoin());
+
+	if (mario->GetPreFly() == 1 || mario->GetCanFly() == 1)
+	event->DrawPowerWhite(cx + 50, cy + game->GetScreenHeight() - 25);
+	else
+	event->DrawPowerBlack(cx + 50, cy + game->GetScreenHeight() - 25);
+
 	
 }
 

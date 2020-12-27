@@ -51,7 +51,8 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state != KOOPAS_STATE_DIE_FALL)
 		CalcPotentialCollisions(coObjects, coEvents);
-	if (state == KOOPAS_STATE_SHELL) {
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+	if (state == KOOPAS_STATE_SHELL && id!=1) {
 
 
 		if (!isRenewStart)
@@ -77,6 +78,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetTickCount() - timeWalking_start > 2000)
 		{
 			SetState(KOOPAS_STATE_WALKING_RIGHT);
+			vx = 0.02f;
 			SetPosition(this->x, this->y - 10.0f);
 
 		}

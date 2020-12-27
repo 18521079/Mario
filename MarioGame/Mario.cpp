@@ -62,7 +62,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	else
 	{
-		vy += MARIO_GRAVITY_FALL/9000 * dt;
+		vy += MARIO_GRAVITY_FALL/9000.0f * dt;
 	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -321,6 +321,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (block->GetState() == BLOCK_STATE_ACTIVITY)
 				{
 					block->SetState(BLOCK_STATE_INACTIVITY);
+
 				}
 
 			}
