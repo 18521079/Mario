@@ -22,13 +22,11 @@ void CQuestionBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (isMovingUp)
 		{
-			// set the down value again if the time set up greater than 400
+
 			if (countTimeUp > 4)
 			{
 				isMovingUp = false;
 			}
-
-			// set y little up when time is less than 400
 			else
 			{
 				y -= 1;

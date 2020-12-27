@@ -22,6 +22,8 @@
 class CGoomba : public CGameObject
 {
 	int Die = 0;
+	bool isFLying = false;
+	DWORD timeFlying_start;
 	DWORD Die_start = 0;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

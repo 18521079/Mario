@@ -36,6 +36,25 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
+	if (!isFLying)
+	{
+		timeFlying_start = GetTickCount();
+		isFLying = true;
+	}
+	else
+	{
+		// Set time for Goomba flying
+		if (GetTickCount() - timeFlying_start < 100)
+		{
+			vy = -0.25f;
+		}
+		// when time is greater than 2000, set isFlying = false to return wal
+		if (GetTickCount() - timeFlying_start > 2000)
+		{
+			isFLying = false;
+		}
+	}
+
 	if (state != GOOMBA_STATE_DIE_FALL)
 	CalcPotentialCollisions(coObjects, coEvents);
 
@@ -46,8 +65,8 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		if (state == GOOMBAWING_STATE_WALKING)
-			vy = -0.1f;
+		/*if (state == GOOMBAWING_STATE_WALKING)
+			vy = -0.1f;*/
 
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx, rdy;
@@ -102,7 +121,7 @@ void CWingGoomba::SetState(int state)
 		y = 119;
 		break;
 	case GOOMBA_STATE_WALKING:
-		vx = -GOOMBA_WALKING_SPEED;
+		vx = -2.0f*GOOMBA_WALKING_SPEED;
 		break;
 
 	case GOOMBA_STATE_DISAPPEAR:

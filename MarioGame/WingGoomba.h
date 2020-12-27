@@ -15,6 +15,8 @@ class CWingGoomba: public CGoomba
 {
 	int Die = 0;
 	int Y;
+	bool isFLying = false;
+	DWORD timeFlying_start;
 	DWORD Die_start = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
