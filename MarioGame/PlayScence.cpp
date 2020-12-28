@@ -10,6 +10,7 @@
 #include "Goomba.h"
 #include"Breakable_Brick.h"
 #include"Box.h"
+#include"EndScene.h"
 #include "Flower.h"
 #include "Koopas.h"
 #include "BackGroundCollision.h"
@@ -67,6 +68,9 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_KOOPAS_WING	17
 #define OBJECT_TYPE_HOLDBRICK	18
 #define OBJECT_TYPE_CARD	20
+#define OBJECT_TYPE_ENDSCENE0	21
+#define OBJECT_TYPE_ENDSCENE1	22
+
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -191,6 +195,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPASBRICK: obj = new CKoopasBrick(); break;
 	case OBJECT_TYPE_WINGGOOMBA: obj = new CWingGoomba(); break;
 	case OBJECT_TYPE_PBELL: obj = new CPbell(); break;
+	case OBJECT_TYPE_ENDSCENE0: obj = new CEndScene(0); break;
+	case OBJECT_TYPE_ENDSCENE1: obj = new CEndScene(1); break;
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)

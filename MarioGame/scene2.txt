@@ -14,9 +14,17 @@ F# id	file_path	transparent_color_r	g	b
 80	textures\black.png	51	255	191
 250	textures\final.png	0	183	239
 280	textures\special_items.png	0	183	239
+330	textures\end_scene1.png	0	0	0
+240	textures\HUD.png	0	224	142
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+
+#==== WORDS END SCENE 1
+#====COURSE CLEAR
+80200	44	18	159	25	330
+#====YOU GOT A CARD
+80201	27	42	144	50	330
 
 #====== Brick 
 100001	290	188	306	204	30
@@ -537,6 +545,8 @@ F# id	file_path	transparent_color_r	g	b
 4491	180	123	196	137	20
 
 
+#mushroom card					
+60109	184	159	208	188	240
 
 #============== HUD===============
 66660	11	127	165	157	90
@@ -576,6 +586,11 @@ F# id	file_path	transparent_color_r	g	b
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+
+#====COURSE CLEAR
+9100	80200	100
+#====YOU GOT A CARD
+9101	80201	100
 
 #====== BRICK======
 10001	100001	100
@@ -933,6 +948,9 @@ F# id	file_path	transparent_color_r	g	b
 #lá
 4491	4491	100
 
+#mushroom card			
+4008	60109	100
+
 # id	ani1	ani2	ani3
 #
 [ANIMATION_SETS]
@@ -959,6 +977,12 @@ F# id	file_path	transparent_color_r	g	b
 	
 606	606
 607	607
+
+
+#==== WORDS END SCENE 1
+1140	9100	9101	4008	4009	4010
+1145	9101
+1146	4008
 
 #BRICK
 101	10001
@@ -1122,6 +1146,7 @@ F# id	file_path	transparent_color_r	g	b
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = tree
 # MARIO
+
 
 #Đường
 1	-16	140	601
@@ -2202,6 +2227,11 @@ gạch chặn rùa
 1	2622	7	542
 1	2607	-9	540
 1	2622	-9	542
+1	2607	-25	543
+1	2622	-25	545			
+1	2607	-41	546
+1	2622	-41	548
+
 
 # ống tiếp
 1	2671	135	543
@@ -2483,6 +2513,12 @@ gạch chặn rùa
 20	3050	75	408
 
 #nấm
+
+#==== WORDS END SCENE 1
+
+21	3000	20	1140
+22	3000	40	1145
+22	3120	30	1146
 
 
 #bóng:

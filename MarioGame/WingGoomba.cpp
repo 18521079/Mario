@@ -75,22 +75,40 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		x += min_tx * dx + nx * 0.04f;
 		y += min_ty * dy + ny * 0.04f;
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba
+			{
+				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+				goomba->SetPosition(x, y - 10.0f);
+				vx = -vx;
+				goomba->vx = -goomba->vx;
+				
+			}
+
+			else if (nx != 0 && ny == 0)
+			{
+				nx = -nx;
+				vx = -vx;
+			}
+			
+
+		}
+		for (UINT i = 0; i < coEvents.size(); i++)
+			delete coEvents[i];
+		if (vx < 0 && x < 700)
+		{
+			x = 700;
+			vx = -vx;
+		}
+		if (vx > 0 && x > 1200)
+		{
+			x = 1200;
+			vx = -vx;
+		}
 
 	}
-	for (UINT i = 0; i < coEvents.size(); i++)
-		delete coEvents[i];
-	if (vx < 0 && x < 624)
-	{
-		x = 624;
-		vx = -vx;
-	}
-	if (vx > 0 && x > 1200)
-	{
-		x = 1200;
-		vx = -vx;
-	}
-
-
 
 }
 

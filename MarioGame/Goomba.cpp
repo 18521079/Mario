@@ -70,6 +70,10 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				nx = -nx;
 				vx = -vx;
 			}
+			else
+			{
+
+			}
 
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

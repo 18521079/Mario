@@ -155,6 +155,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="EndScene.cpp" />
     <ClCompile Include="Fire_Ball.cpp" />
     <ClCompile Include="Flower.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Draw.h" />
+    <ClInclude Include="EndScene.h" />
     <ClInclude Include="Fire_Ball.h" />
     <ClInclude Include="Flower.h" />
     <ClInclude Include="Game.h" />
