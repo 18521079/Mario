@@ -8,10 +8,15 @@
 #define ITEM_STATE_MUSHROOM 200
 #define ITEM_STATE_DISAPPEAR 300
 #define ITEM_STATE_COIN 400
+#define COIN_STATE_MOVING_DOWN 500
 
 class CItem : public CGameObject
 {
 	int touch = 0;
+	//dung cho dong xu
+	WORD time_Moveup_start = 0;
+	DWORD time_Movedown_start = 0;
+	bool isUsed = false;
 public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

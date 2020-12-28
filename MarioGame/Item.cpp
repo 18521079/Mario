@@ -74,21 +74,44 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	else if (state == ITEM_STATE_COIN)
 	{
-		y -= 0.09 * dt;
-		if (y < 80)
-
-		y -= dy;
-
-		if (y < 20 && vy>0)
+		/*y -= dy;
+		if (time_Moveup_start == 0)
 		{
-			y += 0.02 * dt;
+			time_Moveup_start = GetTickCount();
+		}
+
+		else if (GetTickCount() - time_Moveup_start > 1000)
+		{
+			SetState(COIN_STATE_MOVING_DOWN);
+		}*/
+		y +=vy * dt;
+		
+
+		if (y < 20 )
+		{
+			
 			vy = -vy;
 		}
 		else if (y > 89)
 		{
 			SetState(ITEM_STATE_DISAPPEAR);
 		}
+	
 	}
+
+	/*else if (state == COIN_STATE_MOVING_DOWN)
+	{
+		if (time_Movedown_start == 0)
+		{
+			time_Movedown_start = GetTickCount();
+		}
+		else if (GetTickCount() - time_Movedown_start > 200)
+		{
+			
+			SetState(ITEM_STATE_DISAPPEAR);
+		}
+	}*/
+	
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
@@ -108,6 +131,12 @@ void CItem::SetState(int state)
 	case ITEM_STATE_DISAPPEAR:
 		x = -100;
 		y = -100;
+		break;
+	case COIN_STATE_MOVING_DOWN:
+		vy = 0.2;
+		break;
+	case  ITEM_STATE_COIN:
+		vy = -0.2;
 		break;
 	}
 

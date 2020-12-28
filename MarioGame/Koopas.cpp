@@ -83,7 +83,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else
 		{
 			// Set time for Koopas flying
-			if (GetTickCount() - timeFlying_start < 200)
+			if (GetTickCount() - timeFlying_start < 150)
 			{
 				vy = -0.25f;
 			}
