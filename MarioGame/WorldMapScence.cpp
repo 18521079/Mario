@@ -431,9 +431,9 @@ void CWorldMapSceneKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_S:
 		CGame::GetInstance()->SwitchScene(3);
 		break;
-	case DIK_P:
-		mario->SetHolding(0);
-		mario->SetKickKoopas(1);
+	case DIK_4:
+		CGame::GetInstance()->SwitchScene(4);
+		
 		break;
 	case DIK_D:
 		mario->SetCanFly(0);

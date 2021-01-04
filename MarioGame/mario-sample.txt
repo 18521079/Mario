@@ -6,5 +6,5 @@ start	1
 1	intro.txt
 2	scene1.txt
 3	scene2.txt
-#4	scene3.txt
+4	scene4.txt
 
