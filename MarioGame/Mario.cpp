@@ -22,7 +22,7 @@
 #include"HoldBrick.h"
 #include"StartScence.h"
 #include"Card.h"
-
+#include"MovingBrick.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -445,6 +445,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			CHoldBrick* brick = dynamic_cast<CHoldBrick*>(e->obj);
 			SetPosition(brick->x , brick->y);
 			brick->SetState(BRICK_STATE_M);
+
+			}
+			else if (dynamic_cast<CMovingBrick*>(e->obj))
+			{
+			if (e->ny < 0)
+			{
+				isTouchingPlattform = true;
+				CMovingBrick* movingPlattform = dynamic_cast<CMovingBrick*>(e->obj);
+				movingPlattform->SetState(MOVING_PLATTFORM_STATE_FALLING);
+				movingPlattform->isBeingTouched = true;
+			}
 
 			}
 			
