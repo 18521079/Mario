@@ -331,12 +331,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 			CCoin* coin = dynamic_cast<CCoin*>(e->obj);
 			// jump on top >> kill Goomba and deflect a bit 
-			if (e->ny > 0 || e->nx != 0)
-			{
+			
 				coin->SetState(COIN_STATE_DISAPPEAR);
 				this->coin++;
 
-			}
+			
 			}
 			else if (dynamic_cast<CBreakableBrick*>(e->obj)) // if e->obj is Goomba 
 			{
@@ -447,7 +446,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			brick->SetState(BRICK_STATE_M);
 
 			}
-			else if (dynamic_cast<CMovingBrick*>(e->obj))
+			/*else if (dynamic_cast<CMovingBrick*>(e->obj))
 			{
 			if (e->ny < 0)
 			{
@@ -457,7 +456,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				movingPlattform->isBeingTouched = true;
 			}
 
-			}
+			}*/
 			
 			else if (dynamic_cast<CFlower*>(e->obj)) // if e->obj is Goomba 
 			{
@@ -684,11 +683,11 @@ void CMario::Render()
 				}
 
 				// 
-				else if (/*state == MARIO_STATE_FAST_WALKING_LEFT*/ preFly==1 && nx<0)
+				else if (/*state == MARIO_STATE_FAST_WALKING_LEFT*/ preFly==1 && nx<0 && CanFly!=0)
 				{
 				ani = MARIO_ANI_TAIL_WALKING_FAST_LEFT;
 				}
-				else if (/*state == MARIO_STATE_FAST_WALKING_RIGHT*/preFly==1 && nx>0)
+				else if (/*state == MARIO_STATE_FAST_WALKING_RIGHT*/preFly==1 && nx>0 && CanFly!=10)
 				{
 				ani = MARIO_ANI_TAIL_WALKING_FAST_RIGHT;
 				}

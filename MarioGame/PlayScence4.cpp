@@ -24,6 +24,7 @@
 #include"Pbell.h"
 #include"HoldBrick.h"
 #include"Card.h"
+#include"MovingBrick.h"
 
 
 using namespace std;
@@ -70,6 +71,7 @@ CPlayScene4::CPlayScene4(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_ENDSCENE0	21
 #define OBJECT_TYPE_ENDSCENE1	22
 #define OBJECT_TYPE_GREEN_MARIO			 25
+#define OBJECT_TYPE_MOVINGBRICK			 26
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -197,6 +199,7 @@ void CPlayScene4::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_ENDSCENE0: obj = new CEndScene(0); break;
 	case OBJECT_TYPE_ENDSCENE1: obj = new CEndScene(1); break;
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
+	case OBJECT_TYPE_MOVINGBRICK: obj = new CMovingBrick(); break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
 		{
@@ -208,9 +211,7 @@ void CPlayScene4::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	case OBJECT_TYPE_GREEN_MARIO:
-		obj = new CMario(MARIO_TYPE_GREEN, x, y);
-		player2 = (CMario*)obj;
+	
 	case OBJECT_TYPE_QuestionBlock: obj = new CQuestionBlock(); break;
 	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBackGroundCollision(); break;
 	case OBJECT_TYPE_BOX: obj = new CBox(); break;
@@ -293,7 +294,7 @@ void CPlayScene4::Load()
 
 void CPlayScene4::Update(DWORD dt)
 {
-	player2->SetState(MARIO_STATE_WALKING_RIGHT);
+	
 	
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
@@ -315,7 +316,7 @@ void CPlayScene4::Update(DWORD dt)
 	
 	float cx, cy;
 	player->GetPosition(cx, cy);
-	cx1 += 0.02 * dt;
+	cx1 += 0.03 * dt;
 	//CGame* game = CGame::GetInstance();
 	//cx -= game->GetScreenWidth() / 2;
 	//cy -= game->GetScreenHeight() / 2;
@@ -325,7 +326,7 @@ void CPlayScene4::Update(DWORD dt)
 	
 			
 		CGame::GetInstance()->SetCamPos(round(cx1), round(30));
-
+		if (cx1 >= cx) player->SetPosition(cx + 2, cy);
 	
 	HUD->Update(dt);
 }
