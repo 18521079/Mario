@@ -86,6 +86,25 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		spin_start = 0;
 		SetSpin(0);
 	}
+	/*if (isPreFirstIdle == true)
+	{
+		preIDLE_start = GetTickCount();
+		isPreFirstIdle == false;
+		preIdled = true;
+	}
+	if (preIdled = true)
+	{
+		if (GetTickCount() - preIDLE_start > 300)
+		{
+			SetState(MARIO_STATE_WALKING_RIGHT);
+		}
+		else
+			preIdled = false;
+
+
+
+
+	}*/
 	/*if (GetTickCount() - preIDLE_start > 400)
 	{
 		preIDLE_start = 0;
@@ -446,17 +465,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			brick->SetState(BRICK_STATE_M);
 
 			}
-			/*else if (dynamic_cast<CMovingBrick*>(e->obj))
+			else if (dynamic_cast<CMovingBrick*>(e->obj))
 			{
 			if (e->ny < 0)
 			{
-				isTouchingPlattform = true;
+				
 				CMovingBrick* movingPlattform = dynamic_cast<CMovingBrick*>(e->obj);
-				movingPlattform->SetState(MOVING_PLATTFORM_STATE_FALLING);
-				movingPlattform->isBeingTouched = true;
+				movingPlattform->SetState(BRICK_STATE_FALLING);
+				
 			}
 
-			}*/
+			}
 			
 			else if (dynamic_cast<CFlower*>(e->obj)) // if e->obj is Goomba 
 			{

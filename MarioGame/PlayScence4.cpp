@@ -295,7 +295,7 @@ void CPlayScene4::Load()
 void CPlayScene4::Update(DWORD dt)
 {
 	
-	
+	player->SetLevel(MARIO_LEVEL_TAIL);
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 	vector<LPGAMEOBJECT> coObjects;

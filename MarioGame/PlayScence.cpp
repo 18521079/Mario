@@ -481,6 +481,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_D:
 		mario->SetCanFly(0);
 		break;
+	case DIK_RIGHT:
+		mario->SetFirstPreidle(true);
+		break;
 	/*case DIK_S:
 		mario->SetCheckFall(false);
 		break;*/
@@ -582,5 +585,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	else
 	
 		mario->SetState(MARIO_STATE_IDLE);
+		
 
 }

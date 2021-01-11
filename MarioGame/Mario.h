@@ -154,6 +154,8 @@ class CMario : public CGameObject
 	bool isRedAbleWalk = true;
 	bool checkFall = false;
 	bool isTouchingPlattform = false;
+	bool isPreFirstIdle = false;
+	bool preIdled = false;
 
 	int FirstTimeFly=0;
 	int CanFly=0;
@@ -246,4 +248,8 @@ public:
 	void SetPreFly(int pre) { preFly = pre; };
 	bool GetisTouchingPlattform() { return isTouchingPlattform; }
 	void SetisTouchingPlattform(bool touch) {  isTouchingPlattform= touch; };
+	int GetFirstPreidle() { return isPreFirstIdle; };
+	void SetFirstPreidle(int pre) { isPreFirstIdle = pre; };
+	int GetPreidle() { return preIdled; };
+	void SetPreidle(int pre) { preIdled = pre; };
 };
