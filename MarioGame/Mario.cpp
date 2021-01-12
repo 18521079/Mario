@@ -359,6 +359,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBreakableBrick*>(e->obj)) // if e->obj is Goomba 
 			{
 				CBreakableBrick* brick = dynamic_cast<CBreakableBrick*>(e->obj);
+				if (e->ny > 0)
+				{
+					brick->SetState(BRICK_STATE_DISAPPEAR);
+				}
 				if (e->nx != 0 && level == MARIO_LEVEL_TAIL && Spin == 1)
 				{
 					if (brick->x == 2366)
@@ -428,12 +432,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					item->SetTouch(1);
 					//DebugOut(L"touch %d \n", item->GetTouch());
-						if (item->x == 248 && item->y == 55)
+						if (item->x == 248 && item->y == 55 )
 						{
 							item->y = 40;
 							item->SetState(ITEM_STATE_MUSHROOM);
 						}
-						else if (item->x == 1690 && item->y == 103)
+						if (item->x == 642)
+						{
+							item->y = 40;
+							item->SetState(ITEM_STATE_GREENMUSHROOM);
+						}
+						else if (item->x == 1690 && item->y == 103 || item->x==992)
 						{
 							item->y = 80;
 							item->SetState(ITEM_STATE_LEAF);

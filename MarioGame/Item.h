@@ -6,13 +6,16 @@
 
 #define ITEM_STATE_LEAF 100
 #define ITEM_STATE_MUSHROOM 200
+#define ITEM_STATE_GREENMUSHROOM 600
 #define ITEM_STATE_DISAPPEAR 300
 #define ITEM_STATE_COIN 400
 #define COIN_STATE_MOVING_DOWN 500
+#define ITEM_STATE_COINS 700
 
 class CItem : public CGameObject
 {
 	int touch = 0;
+	int count = 0;
 	//dung cho dong xu
 	WORD time_Moveup_start = 0;
 	DWORD time_Movedown_start = 0;
@@ -24,4 +27,6 @@ public:
 	virtual void SetState(int state);
 	int GetTouch() { return touch; };
 	void SetTouch(int act) { touch = act; };
+	int GetCount() { return count; };
+	void SetCount(int act) { count = act; };
 };

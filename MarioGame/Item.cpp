@@ -18,8 +18,14 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		LPGAMEOBJECT obj = coObjects->at(i);
 		if (dynamic_cast<CQuestionBlock*>(obj))
 		{
+			count++;
 			CQuestionBlock* question = dynamic_cast<CQuestionBlock*>(obj);
-			if (GetTouch() == 1)
+			if (GetTouch() == 1 && GetState()!=ITEM_STATE_COINS)
+			{
+				if (x == question->x)
+					question->SetState(BLOCK_STATE_INACTIVITY);
+			}
+			else if (count == 5 && GetState() == ITEM_STATE_COINS)
 			{
 				if (x == question->x)
 					question->SetState(BLOCK_STATE_INACTIVITY);
@@ -63,6 +69,42 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
+	if (state == ITEM_STATE_GREENMUSHROOM)
+	{
+		CalcPotentialCollisions(coObjects, coEvents);
+		vy += 0.0009 * dt;
+		vx = -0.003 * dt;
+
+		if (coEvents.size() == 0)
+		{
+			x -= dx;
+			y += dy;
+		}
+		else
+		{
+
+			float min_tx, min_ty, nx = 0, ny;
+			float rdx = 0;
+			float rdy = 0;
+			// TODO: This is a very ugly designed function!!!!
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+			// block object
+			x += min_tx * dx + nx * 0.4f;
+			y += min_ty * dy + ny * 0.4f;
+
+			// Check collision nx to change direction
+			/*if (nx != 0 && ny == 0)
+			{
+				vx = -vx;
+			}*/
+
+			if (ny != 0)
+			{
+				vy = 0;
+			}
+		}
+
+	}
 	
 	else if (state == ITEM_STATE_LEAF)
 	{
@@ -72,7 +114,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 
-	else if (state == ITEM_STATE_COIN)
+	else if (state == ITEM_STATE_COIN || state == ITEM_STATE_COINS)
 	{
 		/*y -= dy;
 		if (time_Moveup_start == 0)
