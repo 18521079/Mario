@@ -428,7 +428,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CItem* item = dynamic_cast<CItem*>(e->obj);
 
-				if (e->ny > 0)
+				if (e->ny > 0 || Spin==1)
 				{
 					item->SetTouch(1);
 					//DebugOut(L"touch %d \n", item->GetTouch());
@@ -446,6 +446,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							item->y = 80;
 							item->SetState(ITEM_STATE_LEAF);
+						}
+						else if (item->x==1042 )
+						{
+							item->SetState(ITEM_STATE_COINS);
+							coin++;
+							score++;
 						}
 						else
 						{

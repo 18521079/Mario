@@ -113,8 +113,33 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x += 0.02 * dt;
 	}
 
+	else if ( state == ITEM_STATE_COINS)
+	{
+		/*y -= dy;
+		if (time_Moveup_start == 0)
+		{
+			time_Moveup_start = GetTickCount();
+		}
 
-	else if (state == ITEM_STATE_COIN || state == ITEM_STATE_COINS)
+		else if (GetTickCount() - time_Moveup_start > 1000)
+		{
+			SetState(COIN_STATE_MOVING_DOWN);
+		}*/
+		y += vy * dt;
+
+
+		if (y < 50)
+		{
+
+			vy = -vy;
+		}
+		else if (y > 129)
+		{
+			SetState(ITEM_STATE_DISAPPEAR);
+		}
+
+	}
+	else if (state == ITEM_STATE_COIN )
 	{
 		/*y -= dy;
 		if (time_Moveup_start == 0)
@@ -178,6 +203,9 @@ void CItem::SetState(int state)
 		vy = 0.2;
 		break;
 	case  ITEM_STATE_COIN:
+		vy = -0.2;
+		break;
+	case  ITEM_STATE_COINS:
 		vy = -0.2;
 		break;
 	}
