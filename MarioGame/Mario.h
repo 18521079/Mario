@@ -175,7 +175,7 @@ class CMario : public CGameObject
 	int score=0;
 	int coin=0;
 	int card = 0;
-
+	int touchPipe = 0;
 
 public:
 
@@ -252,4 +252,6 @@ public:
 	void SetFirstPreidle(int pre) { isPreFirstIdle = pre; };
 	int GetPreidle() { return preIdled; };
 	void SetPreidle(int pre) { preIdled = pre; };
+	int GetTouchPipe() { return touchPipe; };
+	void SetTouchPipe(int pre) { touchPipe = pre; };
 };

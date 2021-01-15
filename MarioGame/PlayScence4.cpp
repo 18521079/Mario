@@ -313,10 +313,27 @@ void CPlayScene4::Update(DWORD dt)
 	if (player == NULL) return;
 
 	// Update camera to follow mario
-	
+	CGame* game = CGame::GetInstance();
 	float cx, cy;
+	float cx2 = 0, cy2 = 0;
 	player->GetPosition(cx, cy);
+	if(cx1<2080- game->GetScreenWidth())
 	cx1 += 0.03 * dt;
+	else
+	{
+		if (player->GetTouchPipe() == 1)
+		{
+			player->GetPosition(cx2, cy2);
+
+			cx2 -= game->GetScreenWidth() / 2;
+			cy2 -= game->GetScreenHeight() / 2;
+
+			CGame::GetInstance()->SetCamPos(round(cx2), 0.0f /*cy*/);
+		}
+
+		cx1 = 2080 - game->GetScreenWidth();
+	}
+	
 	//CGame* game = CGame::GetInstance();
 	//cx -= game->GetScreenWidth() / 2;
 	//cy -= game->GetScreenHeight() / 2;
@@ -405,12 +422,7 @@ void CPlayScenceKeyHandler4::OnKeyDown(int KeyCode)
 
 		break;
 	case DIK_O:
-		if (mario->GetJumping() == 0)
-		{
-			mario->SetState(MARIO_STATE_HIGHT_JUMP);
-			mario->ny = 1;
-			mario->SetJumping(1);
-		}
+		mario->SetPosition(2144, 50);
 	case DIK_Q:
 		mario->SetPosition(x, y - 16.0f);
 		mario->SetLevel(MARIO_LEVEL_BIG);
@@ -550,9 +562,10 @@ void CPlayScenceKeyHandler4::KeyState(BYTE* states)
 	}
 	else if (game->IsKeyDown(DIK_UP))
 	{
-		if (mario->y > 170)
+		if (mario->y < 90)
 		{
-			mario->SetPosition(2671.0f, 110.0f);
+			mario->SetTouchPipe(1);
+			mario->SetPosition(2250.0f, 132.0f);
 		}
 	}
 
@@ -564,9 +577,10 @@ void CPlayScenceKeyHandler4::KeyState(BYTE* states)
 
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		if (mario->y <= 0)
+		if (mario->y < 90)
 		{
-			mario->SetPosition(150.0f, 300.0f);
+			mario->SetTouchPipe(1);
+			mario->SetPosition(2250.0f, 132.0f);
 		}
 		else
 			mario->SetState(MARIO_STATE_SIT);
