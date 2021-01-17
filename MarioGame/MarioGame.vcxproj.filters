@@ -141,6 +141,12 @@
     <ClCompile Include="PlayScence4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -264,6 +270,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayScence4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

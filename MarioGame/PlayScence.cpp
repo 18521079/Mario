@@ -330,6 +330,21 @@ void CPlayScene::Update(DWORD dt)
 		
 	}
 	HUD->Update(dt);
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		if (objects[i]->GetIsActive() == false)
+		{
+			coObjects.emplace_back(objects[i]);
+			objects[i]->SetIsActive(true);
+		}
+	}
+
+	if (grid != NULL)
+	{
+		grid->HandleGrid(&coObjects, game->GetCamX(), game->GetCamY(), game->GetScreenWidth(), game->GetScreenHeight());
+	}
+
+
 }
 
 void CPlayScene::Render()
@@ -482,7 +497,10 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetCanFly(0);
 		break;
 	case DIK_RIGHT:
-		mario->SetFirstPreidle(true);
+		mario->StartUnPreIdle();
+		break;
+	case DIK_LEFT:
+		mario->StartUnPreIdle();
 		break;
 	/*case DIK_S:
 		mario->SetCheckFall(false);
@@ -583,8 +601,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 	
 	else
-	
-		mario->SetState(MARIO_STATE_IDLE);
+	{
+		if (mario->GetPreidle() != true)
+			mario->SetState(MARIO_STATE_IDLE);
+	}
 		
 
 }

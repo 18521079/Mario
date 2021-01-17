@@ -48,6 +48,9 @@ public:
 	float x;
 	float y;
 
+	float originX;
+	float originY;
+
 	float dx;	// dx = vx*dt
 	float dy;	// dy = vy*dt
 
@@ -58,6 +61,7 @@ public:
 	int ny;
 
 	int state;
+	bool isActive = false;
 
 	DWORD dt;
 
@@ -67,6 +71,7 @@ public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
+	void SetOriginPosition(double x, double y) { this->originX = x, this->originY = y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
@@ -96,6 +101,9 @@ public:
 
 	float Getdx() { return dx; };
 	float Getdy() { return dy; };
+
+	bool GetIsActive() { return isActive; }
+	void SetIsActive(bool value) { isActive = value; }
 
 	~CGameObject();
 };

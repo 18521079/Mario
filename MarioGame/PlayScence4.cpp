@@ -317,8 +317,12 @@ void CPlayScene4::Update(DWORD dt)
 	float cx, cy;
 	float cx2 = 0, cy2 = 0;
 	player->GetPosition(cx, cy);
-	if(cx1<2080- game->GetScreenWidth())
-	cx1 += 0.03 * dt;
+	if (cx1 < 2080 - game->GetScreenWidth())
+	{
+		cx1 += 0.03 * dt;
+		CGame::GetInstance()->SetCamPos(round(cx1), round(30));
+		if (cx1 >= cx) player->SetPosition(cx + 2, cy);
+	}
 	else
 	{
 		if (player->GetTouchPipe() == 1)
@@ -328,7 +332,7 @@ void CPlayScene4::Update(DWORD dt)
 			cx2 -= game->GetScreenWidth() / 2;
 			cy2 -= game->GetScreenHeight() / 2;
 
-			CGame::GetInstance()->SetCamPos(round(cx2), 0.0f /*cy*/);
+			CGame::GetInstance()->SetCamPos(round(cx2), 10.0f /*cy*/);
 		}
 
 		cx1 = 2080 - game->GetScreenWidth();
@@ -342,8 +346,8 @@ void CPlayScene4::Update(DWORD dt)
 	//CGame::GetInstance()->SetCamPos(round(cx), 0.0f /*cy*/);
 	
 			
-		CGame::GetInstance()->SetCamPos(round(cx1), round(30));
-		if (cx1 >= cx) player->SetPosition(cx + 2, cy);
+		
+		
 	
 	HUD->Update(dt);
 }
@@ -490,7 +494,14 @@ void CPlayScenceKeyHandler4::OnKeyUp(int KeyCode)
 		mario->SetKickKoopas(1);
 		break;
 	case DIK_D:
-		mario->SetCanFly(0);
+		mario->SetTouchPipe(1);
+		mario->SetPosition(2250.0f, 132.0f);
+		break;
+	case DIK_RIGHT:
+		mario->StartUnPreIdle();
+		break;
+	case DIK_LEFT:
+		mario->StartUnPreIdle();
 		break;
 		/*case DIK_S:
 			mario->SetCheckFall(false);
@@ -593,7 +604,9 @@ void CPlayScenceKeyHandler4::KeyState(BYTE* states)
 	}
 
 	else
-
-		mario->SetState(MARIO_STATE_IDLE);
+	{
+		if (mario->GetPreidle() != true)
+			mario->SetState(MARIO_STATE_IDLE);
+	}
 
 }

@@ -80,6 +80,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+	if (GetTickCount() - unPreIDLE_start > 200 && preIdled == 1)
+	{
+		unPreIDLE_start = 0;
+		preIdled = 0;
+			
+	}
+	
+	if (preIdled == 1)
+	{
+		if (nx > 0)	SetState(MARIO_STATE_WALKING_RIGHT);
+		else if(nx<0)
+			SetState(MARIO_STATE_WALKING_LEFT);
+		
+	}
 
 	if (GetTickCount() - spin_start > 400)
 	{

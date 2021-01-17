@@ -7,6 +7,7 @@
 #include "Mario.h"
 #include "Goomba.h"
 #include"HUD.h"
+#include"Grid.h"
 //#include "Koopas.h"
 
 
@@ -15,6 +16,7 @@ class CPlayScene : public CScene
 protected:
 	CMario* player;					// A play scene has to have player, right?
 	CHUD* HUD;
+	CGrid* grid;
 
 	vector<LPGAMEOBJECT> objects;
 

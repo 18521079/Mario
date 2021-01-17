@@ -151,6 +151,7 @@
     <ClCompile Include="BackGroundCollision.cpp" />
     <ClCompile Include="Breakable_Brick.cpp" />
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="debug.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HoldBrick.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -195,6 +197,7 @@
     <ClInclude Include="BackGroundCollision.h" />
     <ClInclude Include="Breakable_Brick.h" />
     <ClInclude Include="Card.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="debug.h" />
@@ -205,6 +208,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="Grid.h" />
     <ClInclude Include="HoldBrick.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Item.h" />
