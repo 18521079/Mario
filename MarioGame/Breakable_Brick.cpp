@@ -10,6 +10,10 @@ void CBreakableBrick::Render()
 	int ani = BRICK_ANI_NORMAL;
 	if (state == BRICK_STATE_COIN)
 		ani = BRICK_ANI_COIN;
+	else if (state == BRICK_STATE_NORMAL)
+	{
+		ani = BRICK_ANI_NORMAL;
+	}
 	animation_set->at(ani)->Render(x, y);
 
 	//RenderBoundingBox();
@@ -29,7 +33,7 @@ void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
-
+	
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);
@@ -39,7 +43,13 @@ void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (bell->GetTouch() == 1)
 			{
 				state = BRICK_STATE_COIN;
+				//StartPfeature();
 			}
+			else if (bell->GetTouch() == 2)
+			{
+				state = BRICK_STATE_NORMAL;
+			}
+
 			
 
 		}

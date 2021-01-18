@@ -80,7 +80,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-	if (GetTickCount() - unPreIDLE_start > 200 && preIdled == 1)
+	if (GetTickCount() - unPreIDLE_start > 300 && preIdled == 1)
 	{
 		unPreIDLE_start = 0;
 		preIdled = 0;
@@ -228,7 +228,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (level == MARIO_LEVEL_BIG)
 					{
-						
+						StartUntouchable();
 						SetLevel(MARIO_LEVEL_SMALL);
 						if(nx>0)
 						SetPosition(x-20, y);
@@ -237,7 +237,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					else if (level == MARIO_LEVEL_SMALL)
 					{
-						//StartUntouchable();
+						StartUntouchable();
 						SetState(MARIO_STATE_DIE);
 					}
 					else
@@ -404,6 +404,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				bell->SetState(BELL_STATE_INACTIVITY);
 				bell->SetTouch(1);
+				bell->StartPfeature();
+				
 			}
 			
 			}
@@ -411,13 +413,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 
 				CBall* ball = dynamic_cast<CBall*>(e->obj);
-				StartUntouchable();
+				
 				if (level == MARIO_LEVEL_SMALL)
 					state = MARIO_STATE_DIE;
 				else if (level == MARIO_LEVEL_BIG)
+				{
+
 					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
 				else
+				{
 					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
 
 			}
 			else if (dynamic_cast<CCard*>(e->obj)) // if e->obj is Goomba 
@@ -517,11 +526,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					SetPosition(x + 20, y);
 
 				if (level == MARIO_LEVEL_SMALL)
+				{
 					state = MARIO_STATE_DIE;
+				}
 				else if (level == MARIO_LEVEL_BIG)
+				{
 					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
 				else
+				{
 					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
 
 			}
 
@@ -641,6 +658,13 @@ void CMario::Render()
 					{
 						ani = MARIO_ANI_BIG_JUMP_LEFT;
 					}
+					else if (preFly == 1)
+					{
+						if(nx>0)
+						ani = MARIO_ANI_BIG_WALKING_FAST_RIGHT;
+						else
+							ani = MARIO_ANI_BIG_WALKING_FAST_LEFT;
+					}
 
 					else if (nx > 0)
 						ani = MARIO_ANI_BIG_WALKING_RIGHT;
@@ -682,6 +706,7 @@ void CMario::Render()
 					{
 						ani = MARIO_ANI_SMALL_JUMP_LEFT;
 					}
+					
 					else if (nx > 0)
 						ani = MARIO_ANI_SMALL_WALKING_RIGHT;
 					else if (nx < 0)

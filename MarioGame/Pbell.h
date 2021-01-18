@@ -13,14 +13,17 @@
 
 class CPbell: public CGameObject
 {
+	int pFeature = 0;
+	DWORD pFeature_start;
+	int touch = 0; // =0 chua cham chuong, =1 cham chuong trong 2000s, =2 cham chuong sau 2000s
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 	public:
-	int touch = 0;
 	CPbell();
 	int GetTouch() { return touch; };
 	void SetTouch(int t) { touch = t; };
+	void StartPfeature() { pFeature = 1; pFeature_start = GetTickCount(); };
 	//virtual void SetState(int state);
 };
 

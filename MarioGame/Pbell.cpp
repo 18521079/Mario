@@ -25,6 +25,14 @@ void CPbell::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 	CGameObject::Update(dt, coObjects);
+
+	if (pFeature == 1 && GetTickCount() - pFeature_start > 5000)
+	{
+		pFeature_start = 0;
+		pFeature = 0;
+		touch = 2;
+
+	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -35,7 +43,7 @@ void CPbell::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (dynamic_cast<CBreakableBrick*>(obj))
 		{
 			CBreakableBrick* brick = dynamic_cast<CBreakableBrick*>(obj);
-			if (touch == 1)
+			if (touch == 1 || touch==2)
 			{
 				SetState(BELL_STATE_INACTIVITY);
 				y = 97;

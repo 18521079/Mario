@@ -13,6 +13,7 @@
 class CBreakableBrick : public CGameObject
 {
 	int touch = 0;
+	
 public:
 	
 	CBreakableBrick();
@@ -22,5 +23,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	int GetTouch() { return touch; };
 	void SetTouch(int t) { touch = t; };
+	
+	
 
 };

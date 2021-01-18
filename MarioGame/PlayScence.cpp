@@ -317,6 +317,7 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetScreenHeight() / 2;
 
 	if (cx < 0) cx = 0;
+	if (cx > 3182 - game->GetScreenWidth()) cx = 3182 - game->GetScreenWidth();
 	CGame::GetInstance()->SetCamPos(round(cx), 0.0f /*cy*/);
 	if(player->GetLevel() == MARIO_LEVEL_TAIL /*&& player->GetState()==MARIO_STATE_FLY*/ )
 	{
@@ -385,6 +386,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetCheckFall(false);
 			mario->SetPreFly(0);
 		}
+
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL && mario->GetCanFly()== 1)
 		{
 			mario->SetCheckFall(false);
@@ -503,7 +505,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->StartUnPreIdle();
 		break;
 	/*case DIK_S:
-		mario->SetCheckFall(false);
+			mario->StartUnPreIdle();
 		break;*/
 	}
 }
@@ -522,6 +524,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	if (game->IsKeyDown(DIK_RIGHT))
 		if (game->IsKeyDown(DIK_A))
 		{
+			
+			
 			if (mario->vx < 0.3f)
 			{
 				mario->SetPreFly(0);
@@ -599,6 +603,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	{
 		mario->SetState(MARIO_STATE_FAST_WALKING);
 	}
+	
 	
 	else
 	{
