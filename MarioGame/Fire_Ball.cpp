@@ -55,15 +55,31 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	
 	
-	if (mario->GetShoot() == 1 && GetFly() == 0)
+	/*if (mario->GetShoot() == 1 && GetFly() == 0)
 	{
+		count++;
 		 SetPosition(mario->x, mario->y);
 		 SetFly(1);
 		 SetY(mario->y);
 		 FiringStart();
-		 mario->SetShoot(0);
+		 if (count == 2)
+		 {
+			 mario->SetShoot(0);
+			 count = 0;
+		 }
 		 vy = 0.05f;
 		 vx = 0.08f;
+
+	}*/
+	if (mario->GetShoot() == 1 && GetFly() == 0)
+	{
+		SetPosition(mario->x, mario->y);
+		SetFly(1);
+		SetY(mario->y);
+		FiringStart();
+		mario->SetShoot(0);
+		vy = 0.05f;
+		vx = 0.08f;
 
 	}
 	

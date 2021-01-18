@@ -10,6 +10,7 @@
 class CFireBall : public CGameObject
 {
 	int Fly =0;
+	//int count = 0;
 	float Y;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
