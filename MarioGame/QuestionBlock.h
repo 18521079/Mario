@@ -14,10 +14,13 @@ class CQuestionBlock : public CGameObject
 {
 	bool isMovingUp = true;
 	int countTimeUp = 0;
+	
 public:
 	CQuestionBlock();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+	
+	
 	
 };

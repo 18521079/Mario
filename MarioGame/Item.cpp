@@ -23,7 +23,11 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (GetTouch() == 1 && GetState()!=ITEM_STATE_COINS)
 			{
 				if (x == question->x)
+				{
 					question->SetState(BLOCK_STATE_INACTIVITY);
+					/*question->StartUp();
+					question->StartDown();*/
+				}
 			}
 			else if (count == 5 && GetState() == ITEM_STATE_COINS)
 			{

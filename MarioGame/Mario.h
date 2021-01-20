@@ -168,7 +168,7 @@ class CMario : public CGameObject
 	DWORD spin_start;
 	float start_x;			// initial position of Mario at scene
 	float start_y;
-	DWORD unPreIDLE_start;
+	DWORD preIDLE_start;
 	DWORD speedup_start;
 
 	int speedLevel = 1;
@@ -184,7 +184,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	void StartUnPreIdle() { preIdled = 1, unPreIDLE_start = GetTickCount(); }
+	void StartPreIdle() { preIdled = 1, preIDLE_start = GetTickCount(); }
 	void StartKick() { kick_start = GetTickCount(); }
 	/*void StartPreIdle() { preidle = 1; preIDLE_start = GetTickCount(); }*/
 	void SetState(int state);

@@ -95,6 +95,7 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				x += dx;
 				y += dy;
+				//dau tien vy >0, dap xuong dat roi thi am
 				if (y < this->Y && vy < 0)
 				{
 					vy = -vy;
@@ -124,10 +125,10 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (ny != 0)
 			{
 				vy = -vy;
-				if (ny > 0)
+				/*if (ny > 0)
 				{
 					Y = y;
-				}
+				}*/
 			}
 			else if (nx != 0)
 			{

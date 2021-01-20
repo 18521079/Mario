@@ -11,7 +11,7 @@ class CFireBall : public CGameObject
 {
 	int Fly =0;
 	//int count = 0;
-	float Y;
+	float Y;// cai thanh lam moc de bong nay xuong
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

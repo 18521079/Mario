@@ -80,9 +80,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-	if (GetTickCount() - unPreIDLE_start > 300 && preIdled == 1)
+	if (GetTickCount() - preIDLE_start > 250 && preIdled == 1)
 	{
-		unPreIDLE_start = 0;
+		preIDLE_start = 0;
 		preIdled = 0;
 			
 	}
@@ -224,6 +224,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 				}
+
 				else if (e->nx != 0 && GetSpin()==0)
 				{
 					if (level == MARIO_LEVEL_BIG)
@@ -354,6 +355,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (block->GetState() == BLOCK_STATE_ACTIVITY)
 				{
 					block->SetState(BLOCK_STATE_INACTIVITY);
+					/*block->StartUp();
+					block->StartDown();*/
 
 				}
 

@@ -65,25 +65,23 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				goomba->vx = -goomba->vx;
 			}
 
-			else if (nx != 0 && ny == 0) 
+			else if (nx != 0 /*&& ny == 0*/) 
 			{
 				nx = -nx;
 				vx = -vx;
 			}
-			else
-			{
-
-			}
+			
 
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 		
-			/*if (y > 130)
-			{
-				x = 1168;
-				y = 100;
-			}*/
+			//if (y > 140 && GetState()==GOOMBA_STATE_WALKING)
+			//{
+			//	/*x = 1168;
+			//	y = 100;*/
+			//	SetPosition(1000, 100);
+			//}
 	}
 }
 

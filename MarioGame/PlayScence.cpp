@@ -499,10 +499,10 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetCanFly(0);
 		break;
 	case DIK_RIGHT:
-		mario->StartUnPreIdle();
+		mario->StartPreIdle();
 		break;
 	case DIK_LEFT:
-		mario->StartUnPreIdle();
+		mario->StartPreIdle();
 		break;
 	/*case DIK_S:
 			mario->StartUnPreIdle();

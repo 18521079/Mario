@@ -13,6 +13,7 @@ void CBackgroundUp::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if(y< BACKGROUND_Y)
 		y += BACKGROUND_DOWN_SPEED_Y * dt;
 	}
+		
 }
 
 void CBackgroundUp::Render()

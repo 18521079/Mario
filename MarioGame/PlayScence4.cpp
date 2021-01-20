@@ -66,6 +66,7 @@ CPlayScene4::CPlayScene4(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_PBELL	15
 #define OBJECT_TYPE_KOOPAS_GREEN	16
 #define OBJECT_TYPE_KOOPAS_WING	17
+#define OBJECT_TYPE_KOOPAS_GREENWING	27
 #define OBJECT_TYPE_HOLDBRICK	18
 #define OBJECT_TYPE_CARD	20
 #define OBJECT_TYPE_ENDSCENE0	21
@@ -189,6 +190,7 @@ void CPlayScene4::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS_RED: obj = new CKoopas(1); break;
 	case OBJECT_TYPE_KOOPAS_GREEN: obj = new CKoopas(2); break;
 	case OBJECT_TYPE_KOOPAS_WING: obj = new CKoopas(3); break;
+	case OBJECT_TYPE_KOOPAS_GREENWING: obj = new CKoopas(5); break;
 	case OBJECT_TYPE_Goomba: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BALL: obj = new CBall(); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(); break;
@@ -323,20 +325,29 @@ void CPlayScene4::Update(DWORD dt)
 		CGame::GetInstance()->SetCamPos(round(cx1), round(30));
 		if (cx1 >= cx) player->SetPosition(cx + 2, cy);
 	}
-	else
+	else 
 	{
+		cx1 = 2080 - game->GetScreenWidth();
+		CGame::GetInstance()->SetCamPos(round(cx1), round(30));
+
+	}
+	
 		if (player->GetTouchPipe() == 1)
 		{
-			player->GetPosition(cx2, cy2);
+			if (player->x < 2240+ game->GetScreenWidth() / 2 )
+			{
+				player->GetPosition(cx2, cy2);
 
-			cx2 -= game->GetScreenWidth() / 2;
-			cy2 -= game->GetScreenHeight() / 2;
+				cx2 -= game->GetScreenWidth() / 2;
+				cy2 -= game->GetScreenHeight() / 2;
 
-			CGame::GetInstance()->SetCamPos(round(cx2), 10.0f /*cy*/);
+				CGame::GetInstance()->SetCamPos(round(cx2), 10.0f /*cy*/);
+			}
+			else 
+				CGame::GetInstance()->SetCamPos(round(2240), 10.0f /*cy*/);
 		}
 
-		cx1 = 2080 - game->GetScreenWidth();
-	}
+	
 	
 	//CGame* game = CGame::GetInstance();
 	//cx -= game->GetScreenWidth() / 2;
@@ -497,12 +508,12 @@ void CPlayScenceKeyHandler4::OnKeyUp(int KeyCode)
 		mario->SetTouchPipe(1);
 		mario->SetPosition(2250.0f, 132.0f);
 		break;
-	case DIK_RIGHT:
+	/*case DIK_RIGHT:
 		mario->StartUnPreIdle();
 		break;
 	case DIK_LEFT:
 		mario->StartUnPreIdle();
-		break;
+		break;*/
 		/*case DIK_S:
 			mario->SetCheckFall(false);
 			break;*/

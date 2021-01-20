@@ -18,6 +18,7 @@ void CQuestionBlock::Render()
 void CQuestionBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
+	
 	if (state == BLOCK_STATE_INACTIVITY)
 	{
 		if (isMovingUp)
@@ -29,18 +30,20 @@ void CQuestionBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else
 			{
-				y -= 1;
+				y -= 0.02*dt;
 				countTimeUp++;
 			}
 		}
 		else
 		{
-			if (countTimeUp != 0)
+			if (countTimeUp > 0)
 			{
-				y += 1;
+				y += 0.02*dt;
 				countTimeUp--;
 			}
 		}
+		
+		
 	}
 }
 
