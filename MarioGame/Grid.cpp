@@ -167,7 +167,7 @@ void CGrid::UpdateCell()
 void CGrid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY, double screenWidth, double screenHeight)
 {
 	
-	int indexLeftRow = max(0, camX / sizeCell);
+	/*int indexLeftRow = max(0, camX / sizeCell);
 	int indexRightRow = min(numRows - 1, (camX + screenWidth) / sizeCell);
 	int indexTopColumn = max(0, (camY) / sizeCell);
 	int indexBottomColumn = min(numColumns - 1, (camY + screenHeight) / sizeCell);
@@ -198,7 +198,7 @@ void CGrid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY
 				}
 			}
 		}
-	}
+	}*/
 
 }
 

@@ -75,7 +75,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
-	if (GetTickCount() - untouchable_start > 500)
+	if (GetTickCount() - untouchable_start > 2000)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -100,54 +100,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		spin_start = 0;
 		SetSpin(0);
 	}
-	/*if (isPreFirstIdle == true)
-	{
-		preIDLE_start = GetTickCount();
-		isPreFirstIdle == false;
-		preIdled = true;
-	}
-	if (preIdled = true)
-	{
-		if (GetTickCount() - preIDLE_start > 300)
-		{
-			SetState(MARIO_STATE_WALKING_RIGHT);
-		}
-		else
-			preIdled = false;
-
-
-
-
-	}*/
-	/*if (GetTickCount() - preIDLE_start > 400)
-	{
-		preIDLE_start = 0;
-		preidle = 0;
-		if(nx>0)
-		SetState(MARIO_STATE_WALKING_RIGHT);
-		else if(nx < 0)
-		SetState(MARIO_STATE_WALKING_LEFT);
-
-	}*/
+	
+	
 	// No collision occured, proceed normally
 	if (GetTickCount() - kick_start > 500 )
 	{
 		AniKick = 0;
 	}
 
-	/*if (GetTickCount() - flying_start >= 7000)
-	{
-		CanFly = 0;
-		Flying = 0;
-		flying_start = 0;
-	}
-	if (!CanFly)
-		CanFall = true;*/
-	
-	//DebugOut(L"thoi gian la %d \n", GetTickCount() - fly_start);
 
-	//DebugOut(L"canfly la %d \n", CanFly);
-	
 
 	if (FirstTimeFly == 1 && GetTickCount() - fly_start >= 5000)
 	{
@@ -170,8 +131,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
-		//if (rdx != 0 && rdx!=dx)
-		//	x += nx*abs(rdx); 
+	
 
 		// block every object first!
 		x += min_tx * dx + nx * 0.4f;
@@ -273,11 +233,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						koopas->SetType(KOOPAS_TYPE_GREEN);
 					}
-
-					else if (koopas->GetState() != KOOPAS_STATE_SHELL)
+					else if (type == KOOPAS_TYPE_GREEN_WING)
+					{
+						koopas->SetTouch(1);
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+					else if (koopas->GetState() != KOOPAS_STATE_SHELL && type!= KOOPAS_TYPE_GREEN_WING)
 					{
 						koopas->SetState(KOOPAS_STATE_SHELL);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
+						test1 = koopas->x;
+						test2 = koopas->y;
 						
 					}
 	

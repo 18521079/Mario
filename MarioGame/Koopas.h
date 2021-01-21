@@ -1,6 +1,8 @@
 #pragma once
 
 #include "GameObject.h"
+#include"Breakable_Brick.h"
+#include"Box.h"
 
 #define KOOPAS_WALKING_SPEED 0.09f;
 
@@ -61,12 +63,16 @@ class CKoopas : public CGameObject
 	int MarioKick=0;
 	int Hold=0;
 	int type;
+	int touch=0;
 	DWORD timeFlying_start;
 	bool isFLying = false;
-
+	int isWaiting;
 	DWORD timeRenew_start;
+	DWORD isWaiting_start;
 	bool isRenewStart = false;
 	DWORD timeWalking_start;
+	bool isAbleFall = true;
+	float prePositionOnGround;
 
 	
 
@@ -83,5 +89,6 @@ public:
 	int GetHolding() { return Hold; };
 	void SetType(int t) { type = t; };
 	int GetType() { return type; };
+	void SetTouch(int t) { touch = 1; };
 
 };
