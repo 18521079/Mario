@@ -493,7 +493,8 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	{
 	case DIK_P:
 		mario->SetHolding(0);
-		mario->SetKickKoopas(1);
+		mario->SetAniHolding(0);
+		//mario->SetKickKoopas(1);
 		break;
 	case DIK_D:
 		mario->SetCanFly(0);

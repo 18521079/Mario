@@ -290,11 +290,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (koopas->GetState() == KOOPAS_STATE_SHELL && GetSpin() != 1)
 				{
 
-					if (hold == 1)
+					if (this->hold == 1)
 					{
 						SetAniHolding(1);
 						koopas->SetHolding(1);
 					}
+					
 					else
 					{
 						//koopas->SetMarioKick(1);

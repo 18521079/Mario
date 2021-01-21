@@ -62,7 +62,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state != KOOPAS_STATE_DIE_FALL || type != KOOPAS_TYPE_GREEN_WING)
 		CalcPotentialCollisions(coObjects, coEvents);
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
-	if (state == KOOPAS_STATE_SHELL && id != 1) {
+	if (state == KOOPAS_STATE_SHELL && id != 1 && Hold !=1) {
 
 
 		if (!isRenewStart)
@@ -77,7 +77,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (GetTickCount() - timeRenew_start > 5000)
 			{
 
-				SetPosition(mario->Get1(), mario->Get2() - 10.0f);
+				SetPosition(x,y - 10.0f);
 				SetState(KOOPAS_STATE_RENEW);
 				isRenewStart = false;
 				timeWalking_start = GetTickCount();
@@ -222,10 +222,13 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (vx < 0)
 				vx = -vx;
 	}
-
-	if (Hold == 1 || mario->GetHolding() == 1) {
-
-
+	
+	if (mario->GetHolding() == 0)
+	{
+		Hold = 0;
+	}
+	if (Hold == 1 /*|| mario->GetAniHolding()== 1*/) {
+		
 		if (mario->GetLevel() != MARIO_LEVEL_SMALL)
 		{
 			x = mario->x + 10 * mario->nx;
@@ -238,23 +241,24 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		vy = 0;
 	}
+	if (id == 1)
+	{
+		CMario* mario2 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer2();
+		if (Hold == 1) {
 
-	CMario* mario2 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer2();
-	if (Hold == 1) {
-
-		if (mario2->GetLevel() != MARIO_LEVEL_SMALL)
-		{
-			x = mario2->x + 10 * mario->nx;
-			y = mario2->y + 5;
+			if (mario2->GetLevel() != MARIO_LEVEL_SMALL)
+			{
+				x = mario2->x + 10 * mario->nx;
+				y = mario2->y + 5;
+			}
+			else
+			{
+				x = mario2->x + 10 * mario2->nx;
+				y = mario2->y - 3;
+			}
+			vy = 0;
 		}
-		else
-		{
-			x = mario2->x + 10 * mario2->nx;
-			y = mario2->y - 3;
-		}
-		vy = 0;
 	}
-
 
 	if (y > 140)
 	{
