@@ -25,6 +25,7 @@
 #include"HoldBrick.h"
 #include"Card.h"
 #include"MovingBrick.h"
+#include"Boomerang.h"
 
 
 using namespace std;
@@ -70,6 +71,7 @@ CPlayScene4::CPlayScene4(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_HOLDBRICK	18
 #define OBJECT_TYPE_CARD	20
 #define OBJECT_TYPE_ENDSCENE0	21
+#define OBJECT_TYPE_BOOMERANG	30
 #define OBJECT_TYPE_ENDSCENE1	22
 #define OBJECT_TYPE_GREEN_MARIO			 25
 #define OBJECT_TYPE_MOVINGBRICK			 26
@@ -198,6 +200,7 @@ void CPlayScene4::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPASBRICK: obj = new CKoopasBrick(); break;
 	case OBJECT_TYPE_WINGGOOMBA: obj = new CWingGoomba(); break;
 	case OBJECT_TYPE_PBELL: obj = new CPbell(); break;
+	case OBJECT_TYPE_BOOMERANG: obj = new CBoomerang(); break;
 	case OBJECT_TYPE_ENDSCENE0: obj = new CEndScene(0); break;
 	case OBJECT_TYPE_ENDSCENE1: obj = new CEndScene(1); break;
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
@@ -517,6 +520,9 @@ void CPlayScenceKeyHandler4::OnKeyUp(int KeyCode)
 		/*case DIK_S:
 			mario->SetCheckFall(false);
 			break;*/
+	case DIK_2:
+		CGame::GetInstance()->SwitchScene(2);
+		break;
 	}
 }
 

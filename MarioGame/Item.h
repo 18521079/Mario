@@ -17,8 +17,8 @@ class CItem : public CGameObject
 	int touch = 0;
 	int count = 0;
 	//dung cho dong xu
-	WORD time_Moveup_start = 0;
-	DWORD time_Movedown_start = 0;
+	/*WORD time_Moveup_start = 0;
+	DWORD time_Movedown_start = 0;*/
 	bool isUsed = false;
 public:
 	virtual void Render();

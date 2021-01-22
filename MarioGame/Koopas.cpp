@@ -83,6 +83,16 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				timeWalking_start = GetTickCount();
 			}
 		}
+		if (state == KOOPAS_STATE_RENEW)
+		{
+			if (GetTickCount() - timeWalking_start > 2000)
+			{
+				SetState(KOOPAS_STATE_WALKING_RIGHT);
+				vx = 0.02f;
+				SetPosition(this->x, this->y - 10.0f);
+
+			}
+		}
 	}
 	if (type == 3)
 	{
@@ -123,16 +133,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 	}
-	if (state == KOOPAS_STATE_RENEW)
-	{
-		if (GetTickCount() - timeWalking_start > 2000)
-		{
-			SetState(KOOPAS_STATE_WALKING_RIGHT);
-			vx = 0.02f;
-			SetPosition(this->x, this->y - 10.0f);
-
-		}
-	}
+	
 	if (coEvents.size() == 0)
 	{
 		x += dx;

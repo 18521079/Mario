@@ -16,6 +16,7 @@ F# id	file_path	transparent_color_r	g	b
 280	textures\special_items.png	0	183	239
 330	textures\end_scene1.png	0	0	0
 240	textures\HUD.png	0	224	142
+160	textures\enemies-3.png	3	26	110
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -28,6 +29,12 @@ F# id	file_path	transparent_color_r	g	b
 
 #====== Brick 
 100001	290	188	306	204	30
+
+#Boomerang
+99	17	209	32	225	160
+98	42	209	58	225	160
+97	68	209	83	225	160
+96	92	209	108	225	160
 
 #đồng xu+=========+++=++=
 1141	294	101	302	115	20
@@ -600,6 +607,8 @@ F# id	file_path	transparent_color_r	g	b
 #====YOU GOT A CARD
 9101	80201	100
 
+99	99	1000	98	1000	97	1000	96	1000
+
 #====== BRICK======
 10001	100001	100
 #den
@@ -823,7 +832,8 @@ F# id	file_path	transparent_color_r	g	b
 626	50026	100
 627	50027	100
 628	50028	100
-
+##
+99	99
 #ong co cay
 540	50040	100
 541	50041	100
@@ -988,7 +998,7 @@ F# id	file_path	transparent_color_r	g	b
 606	606
 607	607
 
-
+99	99
 #==== WORDS END SCENE 1
 1140	9100	9101	4008	4009	4010
 1145	9101
@@ -1169,6 +1179,8 @@ F# id	file_path	transparent_color_r	g	b
 1	96	150	602
 1	112	150	602
 1	128	150	602
+#
+30	128	80	99
 1	144	150	602
 1	160	150	602
 1	176	150	602

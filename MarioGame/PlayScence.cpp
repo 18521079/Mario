@@ -23,6 +23,7 @@
 #include"Pbell.h"
 #include"HoldBrick.h"
 #include"Card.h"
+#include"Boomerang.h"
 
 
 using namespace std;
@@ -70,6 +71,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_CARD	20
 #define OBJECT_TYPE_ENDSCENE0	21
 #define OBJECT_TYPE_ENDSCENE1	22
+#define OBJECT_TYPE_BOOMERANG	30
 
 
 #define OBJECT_TYPE_PORTAL	50
@@ -197,6 +199,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PBELL: obj = new CPbell(); break;
 	case OBJECT_TYPE_ENDSCENE0: obj = new CEndScene(0); break;
 	case OBJECT_TYPE_ENDSCENE1: obj = new CEndScene(1); break;
+	case OBJECT_TYPE_BOOMERANG: obj = new CBoomerang(); break;
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
@@ -508,7 +511,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	/*case DIK_S:
 			mario->StartUnPreIdle();
 		break;*/
+	case DIK_2:
+		CGame::GetInstance()->SwitchScene(2);
+		break;
 	}
+	
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
@@ -525,7 +532,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	if (game->IsKeyDown(DIK_RIGHT))
 		if (game->IsKeyDown(DIK_A))
 		{
-			
 			
 			if (mario->vx < 0.3f)
 			{
@@ -575,6 +581,16 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
 	}
+	
+	/*else if (game->IsKeyDown(DIK_S))
+	{
+		if (mario->GetJumping() == 0)
+		{
+			mario->SetState(MARIO_STATE_HIGHT_JUMP);
+			mario->ny = 1;
+			mario->SetJumping(1);
+		}
+	}*/
 	else if (game->IsKeyDown(DIK_UP))
 	{
 		if (mario->y > 170)

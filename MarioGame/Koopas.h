@@ -66,7 +66,7 @@ class CKoopas : public CGameObject
 	int touch=0;
 	DWORD timeFlying_start;
 	bool isFLying = false;
-	int isWaiting;
+	/*int isWaiting;*/
 	DWORD timeRenew_start;
 	DWORD isWaiting_start;
 	bool isRenewStart = false;

@@ -78,6 +78,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount() - untouchable_start > 2000)
+
 	{
 		untouchable_start = 0;
 		untouchable = 0;
@@ -841,6 +842,7 @@ void CMario::Render()
 	void CMario::SetState(int state)
 	{
 		CGameObject::SetState(state);
+		//int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 
 		switch (state)
 		{
