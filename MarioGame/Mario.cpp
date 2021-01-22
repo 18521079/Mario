@@ -53,6 +53,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
+
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 	
 	// Simple fall down
 	if (state != MARIO_STATE_FALL)
@@ -89,7 +91,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	if (preIdled == 1)
 	{
-		if (nx > 0)	SetState(MARIO_STATE_WALKING_RIGHT);
+		if (nx > 0)	
+			SetState(MARIO_STATE_WALKING_RIGHT);
+			
 		else if(nx<0)
 			SetState(MARIO_STATE_WALKING_LEFT);
 		
@@ -115,12 +119,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		CanFly = 0;
 		SetState(MARIO_STATE_FALL);
 	}
-
+	
 	if (coEvents.size() == 0)
 	{
 		x += dx;
 		y += dy;
 	}
+	
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
@@ -141,7 +146,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0) vy = 0;
 
 		//mario touches ground
-		if (ny != 0)
+		if (ny != 0 && nx==0)
 		{
 			FirstTimeFly = 0;
 			CanFly = 0;
@@ -151,6 +156,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				jump = 0;
 				SetCheckFall(false);
 			}
+			
 			//CanFall = 0;
 		}
 
@@ -430,7 +436,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							item->y = 40;
 							item->SetState(ITEM_STATE_MUSHROOM);
 						}
-						if (item->x == 642)
+						else if (item->x == 642 && id==4)
 						{
 							item->y = 40;
 							item->SetState(ITEM_STATE_GREENMUSHROOM);

@@ -1300,7 +1300,9 @@ F# id	file_path	transparent_color_r	g	b
 26	1792	192	78
 
 26	2000	96	78
-26	2170	112	78
+26	2170	144	78
+26	2200	90	78
+
 
 #Cục 1
 1	240	128	42
@@ -1636,6 +1638,11 @@ F# id	file_path	transparent_color_r	g	b
 #card
 20	2426	93	408
 
+#==== WORDS END SCENE 1
+
+21	2350	30	1140
+22	2350	50	1145
+22	2470	40	1146
 #mario
 1	70	0	42
 0	50.0	0	1

@@ -449,14 +449,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (mario->GetLevel() == MARIO_LEVEL_FIRE)
 			mario->SetShoot(1);
 		break;
-	case DIK_P:
+	case DIK_D:
 		mario->SetHolding(1);
 		break;
 	case DIK_A:
 		mario->SetSpin(1);
 		mario->StartSpin();
 		break;
-	case DIK_D:
+	/*case DIK_D:
 		if (mario->GetFirstTimeFly() == 0)
 		{
 			if (mario->vx > MARIO_WALKING_SPEED)
@@ -474,7 +474,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		{
 			mario->SetState(MARIO_STATE_FALL);
 		}
-		break;
+		break;*/
 	
 	case DIK_B:
 		CGame::GetInstance()->SwitchScene(4);
@@ -491,14 +491,14 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	mario->GetPosition(x, y);
 	switch (KeyCode)
 	{
-	case DIK_P:
+	case DIK_D:
 		mario->SetHolding(0);
 		mario->SetAniHolding(0);
 		//mario->SetKickKoopas(1);
 		break;
-	case DIK_D:
+	/*case DIK_D:
 		mario->SetCanFly(0);
-		break;
+		break;*/
 	case DIK_RIGHT:
 		mario->StartPreIdle();
 		break;

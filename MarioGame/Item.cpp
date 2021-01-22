@@ -29,7 +29,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					question->StartDown();*/
 				}
 			}
-			else if (count == 5 && GetState() == ITEM_STATE_COINS)
+			else if (/*count == 5 &&*/ GetState() == ITEM_STATE_COINS)
 			{
 				if (x == question->x)
 					question->SetState(BLOCK_STATE_INACTIVITY);
@@ -72,6 +72,8 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
+		
+	
 	}
 	if (state == ITEM_STATE_GREENMUSHROOM)
 	{

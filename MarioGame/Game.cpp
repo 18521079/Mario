@@ -70,10 +70,10 @@ void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top
 {
 	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
 	RECT r;
-	r.left = left;
-	r.top = top;
-	r.right = right;
-	r.bottom = bottom;
+	r.left = round(left);
+	r.top = round(top);
+	r.right =round(right);
+	r.bottom = round( bottom);
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
 
