@@ -83,15 +83,16 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				timeWalking_start = GetTickCount();
 			}
 		}
-		if (state == KOOPAS_STATE_RENEW)
+		
+	}
+	if (state == KOOPAS_STATE_RENEW)
+	{
+		if (GetTickCount() - timeWalking_start > 2000)
 		{
-			if (GetTickCount() - timeWalking_start > 2000)
-			{
-				SetState(KOOPAS_STATE_WALKING_RIGHT);
-				vx = 0.02f;
-				SetPosition(this->x, this->y - 10.0f);
+			SetState(KOOPAS_STATE_WALKING_RIGHT);
+			vx = 0.02f;
+			SetPosition(this->x, this->y - 10.0f);
 
-			}
 		}
 	}
 	if (type == 3)
@@ -179,16 +180,16 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				nx = -nx;
 				vx = -vx;
 			}
-			//if (dynamic_cast<CItem*>(e->obj)) // if e->obj is Goomba 
-			//{
-			//	CItem* item = dynamic_cast<CItem*>(e->obj);
-			//	item->SetTouch(1);
-			//	if (item->x == 800 && item->y == 118)
-			//	{
-			//		item->y = 70;
-			//		item->SetState(ITEM_STATE_LEAF);
-			//	}
-			//}
+			if (dynamic_cast<CItem*>(e->obj)) // if e->obj is Goomba 
+			{
+				CItem* item = dynamic_cast<CItem*>(e->obj);
+				item->SetTouch(1);
+				if (item->x == 800 && item->y == 118 && type==1)
+				{
+					item->y = 70;
+					item->SetState(ITEM_STATE_LEAF);
+				}
+			}
 			if (nx == 0 && (dynamic_cast<CBreakableBrick*>(e->obj) 
 				|| dynamic_cast<CBox*>(e->obj)))
 			{
@@ -245,7 +246,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (id == 1)
 	{
 		CMario* mario2 = ((CStartScence*)CGame::GetInstance()->GetCurrentScene())->GetPlayer2();
-		if (Hold == 1) {
+		if (Hold == 1 /*|| mario2->GetHolding()==1*/) {
 
 			if (mario2->GetLevel() != MARIO_LEVEL_SMALL)
 			{

@@ -8,7 +8,12 @@
 #include "Goomba.h"
 #include"HUD.h"
 #include"Grid.h"
+#include"Map.h"
 //#include "Koopas.h"
+
+#define IN_USE_WIDTH		330
+#define IN_USE_HEIGHT		300
+#define SCENE_SECTION_GRID	8
 
 
 class CPlayScene : public CScene
@@ -17,6 +22,7 @@ protected:
 	CMario* player;					// A play scene has to have player, right?
 	CHUD* HUD;
 	CGrid* grid;
+	Map* map;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -25,10 +31,13 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
+	void _ParseSection_GRID(string line);
+	void _ParseSection_MAP(string line);
 
 
 public:
 	CPlayScene(int id, LPCWSTR filePath);
+	bool IsInUseArea(float x, float y);
 
 	virtual void Load();
 	virtual void Update(DWORD dt);

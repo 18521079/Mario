@@ -49,7 +49,7 @@ void CWingGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = -0.25f;
 		}
 		// when time is greater than 2000, set isFlying = false to return wal
-		if (GetTickCount() - timeFlying_start > 2000)
+		if (GetTickCount() - timeFlying_start > 42000)
 		{
 			isFLying = false;
 		}

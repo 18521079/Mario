@@ -1,9 +1,17 @@
 #include "Cell.h"
-CCell::CCell()
+#include "Cell.h"
+void Cell::Add(CGameObject* obj)
 {
+	listObjects.push_back(obj);
 }
 
-CCell::~CCell()
+vector<LPGAMEOBJECT> Cell::GetListObjects()
 {
-	listGameObjectCell.clear();
+	return listObjects;
+}
+
+
+void Cell::Unload()
+{
+	listObjects.clear();
 }

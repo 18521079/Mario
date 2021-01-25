@@ -2,14 +2,16 @@
 #include "GameObject.h"
 #include "Game.h"
 
-class CCell
+#pragma once
+#include "GameObject.h"
+
+class Cell
 {
-	vector<LPGAMEOBJECT> listGameObjectCell;
+	vector<LPGAMEOBJECT> listObjects;
 public:
-	CCell();
-	~CCell();
-	void AddObjectIntoCell(LPGAMEOBJECT object) { listGameObjectCell.emplace_back(object); }
-	vector<LPGAMEOBJECT> GetListGameObjectCell() { return listGameObjectCell; }
+	void Add(CGameObject* obj);
+	vector<LPGAMEOBJECT> GetListObjects();
+	void Unload();
 };
 
-typedef CCell* LPCELL;
+typedef Cell* LPCELL;

@@ -73,6 +73,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_ENDSCENE1	22
 #define OBJECT_TYPE_BOOMERANG	30
 
+#define SCENE_SECTION_MAP				7
 
 #define OBJECT_TYPE_PORTAL	50
 
@@ -229,18 +230,28 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
 	}
-
-	// General object setup
-	obj->SetPosition(x, y);
-
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
-	obj->SetAnimationSet(ani_set);
-	objects.push_back(obj);
+	if (obj != NULL)
+	{
+		
+		{
+			obj->SetPosition(x, y);
+			obj->SetAnimationSet(ani_set);
+			obj->SetOrigin(x, y, obj->GetState());
+			obj->SetisOriginObj(true);
+			objects.push_back(obj);
+		}
+	}
 }
-
+	
 void CPlayScene::Load()
 {
+	CGame* game = CGame::GetInstance();
+
+	//CGame::GetInstance()->SetCamPos(0, 0);
+
+	float cx, cy;
+
 	HUD = CHUD::GetInstance();
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
@@ -270,6 +281,10 @@ void CPlayScene::Load()
 		if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
 		}
+		if (line == "[GRID]") {
+			section = SCENE_SECTION_GRID; continue;
+		}
+		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; }
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -282,6 +297,8 @@ void CPlayScene::Load()
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_GRID: _ParseSection_GRID(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		}
 	}
 
@@ -294,47 +311,72 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
-	
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
+	CGame* game = CGame::GetInstance();
 
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt, &coObjects);
-	}
+	//CGame::GetInstance()->SetCamPos(0, 0);
 
-	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-	if (player == NULL) return;
-
-	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
 
-	CGame* game = CGame::GetInstance();
+	//
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 
 	if (cx < 0) cx = 0;
 	if (cx > 3182 - game->GetScreenWidth()) cx = 3182 - game->GetScreenWidth();
 	CGame::GetInstance()->SetCamPos(round(cx), 0.0f /*cy*/);
-	if(player->GetLevel() == MARIO_LEVEL_TAIL /*&& player->GetState()==MARIO_STATE_FLY*/ )
+	if (player->GetLevel() == MARIO_LEVEL_TAIL /*&& player->GetState()==MARIO_STATE_FLY*/)
 	{
 		if (cy > -40)
 		{
 			CGame::GetInstance()->SetCamPos(round(cx), -35.0f);
 		}
-		
-		
-			CGame::GetInstance()->SetCamPos(round(cx), round(cy));
-		
+
+
+		CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+
 	}
-	HUD->Update(dt);
+
+	
+
+	cx = game->GetCamX();
+
+	cy = game->GetCamY();
+
 	for (size_t i = 0; i < objects.size(); i++)
+	{
+		float Ox, Oy;
+		objects[i]->GetPosition(Ox, Oy);
+		if (!IsInUseArea(Ox, Oy) && !objects[i]->GetisOriginObj())
+		{
+			objects[i]->SetActive(false);
+			objects.erase(objects.begin() + i);
+		}
+	}
+
+	grid->GetObjects(objects, cx, cy);
+
+	/*for (size_t i = 1; i < objects.size(); i++)
+	{
+		coObjects.push_back(objects[i]);
+	}*/
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Update(dt, &objects);
+	}
+
+	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+	if (player == NULL) return;
+
+	// Update camera to follow mario
+
+	
+
+	
+
+	HUD->Update(dt);
+	/*for (size_t i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->GetIsActive() == false)
 		{
@@ -346,14 +388,15 @@ void CPlayScene::Update(DWORD dt)
 	if (grid != NULL)
 	{
 		grid->HandleGrid(&coObjects, game->GetCamX(), game->GetCamY(), game->GetScreenWidth(), game->GetScreenHeight());
-	}
-
-
+	}*/
 }
 
 void CPlayScene::Render()
 {
-
+	if (map)
+	{
+		this->map->Render();
+	}
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 	HUD->Render();
@@ -372,6 +415,40 @@ void CPlayScene::Unload()
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
+
+void CPlayScene::_ParseSection_MAP(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 7) return; // skip invalid lines
+
+	int idTileSet = atoi(tokens[0].c_str());
+	int totalRowsTileSet = atoi(tokens[1].c_str());
+	int totalColumnsTileSet = atoi(tokens[2].c_str());
+	int totalRowsMap = atoi(tokens[3].c_str());
+	int totalColumnsMap = atoi(tokens[4].c_str());
+	int totalTiles = atoi(tokens[5].c_str());
+	wstring file_path = ToWSTR(tokens[6]);
+
+	map = new Map(idTileSet, totalRowsTileSet, totalColumnsTileSet, totalRowsMap, totalColumnsMap, totalTiles);
+	map->LoadMap(file_path.c_str());
+	map->ExtractTileFromTileSet();
+}
+
+
+bool CPlayScene::IsInUseArea(float Ox, float Oy)
+{
+	float CamX, CamY;
+
+	CamX = CGame::GetInstance()->GetCamX();
+
+	CamY = CGame::GetInstance()->GetCamY();
+
+	if (((CamX < Ox) && (Ox < CamX + IN_USE_WIDTH)) && ((CamY < Oy) && (Oy < CamY + IN_USE_HEIGHT)))
+		return true;
+	return false;
+}
+
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
@@ -518,6 +595,19 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	
 }
 
+void CPlayScene::_ParseSection_GRID(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 1) return;
+
+	wstring file_path = ToWSTR(tokens[0]);
+
+	if (grid == NULL)
+		grid = new CGrid(file_path.c_str());
+}
+
+
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
 
@@ -627,6 +717,5 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		if (mario->GetPreidle() != true)
 			mario->SetState(MARIO_STATE_IDLE);
 	}
-		
-
+	
 }

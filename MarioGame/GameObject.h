@@ -48,8 +48,11 @@ public:
 	float x;
 	float y;
 
-	float originX;
-	float originY;
+	/*float originX;
+	float originY;*/
+
+	float origin_x, origin_y;
+	int origin_state;
 
 	float dx;	// dx = vx*dt
 	float dy;	// dy = vy*dt
@@ -61,7 +64,9 @@ public:
 	int ny;
 
 	int state;
-	bool isActive = false;
+	bool Actived = false;
+
+	bool isOriginObj = false;
 
 	DWORD dt;
 
@@ -71,7 +76,7 @@ public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
-	void SetOriginPosition(double x, double y) { this->originX = x, this->originY = y; }
+	void SetOrigin(float x, float y, int state) { this->origin_x = x, this->origin_y = y; this->origin_state = state; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
@@ -102,9 +107,36 @@ public:
 	float Getdx() { return dx; };
 	float Getdy() { return dy; };
 
-	bool GetIsActive() { return isActive; }
-	void SetIsActive(bool value) { isActive = value; }
+	
+	void SetisOriginObj(bool value)
+	{
+		isOriginObj = value;
+	}
 
+	void SetActive(bool value)
+	{
+		Actived = value;
+	}
+
+	bool GetActive()
+	{
+		return	Actived;
+	}
+	void GetOriginLocation(float& x, float& y)
+	{
+		x = origin_x;
+		y = origin_y;
+	}
+	void reset()
+	{
+		SetState(origin_state);
+		x = origin_x;
+		y = origin_y;
+	}
+	bool GetisOriginObj()
+	{
+		return isOriginObj;
+	}
 	~CGameObject();
 };
 

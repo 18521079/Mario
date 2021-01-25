@@ -21,10 +21,11 @@ void CBreakableBrick::Render()
 
 void CBreakableBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x;
-	t = y;
-	r = x + 16;
-	b = y + 16;
+		l = x;
+		t = y;
+		r = x + 16;
+		b = y + 16;
+	
 }
 void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {

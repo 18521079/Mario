@@ -1,28 +1,28 @@
 #pragma once
-#include"Cell.h"
-#define MAX_GRID_LINE	1024
-#define GRID_SECTION_UNKNOWN	-1
-#define GRID_SECTION_SETTINGS	2
-#define GRID_SECTION_OBJECTS	3
-#define SCENE_SECTION_UNKNOWN			-1
+#include "Cell.h"
+#include "Utils.h"
+#include "Game.h"
+
+
+
+
+#define GRID_SECTION_SETTINGS	1
+#define GRID_SECTION_OBJECTS	2
+#define MAX_GRID_LINE 1024
+
 class CGrid
 {
-	int sizeCell;
-	int numColumns;
-	int numRows;
-	CCell** cells;
+	int numRow, numCol;
+	int cellWidth;
+	int  cellHeight;
+	Cell** cells;
 
-	int currentLeftRow = -1;
-	int currentRightRow = -1;
-	int currentTopColumn = -1;
-	int currentBottomColumn = -1;
-public:
-	CGrid();
-	CGrid(LPCWSTR path);
-	void HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY, double screenWidth, double screenHeight);
 	void _ParseSection_SETTINGS(string line);
-	void _PareseSection_OBJECTS(string line);
-	void UpdateCell();
-	~CGrid();
+	void _ParseSection_OBJECTS(string line);
+public:
+	CGrid() {}
+	CGrid(LPCWSTR filePath);
+	void GetObjects(vector<LPGAMEOBJECT>& listObject, int camX, int camY);
+	void Load(LPCWSTR filePath);
+	void Unload();
 };
-
