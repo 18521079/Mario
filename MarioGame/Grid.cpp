@@ -45,6 +45,8 @@
 #define OBJECT_TYPE_CARD	20
 #define OBJECT_TYPE_ENDSCENE0	21
 #define OBJECT_TYPE_ENDSCENE1	22
+#define OBJECT_TYPE_MOVINGBRICK			 26
+
 
 
 
@@ -115,6 +117,7 @@ void CGrid::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBackGroundCollision(); break;
 	case OBJECT_TYPE_BOX: obj = new CBox(); break;
 	case OBJECT_TYPE_BREAKABLE_BRICK: obj = new CBreakableBrick(); break;
+	case OBJECT_TYPE_MOVINGBRICK: obj = new CMovingBrick(); break;
 	case OBJECT_TYPE_HOLDBRICK: obj = new CHoldBrick(); break;
 	}
 

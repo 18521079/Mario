@@ -12,6 +12,11 @@
 #define COIN_STATE_MOVING_DOWN 500
 #define ITEM_STATE_COINS 700
 
+#define ITEM_COINS_SPEED	-0.2f
+#define ITEM_MUSHROOM_GRAVITY_FALL 0.0009f
+#define ITEM_MUSHROOM_SPEED -0.003 f
+
+
 class CItem : public CGameObject
 {
 	int touch = 0;

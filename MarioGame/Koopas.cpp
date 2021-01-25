@@ -262,13 +262,13 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	if (y > 140)
+	/*if (y > 140)
 	{
 		if (type == 3 && (state == KOOPAS_STATE_WALKING_LEFT || state == KOOPAS_STATE_WALKING_RIGHT))
 			SetPosition(1620, 20);
 		else if (type == 2 && (state == KOOPAS_STATE_WALKING_LEFT || state == KOOPAS_STATE_WALKING_RIGHT))
 			SetPosition(1642, 80);
-	}
+	}*/
 	//int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 	/*if (type ==1 && (state == KOOPAS_STATE_WALKING_LEFT || state == KOOPAS_STATE_WALKING_RIGHT) && id == 3)
 	{

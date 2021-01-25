@@ -1,31 +1,90 @@
 #include "Fragment.h"
-#pragma once
-#include"GameObject.h"
 
-#define BELL_BBOX_WIDTH  16
-#define BELL_BBOX_HEIGHT 16
-#define BELL_STATE_ACTIVITY 0
-#define BELL_STATE_INACTIVITY 1
-#define BELL_STATE_DISSAPPEAR 2
+//CPiece::CPiece()
+//{
+//	SetState(FRAGMENT_STATE_DISAPPEAR);
+//	//this->layerRender = 1200;
+//}
 
-#define BELL_ANI_P 0
-#define BELL_ANI_DISSAPPEAR 1
-
-
-class CPbell : public CGameObject
+CPiece::CPiece(int type)
 {
-	int pFeature = 0;
-	DWORD pFeature_start;
-	int touch = 0; // =0 chua cham chuong, =1 cham chuong trong 2000s, =2 cham chuong sau 2000s
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	virtual void Render();
-public:
-	CPbell();
-	int GetTouch() { return touch; };
-	void SetTouch(int t) { touch = t; };
-	void StartPfeature() { pFeature = 1; pFeature_start = GetTickCount(); };
-	//virtual void SetState(int state);
-};
+	typeOfFragment = type;
+	SetState(FRAGMENT_STATE_DISAPPEAR);
+	//this->layerRender = 1200;
+}
 
+void CPiece::Render()
+{
 
+	if (state != FRAGMENT_STATE_DISAPPEAR)
+	{
+		animation_set->at(FRAGMENT_APPEAR_ANI)->Render(x, y);
+	}
+
+}
+
+void CPiece::GetBoundingBox(double& l, double& t, double& r, double& b)
+{
+}
+
+void CPiece::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	CGameObject::Update(dt, coObjects);
+	vy += FRAGMENT_GRAVITY_FALLING * dt;
+	x += dx;
+	y += dy;
+	/*if (isUsed == true)
+	{
+		SetState(FRAGMENT_STATE_APPEAR);
+	}*/
+	if (state == FRAGMENT_STATE_APPEAR)
+	{
+		if (!isDisappear)
+		{
+			isDisappear = true;
+			disappear_start = GetTickCount();
+		}
+		else
+		{
+			if (GetTickCount() - disappear_start > TIME_FOR_FRAGMENT_DISAPPEARING)
+			{
+				SetState(FRAGMENT_STATE_DISAPPEAR);
+				isUsed = false;
+				isDisappear = false;
+			}
+		}
+	}
+}
+
+void CPiece::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case FRAGMENT_STATE_DISAPPEAR:
+		vx = 0;
+		vy = 0;
+	case FRAGMENT_STATE_APPEAR:
+		switch (typeOfFragment)
+		{
+		case OBJECT_TYPE_FRAGMENT_LEFTTOP:
+			vx = -SPEED_FRAGMENT_VX;
+			vy = -SPEED_FRAGMENT_VY;
+			break;
+		case OBJECT_TYPE_FRAGMENT_RIGHTTOP:
+			vx = SPEED_FRAGMENT_VX;
+			vy = -SPEED_FRAGMENT_VY;
+			break;
+		case OBJECT_TYPE_FRAGMENT_LEFTBOTTOM:
+			vx = -SPEED_FRAGMENT_VX;
+			vy = SPEED_FRAGMENT_VY;
+			break;
+		case OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM:
+			vx = SPEED_FRAGMENT_VX;
+			vy = SPEED_FRAGMENT_VY;
+			break;
+		}
+	default:
+		break;
+	}
+}

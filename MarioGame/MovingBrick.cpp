@@ -39,12 +39,12 @@ void CMovingBrick::SetState(int state)
 	switch (state)
 	{
 		case BRICK_STATE_MOVING:
-			vx = -0.01f;
+			vx = -0.03f;
 			vy = 0;
 			break;
 		case BRICK_STATE_FALLING:
 			vx = 0;
-			vy = 0.09f;
+			vy = 0.05f;
 			break;
 		/*case MOVING_PLATTFORM_STATE_INACTIVE:
 			x = entryX;

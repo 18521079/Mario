@@ -2,18 +2,20 @@
 #include "GameObject.h"
 
 #define MARIO_WALKING_SPEED		0.15f 
+
 #define MARIO_WALKING_FAST_SPEED		0.2f 
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.5f
-#define MARIO_JUMP_SPEED_Y_2		0.3f
+#define MARIO_JUMP_SPEED_Y_2		-0.2f
 #define MARIO_FLY_SPEED_Y		0.2f
+#define MARIO_DOUBLE_JUMP_SPEED	0.4f
 
 #define MARIO_JUMP_HIGHT_SPEED_Y		0.6f
 
 
 #define MARIO_JUMP_DEFLECT_SPEED 0.5f
 #define MARIO_GRAVITY			0.002f
-#define MARIO_GRAVITY_FALL		0.0000000005f
+#define MARIO_GRAVITY_FALL		0.0000000002f
 #define MARIO_DIE_DEFLECT_SPEED	 0.5f
 
 #define MARIO_STATE_IDLE			0
@@ -141,15 +143,18 @@ class CMario : public CGameObject
 	int type;
 	int jump = 0;
 	int greenJump = 0;
-	int hold=0;
+	int hold = 0;
 	int aniHold = 0;
-	int shootFire=0;
+	int shootFire = 0;
 	int untouchable;
 	//int preidle=0;
-	int KickKoopas=0;
+	int KickKoopas = 0;
 	int AniKick = 0;
 	int Spin = 0;
 	int preFly = 0;
+
+
+
 
 	bool isAppeared = true;
 	bool isGreenAbleWalk = true;
@@ -159,10 +164,12 @@ class CMario : public CGameObject
 	bool isPreFirstIdle = false;
 	bool preIdled = false;
 
-	int FirstTimeFly=0;
-	int CanFly=0;
+	int FirstTimeFly = 0;
+	int CanFly = 0;
 	DWORD fly_start = 0;
-
+	DWORD time_maxjumping = 0;
+	// Check for double jump
+	DWORD doubleJump_start = 0;
 
 	//DWORD flying_start = 0;
 	DWORD untouchable_start;
@@ -174,21 +181,27 @@ class CMario : public CGameObject
 	DWORD speedup_start;
 
 	int speedLevel = 1;
-	int score=0;
-	int coin=0;
+	int score = 0;
+	int coin = 0;
 	int card = 0;
 	int touchPipe = 0;
-	int test1;
-	int test2;
+
+	int swichWorldMap = 0;
+	//DWORD speedup_start;
+	DWORD swichscece_start;
 
 public:
-
+	int maxjumping = 0;
+	bool isMaxJumping = false;
 	CMario(float x = 0.0f, float y = 0.0f);
 	CMario(int type, float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void StartPreIdle() { preIdled = 1, preIDLE_start = GetTickCount(); }
+	void StartSwichScence() {
+		swichWorldMap = 1, swichscece_start = GetTickCount();
+	};
 	void StartKick() { kick_start = GetTickCount(); }
 	/*void StartPreIdle() { preidle = 1; preIDLE_start = GetTickCount(); }*/
 	void SetState(int state);
@@ -232,14 +245,14 @@ public:
 	DWORD GetFlyingStart() { return fly_start; };
 	void StartFlying() { fly_start = GetTickCount(); }
 
-	DWORD Getspeedup_start(){ return speedup_start; }
+	DWORD Getspeedup_start() { return speedup_start; }
 	void Setspeedup_start(int value) { speedup_start = value; };
-	
+
 	void StartSpeedup() { speedup_start = GetTickCount(); }
 	int GetspeedLevel() { return speedLevel; }
 	void SetspeedLevel(int value) { speedLevel = value; }
-	int GetType(){ return type; }
-	void SetType(int type){ this->type = type; }
+	int GetType() { return type; }
+	void SetType(int type) { this->type = type; }
 
 	void SetIsAppeared(bool value) { isAppeared = value; }
 	void SetIsAbleGreenWalk(bool value) { isGreenAbleWalk = value; }
@@ -252,7 +265,7 @@ public:
 	int GetPreFly() { return preFly; };
 	void SetPreFly(int pre) { preFly = pre; };
 	bool GetisTouchingPlattform() { return isTouchingPlattform; }
-	void SetisTouchingPlattform(bool touch) {  isTouchingPlattform= touch; };
+	void SetisTouchingPlattform(bool touch) { isTouchingPlattform = touch; };
 	int GetFirstPreidle() { return isPreFirstIdle; };
 	void SetFirstPreidle(int pre) { isPreFirstIdle = pre; };
 	int GetPreidle() { return preIdled; };
@@ -260,7 +273,13 @@ public:
 	int GetTouchPipe() { return touchPipe; };
 	void SetTouchPipe(int pre) { touchPipe = pre; };
 
-	int Get1() { return test1; };
-	int Get2() { return test2; };
 
+
+	void StartJumpingMax() { maxjumping = 1, time_maxjumping = GetTickCount(); }
+	void ResetDoubleJumpStart() { doubleJump_start = 0; }
+	void SetDoubleJumpStart() { doubleJump_start = GetTickCount(); }
+	DWORD GetDoubleJumpStart() { return doubleJump_start; }
+
+	//void ResetDoubleJumpStart() { doubleJump_start = 0; }
+	int resetcam;
 };

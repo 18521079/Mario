@@ -76,6 +76,13 @@ CPlayScene4::CPlayScene4(int id, LPCWSTR filePath) : CScene(id, filePath)
 #define OBJECT_TYPE_GREEN_MARIO			 25
 #define OBJECT_TYPE_MOVINGBRICK			 26
 
+#define OBJECT_TYPE_FRAGMENT_LEFTTOP	31
+#define OBJECT_TYPE_FRAGMENT_RIGHTTOP	32
+#define OBJECT_TYPE_FRAGMENT_LEFTBOTTOM 33
+#define OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM 34
+
+
+
 #define OBJECT_TYPE_PORTAL	50
 
 #define MAX_SCENE_LINE 1024
@@ -205,6 +212,8 @@ void CPlayScene4::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_ENDSCENE1: obj = new CEndScene(1); break;
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
 	case OBJECT_TYPE_MOVINGBRICK: obj = new CMovingBrick(); break;
+	case OBJECT_TYPE_BREAKABLE_BRICK: obj = new CBreakableBrick(); break;
+
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
 		{
@@ -216,11 +225,11 @@ void CPlayScene4::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	
+
 	case OBJECT_TYPE_QuestionBlock: obj = new CQuestionBlock(); break;
 	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBackGroundCollision(); break;
 	case OBJECT_TYPE_BOX: obj = new CBox(); break;
-	case OBJECT_TYPE_BREAKABLE_BRICK: obj = new CBreakableBrick(); break;
+		//case OBJECT_TYPE_BREAKABLE_BRICK: obj = new CBreakableBrick(); break;
 	case OBJECT_TYPE_HOLDBRICK: obj = new CHoldBrick(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -299,8 +308,8 @@ void CPlayScene4::Load()
 
 void CPlayScene4::Update(DWORD dt)
 {
-	
-	player->SetLevel(MARIO_LEVEL_TAIL);
+
+	//player->SetLevel(MARIO_LEVEL_TAIL);
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 	vector<LPGAMEOBJECT> coObjects;
@@ -317,9 +326,14 @@ void CPlayScene4::Update(DWORD dt)
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
-	// Update camera to follow mario
+	//Update camera to follow mario
 	CGame* game = CGame::GetInstance();
 	float cx, cy;
+	if (player->resetcam == 1)
+	{
+		cx1 = 0;
+		player->resetcam == 0;
+	}
 	float cx2 = 0, cy2 = 0;
 	player->GetPosition(cx, cy);
 	if (cx1 < 2080 - game->GetScreenWidth())
@@ -328,41 +342,43 @@ void CPlayScene4::Update(DWORD dt)
 		CGame::GetInstance()->SetCamPos(round(cx1), round(30));
 		if (cx1 >= cx) player->SetPosition(cx + 2, cy);
 	}
-	else 
+	else
 	{
 		cx1 = 2080 - game->GetScreenWidth();
 		CGame::GetInstance()->SetCamPos(round(cx1), round(30));
 
 	}
-	
-		if (player->GetTouchPipe() == 1)
+
+	if (player->GetTouchPipe() == 1)
+	{
+		if (player->x < 2240 + game->GetScreenWidth() / 2)
 		{
-			if (player->x < 2240+ game->GetScreenWidth() / 2 )
-			{
-				player->GetPosition(cx2, cy2);
+			player->GetPosition(cx2, cy2);
 
-				cx2 -= game->GetScreenWidth() / 2;
-				cy2 -= game->GetScreenHeight() / 2;
+			cx2 -= game->GetScreenWidth() / 2;
+			cy2 -= game->GetScreenHeight() / 2;
 
-				CGame::GetInstance()->SetCamPos(round(cx2), 10.0f /*cy*/);
-			}
-			else 
-				CGame::GetInstance()->SetCamPos(round(2240), 10.0f /*cy*/);
+			CGame::GetInstance()->SetCamPos(round(cx2), 10.0f /*cy*/);
 		}
+		else
+			CGame::GetInstance()->SetCamPos(round(2240), 10.0f /*cy*/);
+	}
 
-	
-	
+
+
 	//CGame* game = CGame::GetInstance();
+	//float cx=0, cy=0;
+	//player->GetPosition(cx, cy);
 	//cx -= game->GetScreenWidth() / 2;
 	//cy -= game->GetScreenHeight() / 2;
 
 	//if (cx < 0) cx = 0;
 	//CGame::GetInstance()->SetCamPos(round(cx), 0.0f /*cy*/);
-	
-			
-		
-		
-	
+
+
+
+
+
 	HUD->Update(dt);
 }
 
@@ -428,6 +444,10 @@ void CPlayScenceKeyHandler4::OnKeyDown(int KeyCode)
 			mario->SetState(MARIO_STATE_JUMP);
 			//mario->ny = 1;
 			mario->SetJumping(1);
+			if (mario->GetDoubleJumpStart() == 0)
+			{
+				mario->SetDoubleJumpStart();
+			}
 		}
 
 		else if (mario->GetJumping() == 1 && mario->GetLevel() == MARIO_LEVEL_TAIL)
@@ -444,6 +464,10 @@ void CPlayScenceKeyHandler4::OnKeyDown(int KeyCode)
 	case DIK_Q:
 		mario->SetPosition(x, y - 16.0f);
 		mario->SetLevel(MARIO_LEVEL_BIG);
+		break;
+	case DIK_1:
+		mario->SetPosition(x, y - 16.0f);
+		mario->SetLevel(MARIO_LEVEL_SMALL);
 		break;
 	case DIK_W:
 		mario->SetState(MARIO_STATE_KICK);
@@ -511,18 +535,22 @@ void CPlayScenceKeyHandler4::OnKeyUp(int KeyCode)
 		mario->SetTouchPipe(1);
 		mario->SetPosition(2250.0f, 132.0f);
 		break;
-	/*case DIK_RIGHT:
-		mario->StartUnPreIdle();
-		break;
-	case DIK_LEFT:
-		mario->StartUnPreIdle();
-		break;*/
-		/*case DIK_S:
-			mario->SetCheckFall(false);
+		/*case DIK_RIGHT:
+			mario->StartPreIdle();
+			break;
+		case DIK_LEFT:
+			mario->StartPreIdle();
 			break;*/
+			/*case DIK_S:
+				mario->SetCheckFall(false);
+				break;*/
 	case DIK_2:
 		CGame::GetInstance()->SwitchScene(2);
 		break;
+	case DIK_S:
+		mario->ResetDoubleJumpStart();
+		break;
+
 	}
 }
 
@@ -605,21 +633,30 @@ void CPlayScenceKeyHandler4::KeyState(BYTE* states)
 
 	else if (game->IsKeyDown(DIK_DOWN))
 	{
-		if (mario->y < 90)
+		if (mario->x > 1968 && mario->x < 1984)
 		{
 			mario->SetTouchPipe(1);
 			mario->SetPosition(2250.0f, 132.0f);
 		}
 		else
+		{
 			mario->SetState(MARIO_STATE_SIT);
 
-		//mario->SetPosition(x, y - 1.0f);
+			mario->SetPosition(x, y - 1.0f);
+		}
 	}
 	else if (game->IsKeyDown(DIK_T))
 	{
 		mario->SetState(MARIO_STATE_FAST_WALKING);
 	}
+	else if (game->IsKeyDown(DIK_3))
+	{
 
+
+		//mario->SetTouchPipe(1);
+		mario->SetPosition(1975.0f, 110.0f);
+
+	}
 	else
 	{
 		if (mario->GetPreidle() != true)

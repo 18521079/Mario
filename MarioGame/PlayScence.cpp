@@ -24,6 +24,8 @@
 #include"HoldBrick.h"
 #include"Card.h"
 #include"Boomerang.h"
+#include"MovingBrick.h"
+#include"Fragment.h"
 
 
 using namespace std;
@@ -72,6 +74,16 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 #define OBJECT_TYPE_ENDSCENE0	21
 #define OBJECT_TYPE_ENDSCENE1	22
 #define OBJECT_TYPE_BOOMERANG	30
+#define OBJECT_TYPE_FRAGMENT_LEFTTOP	31
+#define OBJECT_TYPE_FRAGMENT_RIGHTTOP	32
+#define OBJECT_TYPE_FRAGMENT_LEFTBOTTOM 33
+#define OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM 34
+
+#define OBJECT_TYPE_MOVINGBRICK			 26
+#define OBJECT_TYPE_KOOPAS_GREENWING	27
+
+
+
 
 #define SCENE_SECTION_MAP				7
 
@@ -197,11 +209,25 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FIREBALL: obj = new CFireBall(); break;
 	case OBJECT_TYPE_KOOPASBRICK: obj = new CKoopasBrick(); break;
 	case OBJECT_TYPE_WINGGOOMBA: obj = new CWingGoomba(); break;
+	case OBJECT_TYPE_MOVINGBRICK: obj = new CMovingBrick(); break;
 	case OBJECT_TYPE_PBELL: obj = new CPbell(); break;
 	case OBJECT_TYPE_ENDSCENE0: obj = new CEndScene(0); break;
 	case OBJECT_TYPE_ENDSCENE1: obj = new CEndScene(1); break;
 	case OBJECT_TYPE_BOOMERANG: obj = new CBoomerang(); break;
+
 	case OBJECT_TYPE_CARD: obj = new CCard(); break;
+	case OBJECT_TYPE_FRAGMENT_LEFTTOP:
+		obj = new CPiece(OBJECT_TYPE_FRAGMENT_LEFTTOP);
+		break;
+	case OBJECT_TYPE_FRAGMENT_RIGHTTOP:
+		obj = new CPiece(OBJECT_TYPE_FRAGMENT_RIGHTTOP);
+		break;
+	case OBJECT_TYPE_FRAGMENT_LEFTBOTTOM:
+		obj = new CPiece(OBJECT_TYPE_FRAGMENT_LEFTBOTTOM);
+		break;
+	case OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM:
+		obj = new CPiece(OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM);
+		break;
 	case OBJECT_TYPE_MARIO:
 		if (player != NULL)
 		{
@@ -217,6 +243,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BACKGROUNDCOLLISION: obj = new CBackGroundCollision(); break;
 	case OBJECT_TYPE_BOX: obj = new CBox(); break;
 	case OBJECT_TYPE_BREAKABLE_BRICK: obj = new CBreakableBrick(); break;
+	case OBJECT_TYPE_KOOPAS_GREENWING: obj = new CKoopas(5); break;
 	case OBJECT_TYPE_HOLDBRICK: obj = new CHoldBrick(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -311,37 +338,81 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
-	CGame* game = CGame::GetInstance();
-
-	//CGame::GetInstance()->SetCamPos(0, 0);
-
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 	float cx, cy;
-	player->GetPosition(cx, cy);
-
-	//
-	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
-
-	if (cx < 0) cx = 0;
-	if (cx > 3182 - game->GetScreenWidth()) cx = 3182 - game->GetScreenWidth();
-	CGame::GetInstance()->SetCamPos(round(cx), 0.0f /*cy*/);
-	if (player->GetLevel() == MARIO_LEVEL_TAIL /*&& player->GetState()==MARIO_STATE_FLY*/)
+	if (id == 3)
 	{
-		if (cy > -40)
+
+		CGame* game = CGame::GetInstance();
+
+		//CGame::GetInstance()->SetCamPos(0, 0);
+
+		
+		player->GetPosition(cx, cy);
+
+		//
+		cx -= game->GetScreenWidth() / 2;
+		cy -= game->GetScreenHeight() / 2;
+
+		if (cx < 0) cx = 0;
+		if (cx > 3182 - game->GetScreenWidth()) cx = 3182 - game->GetScreenWidth();
+		CGame::GetInstance()->SetCamPos(round(cx),0.0f /*cy*/);
+		if (player->GetLevel() == MARIO_LEVEL_TAIL /*&& player->GetState()==MARIO_STATE_FLY*/)
 		{
-			CGame::GetInstance()->SetCamPos(round(cx), -35.0f);
+			if (cy > -40)
+			{
+				CGame::GetInstance()->SetCamPos(round(cx), -35.0f);
+			}
+
+
+			CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+
 		}
 
-
-		CGame::GetInstance()->SetCamPos(round(cx), round(cy));
-
+		cx = game->GetCamX();
+		cy = game->GetCamY();
 	}
+	else if (id == 4)
+	{
+		CGame* game = CGame::GetInstance();
+		if (player->resetcam == 1)
+		{
+			cx1 = 0;
+			player->resetcam == 0;
+		}
+		float cx2 = 0, cy2 = 0;
+		player->GetPosition(cx, cy);
+		if (cx1 < 2080 - game->GetScreenWidth())
+		{
+			cx1 += 0.03 * dt;
+			CGame::GetInstance()->SetCamPos(round(cx1), round(30));
+			if (cx1 >= cx) player->SetPosition(cx + 2, cy);
+		}
+		else
+		{
+			cx1 = 2080 - game->GetScreenWidth();
+			CGame::GetInstance()->SetCamPos(round(cx1), round(30));
 
+		}
+
+		if (player->GetTouchPipe() == 1)
+		{
+			if (player->x < 2240 + game->GetScreenWidth() / 2)
+			{
+				player->GetPosition(cx2, cy2);
+
+				cx2 -= game->GetScreenWidth() / 2;
+				cy2 -= game->GetScreenHeight() / 2;
+
+				CGame::GetInstance()->SetCamPos(round(cx2), 10.0f /*cy*/);
+			}
+			else
+				CGame::GetInstance()->SetCamPos(round(2240), 10.0f /*cy*/);
+			cx = game->GetCamX();
+			cy = game->GetCamY();
+		}
+	}
 	
-
-	cx = game->GetCamX();
-
-	cy = game->GetCamY();
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
@@ -454,20 +525,21 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
+
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
 	float x, y;
 	mario->GetPosition(x, y);
 	switch (KeyCode)
 	{
 	case DIK_S:
-		if (mario->vx > 0.3f)
+		if (mario->vx > 0.22f)
 		{
 			mario->SetCanFly(1);
 			mario->SetCheckFall(false);
 			mario->SetPreFly(0);
 		}
 
-		if (mario->GetLevel() == MARIO_LEVEL_TAIL && mario->GetCanFly()== 1)
+		if (mario->GetLevel() == MARIO_LEVEL_TAIL && mario->GetCanFly() == 1)
 		{
 			mario->SetCheckFall(false);
 			if (mario->GetFirstTimeFly() == 0 && mario->GetCanFly() == 1)
@@ -491,13 +563,17 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetState(MARIO_STATE_JUMP);
 			//mario->ny = 1;
 			mario->SetJumping(1);
+			if (mario->GetDoubleJumpStart() == 0)
+			{
+				mario->SetDoubleJumpStart();
+			}
 		}
 
-		else if (mario->GetJumping()==1 && mario->GetLevel() == MARIO_LEVEL_TAIL)
+		else if (mario->GetJumping() == 1 && mario->GetLevel() == MARIO_LEVEL_TAIL)
 		{
-			
+
 			mario->SetCheckFall(true);
-			
+
 			mario->SetState(MARIO_STATE_FALL);
 		}
 
@@ -508,6 +584,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetState(MARIO_STATE_HIGHT_JUMP);
 			mario->ny = 1;
 			mario->SetJumping(1);
+			if (mario->GetDoubleJumpStart() == 0)
+			{
+				mario->SetDoubleJumpStart();
+			}
 		}
 	case DIK_Q:
 		mario->SetPosition(x, y - 16.0f);
@@ -536,26 +616,26 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetSpin(1);
 		mario->StartSpin();
 		break;
-	/*case DIK_D:
-		if (mario->GetFirstTimeFly() == 0)
-		{
-			if (mario->vx > MARIO_WALKING_SPEED)
+		/*case DIK_D:
+			if (mario->GetFirstTimeFly() == 0)
 			{
-				mario->SetFirstTimeFly(1);
-				mario->SetFlyingStart();
+				if (mario->vx > MARIO_WALKING_SPEED)
+				{
+					mario->SetFirstTimeFly(1);
+					mario->SetFlyingStart();
+				}
 			}
-		}
-		
-		if (mario->GetFirstTimeFly() == 1 && GetTickCount() - mario->GetFlyingStart() <= 5000)
-		{
-			mario->SetState(MARIO_STATE_FLY);
-		}
-		else
-		{
-			mario->SetState(MARIO_STATE_FALL);
-		}
-		break;*/
-	
+
+			if (mario->GetFirstTimeFly() == 1 && GetTickCount() - mario->GetFlyingStart() <= 5000)
+			{
+				mario->SetState(MARIO_STATE_FLY);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_FALL);
+			}
+			break;*/
+
 	case DIK_B:
 		CGame::GetInstance()->SwitchScene(4);
 		break;
@@ -576,23 +656,27 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetAniHolding(0);
 		//mario->SetKickKoopas(1);
 		break;
-	/*case DIK_D:
-		mario->SetCanFly(0);
-		break;*/
+		/*case DIK_D:
+			mario->SetCanFly(0);
+			break;*/
 	case DIK_RIGHT:
 		mario->StartPreIdle();
 		break;
 	case DIK_LEFT:
 		mario->StartPreIdle();
 		break;
-	/*case DIK_S:
-			mario->StartUnPreIdle();
-		break;*/
+		/*case DIK_S:
+				mario->StartUnPreIdle();
+			break;*/
 	case DIK_2:
 		CGame::GetInstance()->SwitchScene(2);
 		break;
+	case DIK_S:
+		mario->ResetDoubleJumpStart();
+		break;
+
 	}
-	
+
 }
 
 void CPlayScene::_ParseSection_GRID(string line)
@@ -610,7 +694,6 @@ void CPlayScene::_ParseSection_GRID(string line)
 
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
-
 	CGame* game = CGame::GetInstance();
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
 
@@ -622,17 +705,17 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	if (game->IsKeyDown(DIK_RIGHT))
 		if (game->IsKeyDown(DIK_A))
 		{
-			
-			if (mario->vx < 0.3f)
+
+			if (mario->vx < 0.22f)
 			{
 				mario->SetPreFly(0);
 			}
 
-			if (mario->vx > 0.3f)
+			if (mario->vx > 0.22f)
 			{
 				mario->SetPreFly(1);
 			}
-			
+
 			if (mario->Getspeedup_start() == 0)
 				mario->StartSpeedup();
 			mario->SetState(MARIO_STATE_FAST_WALKING_RIGHT);
@@ -653,34 +736,26 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		{
 			if (mario->Getspeedup_start() == 0)
 				mario->StartSpeedup();
-				mario->SetState(MARIO_STATE_FAST_WALKING_LEFT);
-				if (GetTickCount() - mario->Getspeedup_start() > 30 && mario->GetspeedLevel() <= 100)
-				{
-					mario->SetspeedLevel(mario->GetspeedLevel() + 1);
-					mario->Setspeedup_start(0);
-				}
-				
+			mario->SetState(MARIO_STATE_FAST_WALKING_LEFT);
+			if (GetTickCount() - mario->Getspeedup_start() > 30 && mario->GetspeedLevel() <= 100)
+			{
+				mario->SetspeedLevel(mario->GetspeedLevel() + 1);
+				mario->Setspeedup_start(0);
+			}
+
 		}
 		else
 		{
 			mario->SetspeedLevel(0);
-			if (mario->vx < 0.2f)
+			if (mario->vx < 0.15f)
 			{
 				mario->SetPreFly(0);
 			}
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
 	}
-	
-	/*else if (game->IsKeyDown(DIK_S))
-	{
-		if (mario->GetJumping() == 0)
-		{
-			mario->SetState(MARIO_STATE_HIGHT_JUMP);
-			mario->ny = 1;
-			mario->SetJumping(1);
-		}
-	}*/
+
+
 	else if (game->IsKeyDown(DIK_UP))
 	{
 		if (mario->y > 170)
@@ -701,21 +776,44 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		{
 			mario->SetPosition(150.0f, 300.0f);
 		}
+		if (mario->x > 1968 && mario->x < 1984)
+		{
+			mario->SetTouchPipe(1);
+			mario->SetPosition(2250.0f, 132.0f);
+		}
 		else
-		mario->SetState(MARIO_STATE_SIT);
-		
+		{
+			mario->SetState(MARIO_STATE_SIT);
+
+			mario->SetPosition(x, y - 1.0f);
+		}
+
 		//mario->SetPosition(x, y - 1.0f);
 	}
 	else if (game->IsKeyDown(DIK_T))
 	{
 		mario->SetState(MARIO_STATE_FAST_WALKING);
 	}
-	
-	
+
+
 	else
 	{
 		if (mario->GetPreidle() != true)
 			mario->SetState(MARIO_STATE_IDLE);
 	}
-	
+
+	/*if (game->IsKeyDown(DIK_S))
+	{
+		if (mario->isMaxJumping && mario->maxjumping == 0)
+		{
+			mario->StartJumpingMax();
+			mario->isMaxJumping = false;
+		}
+	}
+	else
+	{
+		mario->maxjumping = 0;
+	}
+	*/
+
 }

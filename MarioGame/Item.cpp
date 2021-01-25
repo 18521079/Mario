@@ -20,13 +20,12 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			count++;
 			CQuestionBlock* question = dynamic_cast<CQuestionBlock*>(obj);
-			if (GetTouch() == 1 && GetState()!=ITEM_STATE_COINS)
+			if (GetTouch() == 1 && GetState() != ITEM_STATE_COINS)
 			{
 				if (x == question->x)
 				{
 					question->SetState(BLOCK_STATE_INACTIVITY);
-					/*question->StartUp();
-					question->StartDown();*/
+
 				}
 			}
 			else if (/*count == 5 &&*/ GetState() == ITEM_STATE_COINS)
@@ -60,25 +59,19 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x += min_tx * dx + nx * 0.4f;
 			y += min_ty * dy + ny * 0.4f;
 
-			// Check collision nx to change direction
-			/*if (nx != 0 && ny == 0)
-			{
-				vx = -vx;
-			}*/
-
 			if (ny != 0)
 			{
 				vy = 0;
 			}
 		}
 
-		
-	
+
+
 	}
 	if (state == ITEM_STATE_GREENMUSHROOM)
 	{
 		CalcPotentialCollisions(coObjects, coEvents);
-		vy += 0.0009 * dt;
+		vy += ITEM_MUSHROOM_GRAVITY_FALL * dt;
 		vx = -0.003 * dt;
 
 		if (coEvents.size() == 0)
@@ -98,11 +91,6 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x += min_tx * dx + nx * 0.4f;
 			y += min_ty * dy + ny * 0.4f;
 
-			// Check collision nx to change direction
-			/*if (nx != 0 && ny == 0)
-			{
-				vx = -vx;
-			}*/
 
 			if (ny != 0)
 			{
@@ -111,26 +99,17 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
-	
+
 	else if (state == ITEM_STATE_LEAF)
 	{
 
-	y += 0.02 * dt;
-	x += 0.02 * dt;
+		y += 0.02 * dt;
+		x += 0.02 * dt;
 	}
 
-	else if ( state == ITEM_STATE_COINS)
+	else if (state == ITEM_STATE_COINS)
 	{
-		/*y -= dy;
-		if (time_Moveup_start == 0)
-		{
-			time_Moveup_start = GetTickCount();
-		}
 
-		else if (GetTickCount() - time_Moveup_start > 1000)
-		{
-			SetState(COIN_STATE_MOVING_DOWN);
-		}*/
 		y += vy * dt;
 
 
@@ -145,46 +124,25 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
-	else if (state == ITEM_STATE_COIN )
+	else if (state == ITEM_STATE_COIN)
 	{
-		/*y -= dy;
-		if (time_Moveup_start == 0)
-		{
-			time_Moveup_start = GetTickCount();
-		}
+		y += vy * dt;
 
-		else if (GetTickCount() - time_Moveup_start > 1000)
-		{
-			SetState(COIN_STATE_MOVING_DOWN);
-		}*/
-		y +=vy * dt;
-		
 
-		if (y < 20 )
+		if (y < 20)
 		{
-			
+
 			vy = -vy;
 		}
 		else if (y > 89)
 		{
 			SetState(ITEM_STATE_DISAPPEAR);
 		}
-	
+
 	}
 
-	/*else if (state == COIN_STATE_MOVING_DOWN)
-	{
-		if (time_Movedown_start == 0)
-		{
-			time_Movedown_start = GetTickCount();
-		}
-		else if (GetTickCount() - time_Movedown_start > 200)
-		{
-			
-			SetState(ITEM_STATE_DISAPPEAR);
-		}
-	}*/
-	
+
+
 
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
@@ -205,14 +163,11 @@ void CItem::SetState(int state)
 		x = -100;
 		y = -100;
 		break;
-	case COIN_STATE_MOVING_DOWN:
-		vy = 0.2;
-		break;
 	case  ITEM_STATE_COIN:
-		vy = -0.2;
+		vy = ITEM_COINS_SPEED;
 		break;
 	case  ITEM_STATE_COINS:
-		vy = -0.2;
+		vy = ITEM_COINS_SPEED;
 		break;
 	}
 

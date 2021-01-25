@@ -23,6 +23,7 @@ protected:
 	CHUD* HUD;
 	CGrid* grid;
 	Map* map;
+	float cx1 = 10;
 
 	vector<LPGAMEOBJECT> objects;
 
